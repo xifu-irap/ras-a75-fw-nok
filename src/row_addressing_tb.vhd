@@ -716,7 +716,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
+pipeIn(0):= "00001010" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1155,7 +1155,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000001" ;
+pipeIn(0):= "00001011" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;

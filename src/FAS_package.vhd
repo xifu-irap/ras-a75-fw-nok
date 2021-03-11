@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -68,6 +68,7 @@ type t_Device_Ctrl_1
  type t_Device_Ctrl_3
     is record
         RUN : std_logic;
+        Freq_row : std_logic_vector(6 downto 0);
     end record; 
     
  type t_Manual_Row

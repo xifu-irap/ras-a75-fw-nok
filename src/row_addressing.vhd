@@ -12,7 +12,16 @@
 -- 
 -- Dependencies: 
 -- 
--- Revision:
+-- Revision: v0 : reception and storage in the registers, sequence_treatment module takes the sequence in the 
+-- register at the same time
+-- 
+-- v1 : reception and storage in the registers, sequence_treatment module takes the sequence in the 
+-- register only when RUN = '1' and the storage is blocked except for RUN and Resetn commands. When RUN ='0', the
+-- sequence_treatment module doesn't work
+--
+-- v2 : the div_freq_5MHz is replaced by the div_freq module that can produce a signal with a frequence determined
+-- by a command. We can choose the activation period of the row by command
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -72,12 +81,13 @@ architecture Behavioral of row_addressing is
            clk100M : out STD_LOGIC);
     end component;
 
-    component div_freq_5MHz is
-        Port ( i_clk : in STD_LOGIC; -- 100MHz
-               i_rst_n : in STD_LOGIC; -- Active low 
-               o_clk_en_5M : out STD_LOGIC); -- clk enable 5MHz
+    component div_freq is
+        Port ( i_clk : in STD_LOGIC;
+               i_rst_n : in STD_LOGIC;
+               i_freq_row : in STD_LOGIC_VECTOR;
+               o_clk_en_freq : out STD_LOGIC);
     end component;
-
+    
     component sequence_treatment
     Port ( i_clk : in STD_LOGIC;
            i_clk_en_5M : in STD_LOGIC;
@@ -151,7 +161,7 @@ alias i_rst : std_logic is ep00wire(0);
 
 ----------- Clk signal ---------------------------------
 signal clk100M : std_logic;
-signal clk_en_5M : std_logic;
+signal clk_en_freq : std_logic;
 
 ----------- FIFO PipeIn signals ------------------------
 signal fifoIn_write_en : std_logic;
@@ -178,7 +188,7 @@ signal num_row : integer;
 ---------------------------------------------------------
 
 ----------- Register signals ----------------------------
-signal reception_param : std_logic_vector(64 downto 0);
+signal reception_param : std_logic_vector(95 downto 0);
 signal reception_manual_row : std_logic_vector(39 downto 0);
 signal reception_cmd : t_Array13bits(12 downto 0);
 
@@ -232,6 +242,7 @@ Cmd_param_2.LPR <= reception_param(55 downto 48);
 Cmd_param_2.DEL <= reception_param(45 downto 32);
 
 Cmd_param_3.RUN <= reception_param(64);
+Cmd_param_3.Freq_row <= reception_param(71 downto 65);
 
 Cmd_manual_row.row <= reception_manual_row;
 
@@ -333,19 +344,19 @@ begin
                     
                     elsif (addr >= "0001111000" and addr < "0001111100") then
                     
-                        reception_param(64) <= fifoIn_dout(0);
+                        reception_param(95 downto 64) <= fifoIn_dout;
                         state <= idle;
                     end if;
                     
                 elsif (Cmd_param_3.RUN = '1') then
                     if (addr >= "0000000000" and addr < "0000000100") then
                         
-                        reception_param(31) <= fifoIn_dout(31);
+                        reception_param(31) <= fifoIn_dout(31); -- reception of Resetn
                         state <= idle;
                         
                     elsif (addr >= "0001111000" and addr < "0001111100") then
                     
-                        reception_param(64) <= fifoIn_dout(0);
+                        reception_param(64) <= fifoIn_dout(0); -- reception of RUN
                         state <= idle;
                     end if;
                          
@@ -367,15 +378,16 @@ end process;
         clk100M => clk100M 
         );
         
-   uclken : div_freq_5MHz PORT MAP (
+   uclk_en : div_freq PORT MAP (
         i_clk => clk100M,
         i_rst_n => rst_n,
-        o_clk_en_5M => clk_en_5M
+        i_freq_row => Cmd_param_3.Freq_row,
+        o_clk_en_freq => clk_en_freq
         );
 
    uu0: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row0,
           i_REV => Cmd_param_1.REV,
@@ -385,7 +397,7 @@ o_sig_overlap0 <= sig_overlap0_int;
       
    uu1: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row1,
           i_REV => Cmd_param_1.REV,
@@ -395,7 +407,7 @@ o_sig_overlap1 <= sig_overlap1_int;
         
    uu2: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row2,
           i_REV => Cmd_param_1.REV,
@@ -405,7 +417,7 @@ o_sig_overlap2 <= sig_overlap2_int;
        
    uu3: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row3,
           i_REV => Cmd_param_1.REV,
@@ -415,7 +427,7 @@ o_sig_overlap3 <= sig_overlap3_int;
         
    uu4: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row4,
           i_REV => Cmd_param_1.REV,
@@ -425,7 +437,7 @@ o_sig_overlap4 <= sig_overlap4_int;
         
    uu5: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row5,
           i_REV => Cmd_param_1.REV,
@@ -435,7 +447,7 @@ o_sig_overlap5 <= sig_overlap5_int;
        
    uu6: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row6,
           i_REV => Cmd_param_1.REV,
@@ -445,7 +457,7 @@ o_sig_overlap6 <= sig_overlap6_int;
         
    uu7: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row7,
           i_REV => Cmd_param_1.REV,
@@ -455,7 +467,7 @@ o_sig_overlap7 <= sig_overlap7_int;
         
    uu8: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row8,
           i_REV => Cmd_param_1.REV,
@@ -465,7 +477,7 @@ o_sig_overlap8 <= sig_overlap8_int;
         
    uu9: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row9,
           i_REV => Cmd_param_1.REV,
@@ -475,7 +487,7 @@ o_sig_overlap9 <= sig_overlap9_int;
         
    uu10: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row10,
           i_REV => Cmd_param_1.REV,
@@ -485,7 +497,7 @@ o_sig_overlap10 <= sig_overlap10_int;
         
    uu11: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row11,
           i_REV => Cmd_param_1.REV,
@@ -495,7 +507,7 @@ o_sig_overlap11 <= sig_overlap11_int;
         
    uu12: sequence_treatment PORT MAP (
           i_clk => clk100M,
-          i_clk_en_5M => clk_en_5M,
+          i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row12,
           i_REV => Cmd_param_1.REV,
