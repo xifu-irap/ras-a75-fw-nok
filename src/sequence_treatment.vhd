@@ -52,37 +52,57 @@ COMPONENT read_5MHz
         );
     END COMPONENT;
 
-COMPONENT shift_register_4b
+COMPONENT shift_register_15b
     PORT(
          i_clk : IN  std_logic;
          i_rst_n : IN  std_logic;
          i_seq_5MHz : IN  std_logic;
-         o_late : OUT  std_logic_vector(3 downto 0)
+         o_sig_late : OUT  std_logic_vector(14 downto 0)
         );
     END COMPONENT;
 	 
-    COMPONENT multiplex
-    PORT(
-         i_late0 : IN  std_logic;
-         i_late1 : IN  std_logic;
-         i_late2 : IN  std_logic;
-         i_late3 : IN  std_logic;
-         i_REV : IN  std_logic_vector(3 downto 0);
-         o_late_sig : OUT  std_logic
-        );
-    END COMPONENT;
+    component mux_overlap_neg is
+    Port ( i_clk : in STD_LOGIC;
+           i_rst_n : in STD_LOGIC;
+           i_sig_late : in std_logic_vector(14 downto 0);
+           i_REV : in STD_LOGIC_VECTOR (3 downto 0);
+           o_sig : out STD_LOGIC);
+    end component;
+    
+    component mux_overlap_pos is
+    Port ( i_clk : in STD_LOGIC;
+           i_rst_n : in STD_LOGIC;
+           i_sig_late : in std_logic_vector(14 downto 0);
+           i_REV : in STD_LOGIC_VECTOR (3 downto 0);
+           o_sig : out STD_LOGIC);
+    end component;
+    
+    component mux_overlap is
+    Port ( i_clk : in STD_LOGIC;
+           i_rst_n : in STD_LOGIC;
+           i_REV : in STD_LOGIC_VECTOR(3 downto 0);
+           i_overlap_neg : in STD_LOGIC;
+           i_overlap_pos : in STD_LOGIC;
+           o_sig_overlap : out STD_LOGIC);
+    end component;
 
--- intern signals
+
+----------- Intern signals -----------------
 --signal clk_en_5M : std_logic;
 signal seq_5MHz : std_logic;
-signal o_late : std_logic_vector(3 downto 0);
-signal o_late_sig : std_logic;
+signal sig_late : std_logic_vector(14 downto 0);
+signal sig_neg : std_logic;
+signal sig_pos : std_logic;
+signal overlap_neg : std_logic;
+signal overlap_pos : std_logic;
+
+alias sig_t0 : std_logic is sig_late(7);
    
 begin
 
 -- instantiation of the modules
 
-u1: read_5MHz PORT MAP (
+uu0: read_5MHz PORT MAP (
           i_clk => i_clk,
           i_clk_en_5M => i_clk_en_5M,
           i_rst_n => i_rst_n,
@@ -90,22 +110,41 @@ u1: read_5MHz PORT MAP (
           o_seq_5MHz => seq_5MHz
         );
 
-   u2: shift_register_4b PORT MAP (
-          i_clk => i_clk,
-          i_rst_n => i_rst_n,
-          i_seq_5MHz => seq_5MHz,
-          o_late => o_late
-        );
+uu1: shift_register_15b PORT MAP ( 
+           i_clk => i_clk,
+           i_rst_n => i_rst_n,
+           i_seq_5MHz => seq_5MHz,
+           o_sig_late => sig_late
+           );
 		  
-   u3: multiplex PORT MAP (
-          i_late0 => o_late(0),
-          i_late1 => o_late(1),
-          i_late2 => o_late(2),
-          i_late3 => o_late(3),
-          i_REV => i_REV,
-          o_late_sig => o_late_sig
-        );
+uu2 : mux_overlap_neg PORT MAP (
+           i_clk => i_clk,
+           i_rst_n => i_rst_n,
+           i_sig_late => sig_late,
+           i_REV => i_REV,
+           o_sig => sig_neg
+           );
 
-o_sig_overlap <= o_late(0) or o_late_sig;
+overlap_neg <= sig_t0 and sig_neg;
+        
+uu3 : mux_overlap_pos PORT MAP (
+           i_clk => i_clk,
+           i_rst_n => i_rst_n,
+           i_sig_late => sig_late,
+           i_REV => i_REV,
+           o_sig => sig_pos
+           );
 
+overlap_pos <= sig_t0 or sig_pos;
+
+
+uu4 : mux_overlap PORT MAP (
+           i_clk => i_clk,
+           i_rst_n => i_rst_n,
+           i_REV => i_REV,
+           i_overlap_neg => overlap_neg,
+           i_overlap_pos => overlap_pos,
+           o_sig_overlap => o_sig_overlap
+           );
+           
 end Behavioral;

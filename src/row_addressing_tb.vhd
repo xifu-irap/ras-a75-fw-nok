@@ -734,7 +734,7 @@ wait for 10 ns;
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "11111111" ;
-pipeIn(2):= "11110010" ;
+pipeIn(2):= "11111110" ; -- REV on the 4 last bit (0: pos  1: neg)
 pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
