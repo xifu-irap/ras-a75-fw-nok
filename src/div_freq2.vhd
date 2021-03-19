@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: IRAP
+-- Engineer: Noémie Rolland
 -- 
 -- Create Date: 10.02.2021 09:30:27
 -- Design Name: 
@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module is a clock divider. It divides the clock frequency by 2.
 -- 
 -- Dependencies: 
 -- 

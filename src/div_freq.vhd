@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: IRAP
+-- Engineer: Noémie Rolland
 -- 
 -- Create Date: 04.03.2021 11:12:31
 -- Design Name: 
@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module is a clock divider. It divides the clock frequency by a number that is an input command.
 -- 
 -- Dependencies: 
 -- 
@@ -50,7 +50,7 @@ begin
         cmp <= (others => '0');
         o_clk_en_freq <= '0';
     elsif (rising_edge(i_clk)) then
-        if cmp = 100/unsigned(i_freq_row) - 1 then
+        if cmp = 100/unsigned(i_freq_row) - 1 then -- we divide the main clock frequence by the frequence we wan't
             cmp <= (others => '0');
             o_clk_en_freq <= '1';
         else

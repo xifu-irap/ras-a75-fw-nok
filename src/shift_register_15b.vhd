@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: IRAP
+-- Engineer: Noémie Rolland
 -- 
 -- Create Date: 18.03.2021 15:31:26
 -- Design Name: 
@@ -8,7 +8,8 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module is a shift register of 15 bits. Each clock period the input signal is delayed of a clock
+-- period.
 -- 
 -- Dependencies: 
 -- 
@@ -32,14 +33,15 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity shift_register_15b is
-    Port ( i_clk : in STD_LOGIC;
-           i_rst_n : in STD_LOGIC;
-           i_seq_5MHz : in STD_LOGIC;
-           o_sig_late : out STD_LOGIC_VECTOR (14 downto 0));
+    Port ( i_clk : in STD_LOGIC; -- clk 100 MHz
+           i_rst_n : in STD_LOGIC; -- reset active LOW
+           i_seq_5MHz : in STD_LOGIC; -- output of the module "read_5MHz" 
+           o_sig_late : out STD_LOGIC_VECTOR (14 downto 0)); -- output of the module
 end shift_register_15b;
 
 architecture Behavioral of shift_register_15b is
 
+----------- Intern signal -----------------
 signal sig_late_int : std_logic_vector(14 downto 0);
 
 begin
@@ -49,7 +51,7 @@ begin
     if i_rst_n = '0' then
         sig_late_int <= (others => '0');
     elsif (rising_edge(i_clk)) then
-        sig_late_int <= sig_late_int(13 downto 0) & i_seq_5MHz;
+        sig_late_int <= sig_late_int(13 downto 0) & i_seq_5MHz; -- left shift of each bit each clock period
     end if;
 end process;
 

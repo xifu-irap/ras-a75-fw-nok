@@ -8,7 +8,8 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module is a multiplexer. It manages the choice between the positiv and the negativ overlap 
+-- according to the sign of REV (REV(3) = 0: positiv   1: negativ)
 -- 
 -- Dependencies: 
 -- 
@@ -48,11 +49,11 @@ P_mux_overlap : process(i_REV,i_overlap_neg,i_overlap_pos)
 begin
 
     case i_REV(3) is
-        when '0' => 
+        when '0' => -- if we want a positiv overlap
             o_sig_overlap <= i_overlap_pos;
-        when '1' => 
+        when '1' => -- if we want a negativ overlap
             o_sig_overlap <= i_overlap_neg;
-        when others =>
+        when others => -- if we don't specify the value of REV
             o_sig_overlap <= '0';
     end case;
 end process;

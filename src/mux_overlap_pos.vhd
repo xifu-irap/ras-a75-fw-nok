@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: IRAP
+-- Engineer: Noémie Rolland
 -- 
 -- Create Date: 18.03.2021 15:31:26
 -- Design Name: 
@@ -8,7 +8,8 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module is a multiplexer for the positiv overlap. It selects the correct delayed signal based 
+-- on the value of REV.
 -- 
 -- Dependencies: 
 -- 
@@ -32,9 +33,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity mux_overlap_pos is
-    Port ( i_clk : in STD_LOGIC;
-           i_rst_n : in STD_LOGIC;
-           i_sig_late : in STD_LOGIC_VECTOR (14 downto 0);
+    Port ( i_clk : in STD_LOGIC; 
+           i_rst_n : in STD_LOGIC; 
+           i_sig_late : in STD_LOGIC_VECTOR (14 downto 0); 
            i_REV : in STD_LOGIC_VECTOR (3 downto 0);
            o_sig : out STD_LOGIC);
 end mux_overlap_pos;
@@ -47,24 +48,24 @@ P_mux_pos : process(i_REV, i_sig_late)
 begin
 
     case i_REV(2 downto 0) is
-        when "000" => 
-            o_sig <= i_sig_late(7);
-        when "001" => 
-            o_sig <= i_sig_late(8);
-        when "010" => 
-            o_sig <= i_sig_late(9);
-        when "011" => 
-            o_sig <= i_sig_late(10);  
-        when "100" => 
-            o_sig <= i_sig_late(11);
-        when "101" => 
-            o_sig <= i_sig_late(12);
-        when "110" => 
-            o_sig <= i_sig_late(13);
-        when "111" => 
-            o_sig <= i_sig_late(14); 
-        when others =>
-            o_sig <= '0'; 
+        when "000" => -- if we don't want any overlap
+            o_sig <= i_sig_late(7); -- it selects the signal at t0
+        when "001" => -- if we want 1 clock period negativ overlap
+            o_sig <= i_sig_late(8); -- it selects the signal at t+1
+        when "010" => -- if we want 2 clock periods negativ overlap
+            o_sig <= i_sig_late(9); -- it selects the signal at t+2
+        when "011" => -- if we want 3 clock periods negativ overlap
+            o_sig <= i_sig_late(10); -- it selects the signal at t+3
+        when "100" => -- if we want 4 clock periods negativ overlap
+            o_sig <= i_sig_late(11); -- it selects the signal at t+4
+        when "101" => -- if we want 5 clock periods negativ overlap
+            o_sig <= i_sig_late(12); -- it selects the signal at t+5
+        when "110" => -- if we want 6 clock periods negativ overlap
+            o_sig <= i_sig_late(13); -- it selects the signal at t+6
+        when "111" => -- if we want 7 clock periods negativ overlap
+            o_sig <= i_sig_late(14); -- it selects the signal at t+7
+        when others => -- if we don't specify a value for REV
+            o_sig <= '0'; -- the signal is equal to 0
     end case;
         
 

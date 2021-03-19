@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: IRAP
+-- Engineer: Noémie Rolland
 -- 
 -- Create Date: 23.02.2021 12:00:40
 -- Design Name: 
@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: This module instantiates all the modules that manage the switch control
 -- 
 -- Dependencies: 
 -- 
@@ -125,7 +125,7 @@ uu2 : mux_overlap_neg PORT MAP (
            o_sig => sig_neg
            );
 
-overlap_neg <= sig_t0 and sig_neg;
+overlap_neg <= sig_t0 and sig_neg; -- the negativ overlap signal is the result of the t0 signal AND the choosen late signal 
         
 uu3 : mux_overlap_pos PORT MAP (
            i_clk => i_clk,
@@ -135,7 +135,7 @@ uu3 : mux_overlap_pos PORT MAP (
            o_sig => sig_pos
            );
 
-overlap_pos <= sig_t0 or sig_pos;
+overlap_pos <= sig_t0 or sig_pos; -- the positiv overlap signal is the result of the t0 signal OR the choosen late signal 
 
 
 uu4 : mux_overlap PORT MAP (

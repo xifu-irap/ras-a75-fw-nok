@@ -22,6 +22,9 @@
 -- v2 : the div_freq_5MHz is replaced by the div_freq module that can produce a signal with a frequence determined
 -- by a command. We can choose the activation period of the row by command
 --
+-- v3 : this version allows us to manage a netaiv overlap and a positiv overlap. The architecture of the sequence
+-- treatment module and the modules instantiated changed
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 

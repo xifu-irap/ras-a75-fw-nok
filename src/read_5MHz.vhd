@@ -5,7 +5,7 @@
 -- Create Date: 04.01.2021 14:44:32
 -- Design Name: 
 -- Module Name: read_5MHz - Behavioral
--- Project Name: row-addressing-command
+-- Project Name: RAS_simu
 -- Target Devices: Opal Kelly XEM7310 - Artix7 XC7A75T - 1FGG 484
 -- Tool Versions: 
 -- Description: This module reads bit by bit the input command every 200 ns.
