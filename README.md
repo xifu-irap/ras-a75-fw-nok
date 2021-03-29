@@ -1,2 +1,2 @@
 # ras-A75-fw
-Row Addressing and Synchronisation firmware
+Row Addressing and Synchronization firmware
