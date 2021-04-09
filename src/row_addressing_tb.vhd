@@ -206,7 +206,7 @@ sim_process : process
 	                                             --    check that the block transfer begins (0-255)
 	variable pipeInSize       : integer := 4; -- REQUIRED: byte (must be even) length of default
                                                --    PipeIn; Integer 0-2^32
-	variable pipeOutSize      : integer := 1024; -- REQUIRED: byte (must be even) length of default
+	variable pipeOutSize      : integer := 4096; -- REQUIRED: byte (must be even) length of default
                                                --    PipeOut; Integer 0-2^32
 	variable registerSetSize  : integer := 32;   -- Size of array for register set commands.
                                                                                             
@@ -708,14 +708,14 @@ begin
     
     -- envoi des paramètres
     
--- Run
+-- Device Ctrl 3 addr
 pipeIn(0):= "01111000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-
+-- Device Ctrl 3 value
 pipeIn(0):= "00001010" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
@@ -734,7 +734,7 @@ wait for 10 ns;
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "11111111" ;
-pipeIn(2):= "11111110" ; -- REV on the 4 last bit (0: pos  1: neg)
+pipeIn(2):= "11110010" ; -- REV on the 4 last bit (0: pos  1: neg)
 pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
@@ -1162,7 +1162,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;  
 
-
+wait for 250 ns;
+ReadFromPipeOut(x"A0", 3000);
 
 
 wait for 10 us;   

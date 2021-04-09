@@ -25,6 +25,8 @@
 -- v3 : this version allows us to manage a netaiv overlap and a positiv overlap. The architecture of the sequence
 -- treatment module and the modules instantiated changed
 --
+-- v4 : addition of the pipeout management
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -128,10 +130,10 @@ COMPONENT fifo_pipeout
     rst : IN STD_LOGIC;
     wr_clk : IN STD_LOGIC;
     rd_clk : IN STD_LOGIC;
-    din : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+    din : IN STD_LOGIC_VECTOR(12 DOWNTO 0);
     wr_en : IN STD_LOGIC;
     rd_en : IN STD_LOGIC;
-    dout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+    dout : OUT STD_LOGIC_VECTOR(12 DOWNTO 0);
     full : OUT STD_LOGIC;
     empty : OUT STD_LOGIC
   );
@@ -158,6 +160,7 @@ signal pipein_sig : std_logic_vector(31 downto 0);
 ----------- PipeOut signals ----------------------------
 --signal pipeout_rd : std_logic; -- = fifoOut_read_en
 signal pipeout_sig : std_logic_vector(31 downto 0);
+alias pipeout_sig_13bit : std_logic_vector(12 downto 0) is pipeout_sig(12 downto 0);
 --------------------------------------------------------
 
 alias i_rst : std_logic is ep00wire(0);
@@ -178,7 +181,7 @@ signal fifoOut_write_en : std_logic ;
 signal fifoOut_read_en : std_logic;
 signal fifoOut_full : std_logic;
 signal fifoOut_empty : std_logic;
-signal fifoOut_din : std_logic_vector(31 downto 0);
+signal fifoOut_din : std_logic_vector(12 downto 0);
 --------------------------------------------------------
 
 ----------- State Machine -------------------------------
@@ -265,6 +268,8 @@ Cmd_row.Row12 <= reception_cmd(12);
 
 --===========================================================
 
+pipeout_sig(31 downto 13) <= (others => '0');
+
 -------- Reception and storage of the sequences --------
 P_Cmd_reception : process (clk100M, i_rst, Cmd_param_1.Resetn)
 begin
@@ -277,7 +282,6 @@ begin
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
-        fifoOut_write_en <= '0'; --nothing is written in the fifo out of the pipeout
         --o_sync_sig <= '0';
         num_row <= 0;
         rst_n <= '0'; -- active low
@@ -372,6 +376,20 @@ begin
     end case;
     end if;
 end process;
+
+
+P_pipeout_process : process (clk100M, rst_n)
+begin
+    if rst_n = '0' then
+        fifoOut_write_en <= '0';
+     elsif rising_edge (clk100M) then
+        if Cmd_param_3.RUN = '1' then
+            fifoOut_write_en <= '1';
+        else
+            fifoOut_write_en <= '0';
+        end if;
+    end if;
+end process; 
 
 -------- Development of the output pixel signals --------
 
@@ -518,7 +536,7 @@ o_sig_overlap11 <= sig_overlap11_int;
         );
 o_sig_overlap12 <= sig_overlap12_int;
         
-fifoOut_din <= "0000000000000000000" & sig_overlap12_int & sig_overlap11_int & sig_overlap10_int & sig_overlap9_int & sig_overlap8_int & sig_overlap7_int & sig_overlap6_int & sig_overlap5_int & sig_overlap4_int & sig_overlap3_int & sig_overlap2_int & sig_overlap1_int & sig_overlap0_int;         
+fifoOut_din <= sig_overlap12_int & sig_overlap11_int & sig_overlap10_int & sig_overlap9_int & sig_overlap8_int & sig_overlap7_int & sig_overlap6_int & sig_overlap5_int & sig_overlap4_int & sig_overlap3_int & sig_overlap2_int & sig_overlap1_int & sig_overlap0_int;         
 -----------------------------------------------------  
 -------------- FIFO PipeIn --------------------------
 PipeIn_FIFO : fifo_pipein
@@ -543,7 +561,7 @@ PipeOut_FIFO : fifo_pipeout
     din => fifoOut_din,
     wr_en => fifoOut_write_en,
     rd_en => fifoOut_read_en,
-    dout => pipeout_sig,
+    dout => pipeout_sig_13bit,
     full => fifoOut_full,
     empty => fifoOut_empty
   );
