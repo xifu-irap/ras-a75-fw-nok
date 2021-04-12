@@ -27,6 +27,8 @@
 --
 -- v4 : addition of the pipeout management
 --
+-- v5 : HouseKeeping management. We have to had the hard informations in the Housekeeping fonction.
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -311,9 +313,9 @@ begin
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
-                if fifoIn_dout(0) = '0' then
+                if fifoIn_dout(0) = '0' then -- if the last bit is 0 we want to read the register
                     state <= HK;
-                elsif fifoIn_dout(0) = '1' then
+                elsif fifoIn_dout(0) = '1' then -- if the last bit is 1 we want to write in the register
                     state <= waiting;
                 else
                     state <= addr_reception;
@@ -322,7 +324,7 @@ begin
                 state <= addr_reception; -- if the output signal of the fifo is not valid we wait until it is
             end if;
             
-         when HK =>
+         when HK => -- we read the value of the register according to the value of the address given in command
             if addr="0000000000" then 
                 HK_value <= "00000000" & Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
             elsif addr="0000000100" then
