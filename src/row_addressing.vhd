@@ -185,7 +185,7 @@ signal fifoOut_din : std_logic_vector(12 downto 0);
 --------------------------------------------------------
 
 ----------- State Machine -------------------------------
-type FSM_state is (idle, addr_reception, waiting, data_reception);
+type FSM_state is (idle, addr_reception, HK, waiting, data_reception);
 signal state : FSM_state;
 signal addr : unsigned(9 downto 0);
 --signal data : std_logic_vector(31 downto 0);
@@ -223,6 +223,12 @@ signal sig_overlap10_int : std_logic;
 signal sig_overlap11_int : std_logic;
 signal sig_overlap12_int : std_logic;
 ---------------------------------------------------------
+
+--------------- HK signal -------------------------------
+signal HK_value : std_logic_vector(39 downto 0);
+---------------------------------------------------------
+
+signal test : std_logic;
 
 begin
 
@@ -286,6 +292,7 @@ begin
         num_row <= 0;
         rst_n <= '0'; -- active low
         state <= idle;
+        test <= '0';
     elsif (rising_edge(clk100M)) then
 -- State Machine
     case state is
@@ -304,10 +311,56 @@ begin
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
-                state <= waiting;
+                if fifoIn_dout(0) = '0' then
+                    state <= HK;
+                elsif fifoIn_dout(0) = '1' then
+                    state <= waiting;
+                else
+                    state <= addr_reception;
+                end if;
             else
                 state <= addr_reception; -- if the output signal of the fifo is not valid we wait until it is
             end if;
+            
+         when HK =>
+            if addr="0000000000" then 
+                HK_value <= "00000000" & Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
+            elsif addr="0000000100" then
+                HK_value <= "0000000000" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
+            elsif addr="0000001100" then
+                HK_value <= "00000000000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN; 
+            elsif addr="0000001000" or addr="0000001100" then
+                HK_value <= Cmd_manual_row.Row;
+            elsif addr="0000010000" or addr="0000010100" then
+                HK_value <= Cmd_row.Row0;
+            elsif addr="0000011000" or addr="0000011100" then               
+                HK_value <= Cmd_row.Row1;
+            elsif addr="0000100000" or addr="0000100100" then
+                HK_value <= Cmd_row.Row2;
+            elsif addr="0000101000" or addr="0000101100" then
+               HK_value <= Cmd_row.Row3;
+            elsif addr="0000110000" or addr="0000110100" then
+                HK_value <= Cmd_row.Row4;
+            elsif addr="0000111000" or addr="0000111100" then
+                HK_value <= Cmd_row.Row5;
+            elsif addr="0001000000" or addr="0001000100" then
+               HK_value <= Cmd_row.Row6;
+            elsif addr="0001001000" or addr="0001001100" then 
+                HK_value <= Cmd_row.Row7;
+            elsif addr="0001010000" or addr="0001010100" then
+                HK_value <= Cmd_row.Row8;
+            elsif addr="0001011000" or addr="0001011100" then
+                HK_value <= Cmd_row.Row9;
+            elsif addr="0001100000" or addr="0001100100" then
+                HK_value <= Cmd_row.Row10;
+            elsif addr="0001101000" or addr="0001101100" then 
+                HK_value <= Cmd_row.Row11;
+            elsif addr="0001110000" or addr="0001110100" then
+                HK_value <= Cmd_row.Row12;
+            else
+                HK_value <= (others => '0');
+            end if;
+            state <= idle;
         
         when waiting =>
             if (fifoIn_empty = '0') then --if the fifo is not empty
@@ -322,7 +375,7 @@ begin
         when data_reception =>
             fifoIn_read_en <= '0';
             if (Cmd_param_3.RUN = '0') then
-            
+            --test <= '1';
                 if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                     if (addr >= "0000000000" and addr < "0000000100" ) then --address of the DEVICE CTRL 1
                         reception_param(31 downto 0) <= fifoIn_dout;
@@ -354,19 +407,22 @@ begin
                         reception_param(95 downto 64) <= fifoIn_dout;
                         state <= idle;
                     end if;
+                else
+                
+                    state <= data_reception;
+                end if;  
+                  
+            elsif (Cmd_param_3.RUN = '1') then
+                
+                if (addr >= "0000000000" and addr < "0000000100") then
                     
-                elsif (Cmd_param_3.RUN = '1') then
-                    if (addr >= "0000000000" and addr < "0000000100") then
-                        
-                        reception_param(31) <= fifoIn_dout(31); -- reception of Resetn
-                        state <= idle;
-                        
-                    elsif (addr >= "0001111000" and addr < "0001111100") then
+                    reception_param(31) <= fifoIn_dout(31); -- reception of Resetn
+                    state <= idle;
                     
-                        reception_param(64) <= fifoIn_dout(0); -- reception of RUN
-                        state <= idle;
-                    end if;
-                         
+                elsif (addr >= "0001111000" and addr < "0001111100") then
+                    test <= '1';
+                    reception_param(64) <= '0'; -- reception of RUN
+                    state <= idle;
                 end if;
                 
             else

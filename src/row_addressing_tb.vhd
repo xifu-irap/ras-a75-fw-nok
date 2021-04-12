@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 02.03.2021 15:00:23
+-- Create Date: 09.04.2021 15:51:40
 -- Design Name: 
 -- Module Name: row_addressing_tb - Behavioral
 -- Project Name: 
@@ -709,7 +709,7 @@ begin
     -- envoi des paramètres
     
 -- Device Ctrl 3 addr
-pipeIn(0):= "01111000" ;
+pipeIn(0):= "01111001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -725,7 +725,7 @@ wait for 10 ns;
     
     
     
-pipeIn(0):= "00000000" ;
+pipeIn(0):= "00000001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -739,7 +739,7 @@ pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000100" ;
+pipeIn(0):= "00000101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -753,7 +753,7 @@ pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00001000" ;
+pipeIn(0):= "00001001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -767,7 +767,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00001100" ;
+pipeIn(0):= "00001101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -781,7 +781,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00010000" ;
+pipeIn(0):= "00010001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -795,7 +795,7 @@ pipeIn(3):= "00001000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00010100" ;
+pipeIn(0):= "00010101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -809,7 +809,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00011000" ;
+pipeIn(0):= "00011001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -823,7 +823,7 @@ pipeIn(3):= "00010000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00011100" ;
+pipeIn(0):= "00011101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -837,7 +837,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00100000" ;
+pipeIn(0):= "00100001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -851,7 +851,7 @@ pipeIn(3):= "00100000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00100100" ;
+pipeIn(0):= "00100101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -865,7 +865,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00101000" ;
+pipeIn(0):= "00101001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -879,7 +879,7 @@ pipeIn(3):= "01000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00101100" ;
+pipeIn(0):= "00101101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -893,7 +893,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00110000" ;
+pipeIn(0):= "00110001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -907,7 +907,7 @@ pipeIn(3):= "10000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00110100" ;
+pipeIn(0):= "00110101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -921,7 +921,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00111000" ;
+pipeIn(0):= "00111001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -935,7 +935,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00111100" ;
+pipeIn(0):= "00111101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -949,7 +949,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01000000" ;
+pipeIn(0):= "01000001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -963,7 +963,7 @@ pipeIn(3):= "00000001" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01000100" ;
+pipeIn(0):= "01000101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -977,7 +977,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01001000" ;
+pipeIn(0):= "01001001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -991,7 +991,7 @@ pipeIn(3):= "00000010" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01001100" ;
+pipeIn(0):= "01001101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1005,7 +1005,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01010000" ;
+pipeIn(0):= "01010001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1019,7 +1019,7 @@ pipeIn(3):= "00000100" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01010100" ;
+pipeIn(0):= "01010101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1033,7 +1033,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01011000" ;
+pipeIn(0):= "01011001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1047,7 +1047,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01011100" ;
+pipeIn(0):= "01011101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1061,7 +1061,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01100000" ;
+pipeIn(0):= "01100001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1075,7 +1075,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01100100" ;
+pipeIn(0):= "01100101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1089,7 +1089,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01101000" ;
+pipeIn(0):= "01101001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1103,7 +1103,7 @@ pipeIn(3):= "00000111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01101100" ;
+pipeIn(0):= "01101101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1117,7 +1117,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01110000" ;
+pipeIn(0):= "01110001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1131,7 +1131,7 @@ pipeIn(3):= "11111000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01110100" ;
+pipeIn(0):= "01110101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1148,7 +1148,7 @@ wait for 10 ns;
 
 
 -- RUN
-pipeIn(0):= "01111000" ;
+pipeIn(0):= "01111001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1162,8 +1162,42 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;  
 
+-------- test row0--------------
+pipeIn(0):= "00010000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+wait for 100 ns;
+
+---- RUN = 0 
+--pipeIn(0):= "01111001" ;
+--pipeIn(1):= "00000000" ;
+--pipeIn(2):= "00000000" ;
+--pipeIn(3):= "00000000" ;
+--WriteToPipeIn(x"80",pipeInSize);
+--wait for 10 ns;
+
+--pipeIn(0):= "00001010" ;
+--pipeIn(1):= "00000000" ;
+--pipeIn(2):= "00000000" ;
+--pipeIn(3):= "00000000" ;
+--WriteToPipeIn(x"80",pipeInSize);
+--wait for 10 ns;  
+
+-------- test row1--------------
+pipeIn(0):= "00011000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
 wait for 250 ns;
 ReadFromPipeOut(x"A0", 3000);
+
 
 
 wait for 10 us;   
