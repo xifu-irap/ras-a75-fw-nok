@@ -1162,15 +1162,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;  
 
--------- test row0--------------
-pipeIn(0):= "00010000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
 
-wait for 100 ns;
 
 ---- RUN = 0 
 --pipeIn(0):= "01111001" ;
@@ -1187,6 +1179,18 @@ wait for 100 ns;
 --WriteToPipeIn(x"80",pipeInSize);
 --wait for 10 ns;  
 
+wait for 250 ns;
+ReadFromPipeOut(x"A0", 3000);
+
+-------- test row0--------------
+pipeIn(0):= "00010000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+
 -------- test row1--------------
 pipeIn(0):= "00011000" ;
 pipeIn(1):= "00000000" ;
@@ -1195,9 +1199,7 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-wait for 250 ns;
-ReadFromPipeOut(x"A0", 3000);
-
+ReadFromPipeOut(x"A1", 3000);
 
 
 wait for 10 us;   

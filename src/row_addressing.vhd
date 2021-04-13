@@ -29,6 +29,9 @@
 --
 -- v5 : HouseKeeping management. We have to had the hard informations in the Housekeeping fonction.
 --
+-- v6 : Addition of the pipeout to read the HK value. The output of the pipeout is first the address of the register 
+-- we want to read and then the value of this register.
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -105,7 +108,7 @@ architecture Behavioral of row_addressing is
     end component;
 
 	component okWireOR
-	generic (N : integer := 2);
+	generic (N : integer := 3);
 	port (
 		okEH   : out std_logic_vector(64 downto 0);
 		okEHx  : in  std_logic_vector(N*65-1 downto 0));
@@ -141,11 +144,25 @@ COMPONENT fifo_pipeout
   );
 END COMPONENT;
 
+COMPONENT fifoHK_pipeout
+  PORT (
+    rst : IN STD_LOGIC;
+    wr_clk : IN STD_LOGIC;
+    rd_clk : IN STD_LOGIC;
+    din : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+    wr_en : IN STD_LOGIC;
+    rd_en : IN STD_LOGIC;
+    dout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+    full : OUT STD_LOGIC;
+    empty : OUT STD_LOGIC
+  );
+END COMPONENT;
+
 ----------- OK signals ---------------------------------
 signal okClk : std_logic;
 signal okHE : std_logic_vector(112 downto 0);
 signal okEH : std_logic_vector(64 downto 0);
-signal okEHx : std_logic_vector(2*65-1 downto 0);
+signal okEHx : std_logic_vector(3*65-1 downto 0);
 --------------------------------------------------------
 
 ----------- Trigger signal ----------------------------
@@ -163,7 +180,8 @@ signal pipein_sig : std_logic_vector(31 downto 0);
 --signal pipeout_rd : std_logic; -- = fifoOut_read_en
 signal pipeout_sig : std_logic_vector(31 downto 0);
 alias pipeout_sig_13bit : std_logic_vector(12 downto 0) is pipeout_sig(12 downto 0);
---------------------------------------------------------
+------------ HK PipeOut signal --------------------------
+signal HK_pipeout : std_logic_vector(31 downto 0);
 
 alias i_rst : std_logic is ep00wire(0);
 
@@ -178,12 +196,17 @@ signal fifoIn_full : std_logic;
 signal fifoIn_empty : std_logic;
 signal fifoIn_dout : std_logic_vector(31 downto 0);
 signal fifoIn_valid : std_logic;
------------ FIFO PipeIn signals ------------------------
+----------- FIFO PipeOut signals ------------------------
 signal fifoOut_write_en : std_logic ;
 signal fifoOut_read_en : std_logic;
 signal fifoOut_full : std_logic;
 signal fifoOut_empty : std_logic;
 signal fifoOut_din : std_logic_vector(12 downto 0);
+----------- FIFO HK PipeOut signals ---------------------
+signal fifoHK_write_en : std_logic ;
+signal fifoHK_read_en : std_logic;
+signal fifoHK_full : std_logic;
+signal fifoHK_empty : std_logic;
 --------------------------------------------------------
 
 ----------- State Machine -------------------------------
@@ -227,10 +250,10 @@ signal sig_overlap12_int : std_logic;
 ---------------------------------------------------------
 
 --------------- HK signal -------------------------------
-signal HK_value : std_logic_vector(39 downto 0);
+signal HK_value : std_logic_vector(31 downto 0);
 ---------------------------------------------------------
 
-signal test : std_logic;
+--signal test : std_logic;
 
 begin
 
@@ -290,17 +313,21 @@ begin
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
+        fifoHK_write_en <= '0';
         --o_sync_sig <= '0';
         num_row <= 0;
         rst_n <= '0'; -- active low
         state <= idle;
-        test <= '0';
+        --test <= '0';
+        HK_value <= (others => '0');
+        
     elsif (rising_edge(clk100M)) then
 -- State Machine
     case state is
      
         when idle =>
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
+            fifoHK_write_en <= '0'; -- nothing is written in the HK fifo
             rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we can read in the fifo in
@@ -314,6 +341,8 @@ begin
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
                 if fifoIn_dout(0) = '0' then -- if the last bit is 0 we want to read the register
+                    fifoHK_write_en <= '1'; -- we can write in the HK pipeout
+                    HK_value <= "0000000000000000000000" & fifoIn_dout(9 downto 0); -- first we write the address of the register we want to read
                     state <= HK;
                 elsif fifoIn_dout(0) = '1' then -- if the last bit is 1 we want to write in the register
                     state <= waiting;
@@ -326,39 +355,67 @@ begin
             
          when HK => -- we read the value of the register according to the value of the address given in command
             if addr="0000000000" then 
-                HK_value <= "00000000" & Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
+                HK_value <= Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
             elsif addr="0000000100" then
-                HK_value <= "0000000000" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
+                HK_value <= "00" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
             elsif addr="0000001100" then
-                HK_value <= "00000000000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN; 
-            elsif addr="0000001000" or addr="0000001100" then
-                HK_value <= Cmd_manual_row.Row;
+                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN; 
+            elsif addr="0000001000" then
+                HK_value <= Cmd_manual_row.Row(31 downto 0);
+            elsif addr="0000001100" then
+                HK_value <= "000000000000000000000000" & Cmd_manual_row.Row(39 downto 32);
             elsif addr="0000010000" or addr="0000010100" then
-                HK_value <= Cmd_row.Row0;
+                HK_value <= Cmd_row.Row0(31 downto 0);
+            elsif addr="0000010100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row0(39 downto 32);
             elsif addr="0000011000" or addr="0000011100" then               
-                HK_value <= Cmd_row.Row1;
-            elsif addr="0000100000" or addr="0000100100" then
-                HK_value <= Cmd_row.Row2;
-            elsif addr="0000101000" or addr="0000101100" then
-               HK_value <= Cmd_row.Row3;
-            elsif addr="0000110000" or addr="0000110100" then
-                HK_value <= Cmd_row.Row4;
-            elsif addr="0000111000" or addr="0000111100" then
-                HK_value <= Cmd_row.Row5;
-            elsif addr="0001000000" or addr="0001000100" then
-               HK_value <= Cmd_row.Row6;
-            elsif addr="0001001000" or addr="0001001100" then 
-                HK_value <= Cmd_row.Row7;
-            elsif addr="0001010000" or addr="0001010100" then
-                HK_value <= Cmd_row.Row8;
-            elsif addr="0001011000" or addr="0001011100" then
-                HK_value <= Cmd_row.Row9;
-            elsif addr="0001100000" or addr="0001100100" then
-                HK_value <= Cmd_row.Row10;
-            elsif addr="0001101000" or addr="0001101100" then 
-                HK_value <= Cmd_row.Row11;
-            elsif addr="0001110000" or addr="0001110100" then
-                HK_value <= Cmd_row.Row12;
+                HK_value <= Cmd_row.Row1(31 downto 0);
+            elsif addr="0000011100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row1(39 downto 32);
+            elsif addr="0000100000" then
+                HK_value <= Cmd_row.Row2(31 downto 0);
+            elsif addr="0000100100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row2(39 downto 32);
+            elsif addr="0000101000" then
+                HK_value <= Cmd_row.Row3(31 downto 0);
+            elsif addr="0000101100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row3(39 downto 32);
+            elsif addr="0000110000" then
+                HK_value <= Cmd_row.Row4(31 downto 0);
+            elsif addr="0000110100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row4(39 downto 32);
+            elsif addr="0000111000" then
+                HK_value <= Cmd_row.Row5(31 downto 0);
+            elsif addr="0000111100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row5(39 downto 32);
+            elsif addr="0001000000" then
+               HK_value <= Cmd_row.Row6(31 downto 0);
+            elsif addr="0001000100" then
+               HK_value <= "000000000000000000000000" & Cmd_row.Row6(39 downto 32);
+            elsif addr="0001001000" then 
+                HK_value <= Cmd_row.Row7(31 downto 0);
+            elsif addr="0001001100" then 
+                HK_value <= "000000000000000000000000" & Cmd_row.Row7(39 downto 32);
+            elsif addr="0001010000" then
+                HK_value <= Cmd_row.Row8(31 downto 0);
+            elsif addr="0001010100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row8(39 downto 32);
+            elsif addr="0001011000" then
+                HK_value <= Cmd_row.Row9(31 downto 0);
+            elsif addr="0001011100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row9(39 downto 32);
+            elsif addr="0001100000" then
+                HK_value <= Cmd_row.Row10(31 downto 0);
+            elsif addr="0001100100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row10(39 downto 32);
+            elsif addr="0001101000" then 
+                HK_value <= Cmd_row.Row11(31 downto 0);
+            elsif addr="0001101100" then 
+                HK_value <= "000000000000000000000000" & Cmd_row.Row11(39 downto 32);
+            elsif addr="0001110000" then
+                HK_value <= Cmd_row.Row12(31 downto 0);
+            elsif addr="0001110100" then
+                HK_value <= "000000000000000000000000" & Cmd_row.Row12(39 downto 32);
             else
                 HK_value <= (others => '0');
             end if;
@@ -422,7 +479,7 @@ begin
                     state <= idle;
                     
                 elsif (addr >= "0001111000" and addr < "0001111100") then
-                    test <= '1';
+                    --test <= '1';
                     reception_param(64) <= '0'; -- reception of RUN
                     state <= idle;
                 end if;
@@ -624,6 +681,20 @@ PipeOut_FIFO : fifo_pipeout
     empty => fifoOut_empty
   );
 ----------------------------------------------------- 
+-------------- FIFO HK PipeOut -------------------------       
+HK_PipeOut_fifo : fifoHK_pipeout
+  PORT MAP (
+    rst => i_rst,
+    wr_clk => clk100M,
+    rd_clk => okClk,
+    din => HK_value,
+    wr_en => fifoHK_write_en,
+    rd_en => fifoHK_read_en,
+    dout => HK_pipeout,
+    full => fifoHK_full,
+    empty => fifoHK_empty
+  );
+----------------------------------------------------- 
 --------------- OK endpoints ------------------------
 okHI : okHost port map (
 	okUH=>okUH, 
@@ -635,7 +706,7 @@ okHI : okHost port map (
 	okEH=>okEH
 );
 
-okWO : okWireOR     generic map (N=>2) port map (
+okWO : okWireOR     generic map (N=>3) port map (
     okEH=>okEH, 
     okEHx=>okEHx);
 
@@ -666,6 +737,14 @@ epA0 : okPipeOut port map (   -- PipeOut
 		ep_addr    => x"A0",
 		ep_read   => fifoOut_read_en,
 		ep_datain => pipeout_sig
+		);
+		
+epA1 : okPipeOut port map (   -- PipeOut
+		okHE       => okHE,
+		okEH       => okEHx(3*65-1 downto 2*65),
+		ep_addr    => x"A1",
+		ep_read   => fifoHK_read_en,
+		ep_datain => HK_pipeout
 		);
 
 
