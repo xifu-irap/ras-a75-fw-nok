@@ -20,3 +20,12 @@ fifo_pipeout/*.xdc
 fifo_pipeout/*.xml
 fifo_pipeout/*.v
 fifo_pipeout/*.vhdl
+
+fifoHK_pipeout/hdl/
+fifoHK_pipeout/synth/
+fifoHK_pipeout/*.dcp
+fifoHK_pipeout/*.xdc
+fifoHK_pipeout/*.xml
+fifoHK_pipeout/*.v
+fifoHK_pipeout/*.vhdl
+
