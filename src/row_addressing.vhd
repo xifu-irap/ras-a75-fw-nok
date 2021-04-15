@@ -32,6 +32,9 @@
 -- v6 : Addition of the pipeout to read the HK value. The output of the pipeout is first the address of the register 
 -- we want to read and then the value of this register.
 --
+-- v7 : This version manages the synchronisation signal. This signal is activated during the period Trow at each 
+-- sequence beginning.
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -79,8 +82,8 @@ entity row_addressing is
            o_sig_overlap9 : out STD_LOGIC;
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
-           o_sig_overlap12 : out STD_LOGIC);
-          -- o_sync_sig : out STD_LOGIC);
+           o_sig_overlap12 : out STD_LOGIC;
+           o_synchro : out STD_LOGIC);
 end row_addressing;
 
 architecture Behavioral of row_addressing is
@@ -104,7 +107,9 @@ architecture Behavioral of row_addressing is
            i_rst_n : in STD_LOGIC;
            i_cmd : in STD_LOGIC_VECTOR (39 downto 0);
            i_REV : in STD_LOGIC_VECTOR (3 downto 0);
-           o_sig_overlap : out STD_LOGIC);
+           i_first_row : in std_logic;
+           o_sig_overlap : out STD_LOGIC;
+           o_sig_sync : out std_logic);
     end component;
 
 	component okWireOR
@@ -253,6 +258,9 @@ signal sig_overlap12_int : std_logic;
 signal HK_value : std_logic_vector(31 downto 0);
 ---------------------------------------------------------
 
+--------------- Synchronisation signal ------------------
+signal sig_sync : std_logic_vector(12 downto 0);
+---------------------------------------------------------
 --signal test : std_logic;
 
 begin
@@ -300,6 +308,8 @@ Cmd_row.Row12 <= reception_cmd(12);
 --===========================================================
 
 pipeout_sig(31 downto 13) <= (others => '0');
+
+
 
 -------- Reception and storage of the sequences --------
 P_Cmd_reception : process (clk100M, i_rst, Cmd_param_1.Resetn)
@@ -492,7 +502,6 @@ begin
     end if;
 end process;
 
-
 P_pipeout_process : process (clk100M, rst_n)
 begin
     if rst_n = '0' then
@@ -505,6 +514,7 @@ begin
         end if;
     end if;
 end process; 
+
 
 -------- Development of the output pixel signals --------
 
@@ -527,7 +537,9 @@ end process;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row0,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap0_int
+          i_first_row => Cmd_row.Row0(0),
+          o_sig_overlap => sig_overlap0_int,
+          o_sig_sync => sig_sync(0)
         );
 o_sig_overlap0 <= sig_overlap0_int;
       
@@ -537,7 +549,9 @@ o_sig_overlap0 <= sig_overlap0_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row1,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap1_int
+          i_first_row => Cmd_row.Row1(0),
+          o_sig_overlap => sig_overlap1_int,
+          o_sig_sync => sig_sync(1)
         );
 o_sig_overlap1 <= sig_overlap1_int;
         
@@ -547,7 +561,9 @@ o_sig_overlap1 <= sig_overlap1_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row2,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap2_int
+          i_first_row => Cmd_row.Row2(0),
+          o_sig_overlap => sig_overlap2_int,
+          o_sig_sync => sig_sync(2)
         );
 o_sig_overlap2 <= sig_overlap2_int;
        
@@ -557,7 +573,9 @@ o_sig_overlap2 <= sig_overlap2_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row3,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap3_int
+          i_first_row => Cmd_row.Row3(0),
+          o_sig_overlap => sig_overlap3_int,
+          o_sig_sync => sig_sync(3)
         );
 o_sig_overlap3 <= sig_overlap3_int;
         
@@ -567,7 +585,9 @@ o_sig_overlap3 <= sig_overlap3_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row4,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap4_int
+          i_first_row => Cmd_row.Row4(0),
+          o_sig_overlap => sig_overlap4_int,
+          o_sig_sync => sig_sync(4)
         );
 o_sig_overlap4 <= sig_overlap4_int;
         
@@ -577,7 +597,9 @@ o_sig_overlap4 <= sig_overlap4_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row5,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap5_int
+          i_first_row => Cmd_row.Row5(0),
+          o_sig_overlap => sig_overlap5_int,
+          o_sig_sync => sig_sync(5)
         );
 o_sig_overlap5 <= sig_overlap5_int;
        
@@ -587,7 +609,9 @@ o_sig_overlap5 <= sig_overlap5_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row6,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap6_int
+          i_first_row => Cmd_row.Row6(0),
+          o_sig_overlap => sig_overlap6_int,
+          o_sig_sync => sig_sync(6)
         );
 o_sig_overlap6 <= sig_overlap6_int;
         
@@ -597,7 +621,9 @@ o_sig_overlap6 <= sig_overlap6_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row7,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap7_int
+          i_first_row => Cmd_row.Row7(0),
+          o_sig_overlap => sig_overlap7_int,
+          o_sig_sync => sig_sync(7)
         );
 o_sig_overlap7 <= sig_overlap7_int;
         
@@ -607,7 +633,9 @@ o_sig_overlap7 <= sig_overlap7_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row8,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap8_int
+          i_first_row => Cmd_row.Row8(0),
+          o_sig_overlap => sig_overlap8_int,
+          o_sig_sync => sig_sync(8)
         );
 o_sig_overlap8 <= sig_overlap8_int;
         
@@ -617,7 +645,9 @@ o_sig_overlap8 <= sig_overlap8_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row9,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap9_int
+          i_first_row => Cmd_row.Row9(0),
+          o_sig_overlap => sig_overlap9_int,
+          o_sig_sync => sig_sync(9)
         );
 o_sig_overlap9 <= sig_overlap9_int;
         
@@ -627,7 +657,9 @@ o_sig_overlap9 <= sig_overlap9_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row10,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap10_int
+          i_first_row => Cmd_row.Row10(0),
+          o_sig_overlap => sig_overlap10_int,
+          o_sig_sync => sig_sync(10)
         );
 o_sig_overlap10 <= sig_overlap10_int;
         
@@ -637,7 +669,9 @@ o_sig_overlap10 <= sig_overlap10_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row11,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap11_int
+          i_first_row => Cmd_row.Row11(0),
+          o_sig_overlap => sig_overlap11_int,
+          o_sig_sync => sig_sync(11)
         );
 o_sig_overlap11 <= sig_overlap11_int;
         
@@ -647,11 +681,15 @@ o_sig_overlap11 <= sig_overlap11_int;
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row12,
           i_REV => Cmd_param_1.REV,
-          o_sig_overlap => sig_overlap12_int
+          i_first_row => Cmd_row.Row12(0),
+          o_sig_overlap => sig_overlap12_int,
+          o_sig_sync => sig_sync(12)
         );
 o_sig_overlap12 <= sig_overlap12_int;
         
 fifoOut_din <= sig_overlap12_int & sig_overlap11_int & sig_overlap10_int & sig_overlap9_int & sig_overlap8_int & sig_overlap7_int & sig_overlap6_int & sig_overlap5_int & sig_overlap4_int & sig_overlap3_int & sig_overlap2_int & sig_overlap1_int & sig_overlap0_int;         
+
+o_synchro <= sig_sync(12) and sig_sync(11) and sig_sync(10) and sig_sync(9) and sig_sync(8) and sig_sync(7) and sig_sync(6) and sig_sync(5) and sig_sync(4) and sig_sync(3) and sig_sync(2) and sig_sync(1) and sig_sync(0); -- AND between each sig sync of each row (when the row isn't activated at the first time thsi signal is always '1')
 -----------------------------------------------------  
 -------------- FIFO PipeIn --------------------------
 PipeIn_FIFO : fifo_pipein

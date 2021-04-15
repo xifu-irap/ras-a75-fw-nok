@@ -81,8 +81,8 @@ architecture simulate of row_addressing_tb is
            o_sig_overlap9 : out STD_LOGIC;
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
-           o_sig_overlap12 : out STD_LOGIC);
-          -- o_sync_sig : out STD_LOGIC);
+           o_sig_overlap12 : out STD_LOGIC;
+           o_synchro : out STD_LOGIC);
     end component;
 
 -- Inputs
@@ -108,6 +108,7 @@ signal o_sig_overlap9 : STD_LOGIC;
 signal o_sig_overlap10 : STD_LOGIC;
 signal o_sig_overlap11 : STD_LOGIC;
 signal o_sig_overlap12 : STD_LOGIC;
+signal o_synchro : STD_LOGIC;
 
 -- okHostCalls Simulation Parameters & Signals ----------------------------------------------
 	constant tCK        : time := 5 ns; --Half of the hi_clk frequency @ 1ns timing = 100MHz
@@ -156,7 +157,8 @@ begin
            o_sig_overlap9 => o_sig_overlap9,
            o_sig_overlap10 => o_sig_overlap10,
            o_sig_overlap11 => o_sig_overlap11,
-           o_sig_overlap12 => o_sig_overlap12
+           o_sig_overlap12 => o_sig_overlap12,
+           o_synchro => o_synchro
            );
 
 

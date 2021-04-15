@@ -37,7 +37,9 @@ entity sequence_treatment is
            i_rst_n : in STD_LOGIC;
            i_cmd : in STD_LOGIC_VECTOR (39 downto 0);
            i_REV : in STD_LOGIC_VECTOR(3 downto 0);
-           o_sig_overlap : out STD_LOGIC);
+           i_first_row : in std_logic; -- = Cmd_row.Row(0) 
+           o_sig_overlap : out STD_LOGIC;
+           o_sig_sync : out std_logic);
 end sequence_treatment;
 
 architecture Behavioral of sequence_treatment is
@@ -83,7 +85,8 @@ COMPONENT shift_register_15b
            i_REV : in STD_LOGIC_VECTOR(3 downto 0);
            i_overlap_neg : in STD_LOGIC;
            i_overlap_pos : in STD_LOGIC;
-           o_sig_overlap : out STD_LOGIC);
+           o_sig_overlap : out STD_LOGIC
+           );
     end component;
 
 
@@ -146,5 +149,19 @@ uu4 : mux_overlap PORT MAP (
            i_overlap_pos => overlap_pos,
            o_sig_overlap => o_sig_overlap
            );
-           
+
+
+P_sync_process : process(i_clk,i_rst_n) -- process that manages the sig sync of each row
+begin
+    if i_rst_n = '0' then
+        o_sig_sync <= '0';
+    elsif rising_edge(i_clk) then
+        if i_first_row = '1' then -- if the row is the first row activated
+            o_sig_sync <= sig_late(6); -- the sync signal takes the value of the signal delated of 6 clock periods, the last clock period of delay will be gain with this process (sig_late(7) = t0)
+        else -- if the row isn't the first row activated
+            o_sig_sync <= '1'; -- the sync signal is always at '1'
+        end if;
+    end if;
+end process;
+
 end Behavioral;
