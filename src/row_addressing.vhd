@@ -35,6 +35,8 @@
 -- v7 : This version manages the synchronisation signal. This signal is activated during the period Trow at each 
 -- sequence beginning.
 --
+-- v8 : we use the system clock of the xem7310 (200 MHz)
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -43,6 +45,8 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+Library UNISIM;
+use UNISIM.vcomponents.all;
 use work.FAS_package.ALL;
 use work.FRONTPANEL.ALL;
 
@@ -66,7 +70,7 @@ entity row_addressing is
     
           sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-		  sys_clk : in std_logic;
+		  -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
           --i_rst : in std_logic;
     ----------------------- FAS ------------------------
@@ -87,6 +91,8 @@ entity row_addressing is
 end row_addressing;
 
 architecture Behavioral of row_addressing is
+
+   
 
     component div_freq2
     Port ( sys_clk : in STD_LOGIC;
@@ -163,6 +169,12 @@ COMPONENT fifoHK_pipeout
   );
 END COMPONENT;
 
+----------- Clk signal -------------------------------
+signal sys_clk : std_logic;
+signal clk100M : std_logic;
+signal clk_en_freq : std_logic;
+-------------------------------------------------------
+
 ----------- OK signals ---------------------------------
 signal okClk : std_logic;
 signal okHE : std_logic_vector(112 downto 0);
@@ -189,10 +201,6 @@ alias pipeout_sig_13bit : std_logic_vector(12 downto 0) is pipeout_sig(12 downto
 signal HK_pipeout : std_logic_vector(31 downto 0);
 
 alias i_rst : std_logic is ep00wire(0);
-
------------ Clk signal ---------------------------------
-signal clk100M : std_logic;
-signal clk_en_freq : std_logic;
 
 ----------- FIFO PipeIn signals ------------------------
 signal fifoIn_write_en : std_logic;
@@ -306,6 +314,24 @@ Cmd_row.Row11 <= reception_cmd(11);
 Cmd_row.Row12 <= reception_cmd(12);
 
 --===========================================================
+
+-- IBUFDS: Differential Input Buffer
+   --         Artix-7
+   -- Xilinx HDL Language Template, version 2020.1
+
+   IBUFDS_inst : IBUFDS
+   generic map (
+      DIFF_TERM => FALSE, -- Differential Termination 
+      IBUF_LOW_PWR => TRUE, -- Low power (TRUE) vs. performance (FALSE) setting for referenced I/O standards
+      IOSTANDARD => "DEFAULT")
+   port map (
+      O => sys_clk,  -- Buffer output
+      I => sys_clkp,  -- Diff_p buffer input (connect directly to top-level port)
+      IB => sys_clkn -- Diff_n buffer input (connect directly to top-level port)
+   );
+
+   -- End of IBUFDS_inst instantiation
+   
 
 pipeout_sig(31 downto 13) <= (others => '0');
 

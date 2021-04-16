@@ -62,7 +62,7 @@ architecture simulate of row_addressing_tb is
 		  
 		  sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-		  sys_clk : in std_logic;
+		  --sys_clk : in std_logic;
     
     ---------------------- RST -------------------------
           --i_rst : in std_logic;
@@ -138,7 +138,7 @@ begin
 		  
 		  sys_clkp => sys_clkp,
 		  sys_clkn => sys_clkn,
-		  sys_clk => sys_clk,
+		  --sys_clk => sys_clk,
     
     ---------------------- RST -------------------------
           --i_rst => i_rst,
