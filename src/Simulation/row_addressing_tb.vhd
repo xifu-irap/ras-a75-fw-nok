@@ -110,6 +110,8 @@ signal o_sig_overlap11 : STD_LOGIC;
 signal o_sig_overlap12 : STD_LOGIC;
 signal o_synchro : STD_LOGIC;
 
+
+
 -- okHostCalls Simulation Parameters & Signals ----------------------------------------------
 	constant tCK        : time := 5 ns; --Half of the hi_clk frequency @ 1ns timing = 100MHz
 	constant Tsys_clk   : time := 2.5 ns; --Half of the hi_clk frequency @ 1ns timing = 100MHz
@@ -1206,6 +1208,30 @@ ReadFromPipeOut(x"A1", 3000);
 
 wait for 10 us;   
 
+end process;
+
+process 
+    file file_results : text open write_mode is "C:\Users\ATHENA_X-IFU\Documents\Noemie2020\solution_commande\ras-a75-fw\src\sim_results.txt";
+    variable v_line : line;    
+    begin
+        wait for 10 ns;
+--        write(v_line, string'("results simulation"));
+--        writeline(file_results,v_line);
+        write(v_line, o_sig_overlap12);
+        write(v_line, o_sig_overlap11);
+        write(v_line, o_sig_overlap10);
+        write(v_line, o_sig_overlap9);
+        write(v_line, o_sig_overlap8);
+        write(v_line, o_sig_overlap7);
+        write(v_line, o_sig_overlap6);
+        write(v_line, o_sig_overlap5);
+        write(v_line, o_sig_overlap4);
+        write(v_line, o_sig_overlap3);
+        write(v_line, o_sig_overlap2);
+        write(v_line, o_sig_overlap1);
+        write(v_line, o_sig_overlap0);
+        writeline(file_results,v_line);
+    
 end process;
 
 end simulate;
