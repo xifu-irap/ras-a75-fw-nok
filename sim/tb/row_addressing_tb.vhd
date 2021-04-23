@@ -1211,7 +1211,7 @@ wait for 10 us;
 end process;
 
 process 
-    file file_results : text open write_mode is "C:\Users\ATHENA_X-IFU\Documents\Noemie2020\solution_commande\ras-a75-fw\src\sim_results.txt";
+    file file_results : text open write_mode is "C:\Users\ATHENA_X-IFU\Documents\Noemie2020\solution_commande\ras-a75-fw\sim\script\sim_results.txt";
     variable v_line : line;    
     begin
         wait for 10 ns;
