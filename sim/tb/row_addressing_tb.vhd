@@ -65,7 +65,7 @@ architecture simulate of row_addressing_tb is
 		  --sys_clk : in std_logic;
     
     ---------------------- RST -------------------------
-          --i_rst : in std_logic;
+          i_rst : in std_logic;
           
     ----------------------- FAS ------------------------
            --i_clk : in STD_LOGIC;
@@ -88,6 +88,7 @@ architecture simulate of row_addressing_tb is
 -- Inputs
 signal okUH : std_logic_vector(4 downto 0) := (others => '0');
 signal i_clk : STD_LOGIC := '0';
+signal i_rst : STD_LOGIC := '0';
 
 -- BiDirs
 signal okUHU : std_logic_vector(31 downto 0);
@@ -143,7 +144,7 @@ begin
 		  --sys_clk => sys_clk,
     
     ---------------------- RST -------------------------
-          --i_rst => i_rst,
+          i_rst => i_rst,
           
     ----------------------- FAS ------------------------
            --i_clk => i_clk,
@@ -194,6 +195,19 @@ begin
 		hi_clk <= '1'; 
 		wait for tCk; 
 	end process hi_clk_gen;
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+      i_rst <= '1';
+      wait for 100 ns;
+      i_rst <= '0';
+      -- insert stimulus here 
+
+      wait;
+   end process;
 
 -- Simulation Process
 sim_process : process

@@ -72,7 +72,7 @@ entity row_addressing is
 		  sys_clkn : in std_logic;
 		  -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
-          --i_rst : in std_logic;
+          i_rst : in std_logic;
     ----------------------- FAS ------------------------
            o_sig_overlap0 : out STD_LOGIC;
            o_sig_overlap1 : out STD_LOGIC;
@@ -200,7 +200,7 @@ alias pipeout_sig_13bit : std_logic_vector(12 downto 0) is pipeout_sig(12 downto
 ------------ HK PipeOut signal --------------------------
 signal HK_pipeout : std_logic_vector(31 downto 0);
 
-alias i_rst : std_logic is ep00wire(0);
+--alias i_rst : std_logic is ep00wire(0);
 
 ----------- FIFO PipeIn signals ------------------------
 signal fifoIn_write_en : std_logic;
