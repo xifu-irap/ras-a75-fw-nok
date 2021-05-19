@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Test FAS signals 
+     Front Panel  -->
+
+<resource version="2.3.0.1">
+
+<object class="okPanel" name="panel1">
+	<title>FAS Signals</title>
+	<size>200,150</size>
+	
+<object class="okFilePipe"> -- PipeIn
+	<label>Storage Cmd</label>
+	<position>40,75</position>
+	<size>120,30</size>
+	<endpoint>0x80</endpoint>
+</object>
+	
+<object class="okFilePipe"> -- PipeOut
+	<label>Record RAS signals</label>
+	<position>70,75</position>
+	<size>120,30</size>
+	<endpoint>0xa0</endpoint>
+	<length>64</length> --2*32
+	<starttrigger><endpoint>0x40</endpoint><bit>0</bit></starttrigger> 
+</object>
+
+
+<object class="okTriggerButton">
+	<label>Trigger Pipeout</label>
+	<position>20,20</position>
+	<size>100,30</size>
+	<endpoint>0x40</endpoint>
+	<bit>0</bit>
+</object>
+
+
+
+</object>
+
+</resource>

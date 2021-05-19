@@ -73,6 +73,10 @@ entity row_addressing is
 		  -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
           i_rst : in std_logic;
+          
+    ----------------------- LED ------------------------
+        
+          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'
     ----------------------- FAS ------------------------
            o_sig_overlap0 : out STD_LOGIC;
            o_sig_overlap1 : out STD_LOGIC;
@@ -270,6 +274,10 @@ signal HK_value : std_logic_vector(31 downto 0);
 signal sig_sync : std_logic_vector(12 downto 0);
 ---------------------------------------------------------
 --signal test : std_logic;
+
+------ Process trig led signals 
+signal cmp_trig : unsigned(7 downto 0);
+alias trig_led : std_logic is ep40trig(0); --trigger is on bit 0
 
 begin
 
@@ -541,6 +549,24 @@ begin
     end if;
 end process; 
 
+-----------------------------------------------------
+---------- Trigger display on the led ---------------
+led <= std_logic_vector(cmp_trig);
+
+P_trig_led : process(clk100M,i_rst)
+begin
+	  if (i_rst='1') then
+	      cmp_trig <= (others => '0');
+	  elsif (rising_edge(clk100M)) then
+	      if (trig_led ='1') then
+			    cmp_trig <= cmp_trig + 1;
+			elsif (cmp_trig = 255) then
+			    cmp_trig <= (others => '0');
+		   end if;
+     end if;
+end process;
+
+-----------------------------------------------------			
 
 -------- Development of the output pixel signals --------
 

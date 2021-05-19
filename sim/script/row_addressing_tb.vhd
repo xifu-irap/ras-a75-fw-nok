@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 09.04.2021 15:51:40
+-- Create Date: 02.03.2021 15:00:23
 -- Design Name: 
 -- Module Name: row_addressing_tb - Behavioral
 -- Project Name: 
@@ -62,13 +62,11 @@ architecture simulate of row_addressing_tb is
 		  
 		  sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-		  --sys_clk : in std_logic;
+		  sys_clk : in std_logic;
     
     ---------------------- RST -------------------------
-          i_rst : in std_logic;
+          --i_rst : in std_logic;
           
-    ----------------------- LED ------------------------
-          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'         
     ----------------------- FAS ------------------------
            --i_clk : in STD_LOGIC;
            o_sig_overlap0 : out STD_LOGIC;
@@ -83,21 +81,19 @@ architecture simulate of row_addressing_tb is
            o_sig_overlap9 : out STD_LOGIC;
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
-           o_sig_overlap12 : out STD_LOGIC;
-           o_synchro : out STD_LOGIC);
+           o_sig_overlap12 : out STD_LOGIC);
+          -- o_sync_sig : out STD_LOGIC);
     end component;
 
 -- Inputs
 signal okUH : std_logic_vector(4 downto 0) := (others => '0');
 signal i_clk : STD_LOGIC := '0';
-signal i_rst : STD_LOGIC := '0';
 
 -- BiDirs
 signal okUHU : std_logic_vector(31 downto 0);
 signal okAA : std_logic;
 
 -- Outputs
-signal led : std_logic_vector(7 downto 0);
 signal okHU : std_logic_vector(2 downto 0);
 signal o_sig_overlap0 : STD_LOGIC;
 signal o_sig_overlap1 : STD_LOGIC;
@@ -112,9 +108,6 @@ signal o_sig_overlap9 : STD_LOGIC;
 signal o_sig_overlap10 : STD_LOGIC;
 signal o_sig_overlap11 : STD_LOGIC;
 signal o_sig_overlap12 : STD_LOGIC;
-signal o_synchro : STD_LOGIC;
-
-
 
 -- okHostCalls Simulation Parameters & Signals ----------------------------------------------
 	constant tCK        : time := 5 ns; --Half of the hi_clk frequency @ 1ns timing = 100MHz
@@ -144,12 +137,11 @@ begin
 		  
 		  sys_clkp => sys_clkp,
 		  sys_clkn => sys_clkn,
-		  --sys_clk => sys_clk,
+		  sys_clk => sys_clk,
     
     ---------------------- RST -------------------------
-          i_rst => i_rst,
-    ----------------------- LED ------------------------
-          led => led,     
+          --i_rst => i_rst,
+          
     ----------------------- FAS ------------------------
            --i_clk => i_clk,
            o_sig_overlap0 => o_sig_overlap0,
@@ -164,8 +156,7 @@ begin
            o_sig_overlap9 => o_sig_overlap9,
            o_sig_overlap10 => o_sig_overlap10,
            o_sig_overlap11 => o_sig_overlap11,
-           o_sig_overlap12 => o_sig_overlap12,
-           o_synchro => o_synchro
+           o_sig_overlap12 => o_sig_overlap12
            );
 
 
@@ -200,19 +191,6 @@ begin
 		wait for tCk; 
 	end process hi_clk_gen;
 
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-      i_rst <= '1';
-      wait for 100 ns;
-      i_rst <= '0';
-      -- insert stimulus here 
-
-      wait;
-   end process;
-
 -- Simulation Process
 sim_process : process
 
@@ -228,7 +206,7 @@ sim_process : process
 	                                             --    check that the block transfer begins (0-255)
 	variable pipeInSize       : integer := 4; -- REQUIRED: byte (must be even) length of default
                                                --    PipeIn; Integer 0-2^32
-	variable pipeOutSize      : integer := 4096; -- REQUIRED: byte (must be even) length of default
+	variable pipeOutSize      : integer := 1024; -- REQUIRED: byte (must be even) length of default
                                                --    PipeOut; Integer 0-2^32
 	variable registerSetSize  : integer := 32;   -- Size of array for register set commands.
                                                                                             
@@ -728,26 +706,24 @@ begin
     
     ActivateTriggerIn(x"40",0);
     
-    -- envoi des paramètres
-    
--- Device Ctrl 3 addr
-pipeIn(0):= "01111001" ;
+    -- envoi des paramÃ¨tres
+-- W : Register address : 120
+pipeIn(0):= "01111000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
--- Device Ctrl 3 value
+
 pipeIn(0):= "00001010" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;    
-    
-    
-    
-pipeIn(0):= "00000001" ;
+wait for 10 ns;
+
+-- W : Register address : 0
+pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -756,12 +732,13 @@ wait for 10 ns;
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "11111111" ;
-pipeIn(2):= "11110010" ; -- REV on the 4 last bit (0: pos  1: neg)
+pipeIn(2):= "11110010" ;
 pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000101" ;
+-- W : Register address : 4
+pipeIn(0):= "00000100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -775,7 +752,8 @@ pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00001001" ;
+-- W : Register address : 8
+pipeIn(0):= "00001000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -789,7 +767,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00001101" ;
+-- W : Register address : 12
+pipeIn(0):= "00001100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -803,7 +782,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00010001" ;
+-- W : Register address : 16
+pipeIn(0):= "00010000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -817,7 +797,8 @@ pipeIn(3):= "00001000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00010101" ;
+-- W : Register address : 20
+pipeIn(0):= "00010100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -831,7 +812,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00011001" ;
+-- W : Register address : 24
+pipeIn(0):= "00011000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -845,7 +827,8 @@ pipeIn(3):= "00010000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00011101" ;
+-- W : Register address : 28
+pipeIn(0):= "00011100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -859,7 +842,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00100001" ;
+-- W : Register address : 32
+pipeIn(0):= "00100000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -873,7 +857,8 @@ pipeIn(3):= "00100000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00100101" ;
+-- W : Register address : 36
+pipeIn(0):= "00100100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -887,7 +872,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00101001" ;
+-- W : Register address : 40
+pipeIn(0):= "00101000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -901,7 +887,8 @@ pipeIn(3):= "01000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00101101" ;
+-- W : Register address : 44
+pipeIn(0):= "00101100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -915,7 +902,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00110001" ;
+-- W : Register address : 48
+pipeIn(0):= "00110000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -929,7 +917,8 @@ pipeIn(3):= "10000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00110101" ;
+-- W : Register address : 52
+pipeIn(0):= "00110100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -943,7 +932,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00111001" ;
+-- W : Register address : 56
+pipeIn(0):= "00111000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -957,7 +947,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00111101" ;
+-- W : Register address : 60
+pipeIn(0):= "00111100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -971,7 +962,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01000001" ;
+-- W : Register address : 64
+pipeIn(0):= "01000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -985,7 +977,8 @@ pipeIn(3):= "00000001" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01000101" ;
+-- W : Register address : 68
+pipeIn(0):= "01000100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -999,7 +992,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01001001" ;
+-- W : Register address : 72
+pipeIn(0):= "01001000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1013,7 +1007,8 @@ pipeIn(3):= "00000010" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01001101" ;
+-- W : Register address : 76
+pipeIn(0):= "01001100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1027,7 +1022,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01010001" ;
+-- W : Register address : 80
+pipeIn(0):= "01010000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1041,7 +1037,8 @@ pipeIn(3):= "00000100" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01010101" ;
+-- W : Register address : 84
+pipeIn(0):= "01010100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1055,7 +1052,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01011001" ;
+-- W : Register address : 88
+pipeIn(0):= "01011000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1069,7 +1067,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01011101" ;
+-- W : Register address : 92
+pipeIn(0):= "01011100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1083,7 +1082,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01100001" ;
+-- W : Register address : 96
+pipeIn(0):= "01100000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1097,7 +1097,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01100101" ;
+-- W : Register address : 100
+pipeIn(0):= "01100100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1111,7 +1112,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01101001" ;
+-- W : Register address : 104
+pipeIn(0):= "01101000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1125,7 +1127,8 @@ pipeIn(3):= "00000111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01101101" ;
+-- W : Register address : 108
+pipeIn(0):= "01101100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1139,7 +1142,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01110001" ;
+-- W : Register address : 112
+pipeIn(0):= "01110000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1153,7 +1157,8 @@ pipeIn(3):= "11111000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "01110101" ;
+-- W : Register address : 116
+pipeIn(0):= "01110100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1167,10 +1172,8 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-
-
--- RUN
-pipeIn(0):= "01111001" ;
+-- W : Register address : 120
+pipeIn(0):= "01111000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
@@ -1182,47 +1185,13 @@ pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;  
-
-
-
----- RUN = 0 
---pipeIn(0):= "01111001" ;
---pipeIn(1):= "00000000" ;
---pipeIn(2):= "00000000" ;
---pipeIn(3):= "00000000" ;
---WriteToPipeIn(x"80",pipeInSize);
---wait for 10 ns;
-
---pipeIn(0):= "00001010" ;
---pipeIn(1):= "00000000" ;
---pipeIn(2):= "00000000" ;
---pipeIn(3):= "00000000" ;
---WriteToPipeIn(x"80",pipeInSize);
---wait for 10 ns;  
+wait for 10 ns;
 
 wait for 250 ns;
-ReadFromPipeOut(x"A0", 3000);
 
--------- test row0--------------
-pipeIn(0):= "00010000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
+ReadFromPipeOut(x"A0", 3000
 
-
--------- test row1--------------
-pipeIn(0):= "00011000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-ReadFromPipeOut(x"A1", 3000);
-
+ReadFromPipeOut(x"A1", 3000
 
 wait for 10 us;   
 
