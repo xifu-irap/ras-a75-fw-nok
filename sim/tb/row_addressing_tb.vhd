@@ -737,6 +737,31 @@ pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 -- Device Ctrl 3 value
 pipeIn(0):= "00001010" ;
 pipeIn(1):= "00000000" ;
@@ -744,7 +769,30 @@ pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;    
-    
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------   
     
     
 pipeIn(0):= "00000001" ;
@@ -753,6 +801,31 @@ pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "11111111" ;
@@ -761,12 +834,60 @@ pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000101" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "11111111" ;
@@ -775,6 +896,30 @@ pipeIn(3):= "11111111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00001001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
@@ -782,12 +927,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00001101" ;
 pipeIn(1):= "00000000" ;
@@ -796,12 +989,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000010" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00010001" ;
 pipeIn(1):= "00000000" ;
@@ -810,12 +1051,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000001" ;
 pipeIn(1):= "00000010" ;
 pipeIn(2):= "00000100" ;
 pipeIn(3):= "00001000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00010101" ;
 pipeIn(1):= "00000000" ;
@@ -824,12 +1113,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00011001" ;
 pipeIn(1):= "00000000" ;
@@ -838,12 +1175,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000010" ;
 pipeIn(1):= "00000100" ;
 pipeIn(2):= "00001000" ;
 pipeIn(3):= "00010000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00011101" ;
 pipeIn(1):= "00000000" ;
@@ -852,12 +1237,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00100001" ;
 pipeIn(1):= "00000000" ;
@@ -866,12 +1299,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000100" ;
 pipeIn(1):= "00001000" ;
 pipeIn(2):= "00010000" ;
 pipeIn(3):= "00100000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00100101" ;
 pipeIn(1):= "00000000" ;
@@ -880,12 +1361,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00101001" ;
 pipeIn(1):= "00000000" ;
@@ -894,12 +1423,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00001000" ;
 pipeIn(1):= "00010000" ;
 pipeIn(2):= "00100000" ;
 pipeIn(3):= "01000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00101101" ;
 pipeIn(1):= "00000000" ;
@@ -908,12 +1485,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00110001" ;
 pipeIn(1):= "00000000" ;
@@ -922,12 +1547,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00010000" ;
 pipeIn(1):= "00100000" ;
 pipeIn(2):= "01000000" ;
 pipeIn(3):= "10000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00110101" ;
 pipeIn(1):= "00000000" ;
@@ -936,12 +1609,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00111001" ;
 pipeIn(1):= "00000000" ;
@@ -950,12 +1671,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00100000" ;
 pipeIn(1):= "01000000" ;
 pipeIn(2):= "10000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "00111101" ;
 pipeIn(1):= "00000000" ;
@@ -964,12 +1733,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000001" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01000001" ;
 pipeIn(1):= "00000000" ;
@@ -978,12 +1795,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "01000000" ;
 pipeIn(1):= "10000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000001" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01000101" ;
 pipeIn(1):= "00000000" ;
@@ -992,12 +1857,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000010" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01001001" ;
 pipeIn(1):= "00000000" ;
@@ -1006,12 +1919,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "10000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000001" ;
 pipeIn(3):= "00000010" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01001101" ;
 pipeIn(1):= "00000000" ;
@@ -1020,12 +1981,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000100" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01010001" ;
 pipeIn(1):= "00000000" ;
@@ -1034,12 +2043,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000001" ;
 pipeIn(2):= "00000010" ;
 pipeIn(3):= "00000100" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01010101" ;
 pipeIn(1):= "00000000" ;
@@ -1048,12 +2105,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00001000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01011001" ;
 pipeIn(1):= "00000000" ;
@@ -1062,12 +2167,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "00000001" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01011101" ;
 pipeIn(1):= "00000000" ;
@@ -1076,12 +2229,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01100001" ;
 pipeIn(1):= "00000000" ;
@@ -1090,12 +2291,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "11111110" ;
 pipeIn(2):= "00000011" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01100101" ;
 pipeIn(1):= "00000000" ;
@@ -1104,12 +2353,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01101001" ;
 pipeIn(1):= "00000000" ;
@@ -1118,12 +2415,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "11111100" ;
 pipeIn(3):= "00000111" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01101101" ;
 pipeIn(1):= "00000000" ;
@@ -1132,12 +2477,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01110001" ;
 pipeIn(1):= "00000000" ;
@@ -1146,12 +2539,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00000000" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "11111000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 pipeIn(0):= "01110101" ;
 pipeIn(1):= "00000000" ;
@@ -1160,12 +2601,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00001111" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 
 
@@ -1177,12 +2666,60 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 pipeIn(0):= "00001011" ;
 pipeIn(1):= "00000000" ;
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;  
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 
 
@@ -1212,6 +2749,30 @@ pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
+
 
 -------- test row1--------------
 pipeIn(0):= "00011000" ;
@@ -1220,6 +2781,30 @@ pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000" ;
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
+
+-------------------------------
+-- Ajout des 96 bits = '0'
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000" ;
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000" ;
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+------------------------------
 
 ReadFromPipeOut(x"A1", 3000);
 

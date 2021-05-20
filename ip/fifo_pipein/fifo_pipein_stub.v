@@ -1,11 +1,11 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-// Date        : Thu Mar 11 15:03:01 2021
+// Date        : Thu May 20 09:24:03 2021
 // Host        : PC-NOEMIE running 64-bit major release  (build 9200)
-// Command     : write_verilog -force -mode synth_stub -rename_top fifo_pipein -prefix
-//               fifo_pipein_ fifo_pipeout_stub.v
-// Design      : fifo_pipeout
+// Command     : write_verilog -force -mode synth_stub
+//               c:/Users/ATHENA_X-IFU/Documents/Noemie2020/solution_commande/ras-a75-fw/ip/fifo_pipein/fifo_pipein_stub.v
+// Design      : fifo_pipein
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a75tfgg484-1
 // --------------------------------------------------------------------------------
@@ -15,16 +15,18 @@
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
 (* x_core_info = "fifo_generator_v13_2_5,Vivado 2020.1" *)
 module fifo_pipein(rst, wr_clk, rd_clk, din, wr_en, rd_en, dout, full, 
-  empty, valid)
-/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[31:0],wr_en,rd_en,dout[31:0],full,empty,valid" */;
+  empty, valid, wr_rst_busy, rd_rst_busy)
+/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[31:0],wr_en,rd_en,dout[127:0],full,empty,valid,wr_rst_busy,rd_rst_busy" */;
   input rst;
   input wr_clk;
   input rd_clk;
   input [31:0]din;
   input wr_en;
   input rd_en;
-  output [31:0]dout;
+  output [127:0]dout;
   output full;
   output empty;
   output valid;
+  output wr_rst_busy;
+  output rd_rst_busy;
 endmodule

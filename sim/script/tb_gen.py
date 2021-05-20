@@ -26,7 +26,7 @@ def write_cmd(file, cmd, nb_bit):
         
         if i==0 : 
             
-            a.write("-- W : Register address : "+ str(120) +"\n")
+            a.write("-- W : Register address : "+ str(120) +"\n") 
         
         if i%2==0 and i!=0 :
             
@@ -39,6 +39,20 @@ def write_cmd(file, cmd, nb_bit):
         a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
         
         a.write ("wait for 10 ns;\n\n")
+        
+        a.write("-- Ajout des 96 bits = '0'\n")
+        
+        for m in range(3):
+            
+            for l in range(4):
+                
+                a.write("pipeIn("+str(l)+"):= \"00000000\";\n")
+                
+            a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
+        
+            a.write ("wait for 10 ns;\n\n")
+            
+        a.write("---------------------------------\n\n")
     
     a.write ("wait for 250 ns;\n\n")
     
@@ -65,6 +79,20 @@ def write_cmd(file, cmd, nb_bit):
             a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
             
             a.write ("wait for 10 ns;\n\n")
+            
+            a.write("-- Ajout des 96 bits = '0'\n")
+            
+            for m in range(3):
+            
+                for l in range(4):
+                    
+                    a.write("pipeIn("+str(l)+"):= \"00000000\";\n")
+                    
+                a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
+            
+                a.write ("wait for 10 ns;\n\n")
+                
+            a.write("---------------------------------\n")
     
     
     a.write ("ReadFromPipeOut(x\"A1\", 3000\n\n")

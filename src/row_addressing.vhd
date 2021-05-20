@@ -37,6 +37,10 @@
 --
 -- v8 : we use the system clock of the xem7310 (200 MHz)
 --
+-- v9 : This version uses a Independant Clock Block Ram FiFo as FiFo IN for the pipein. This fifo receives 32 bits 
+-- words in input and makes 128 bits word output; We keep only the fifoIn_dout[127:96] because the rest is only '0'
+-- to respect the FP parameters
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -137,7 +141,7 @@ architecture Behavioral of row_addressing is
     din : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
     wr_en : IN STD_LOGIC;
     rd_en : IN STD_LOGIC;
-    dout : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+    dout : OUT STD_LOGIC_VECTOR(127 DOWNTO 0);
     full : OUT STD_LOGIC;
     empty : OUT STD_LOGIC;
     valid : OUT STD_LOGIC
@@ -211,7 +215,8 @@ signal fifoIn_write_en : std_logic;
 signal fifoIn_read_en : std_logic;
 signal fifoIn_full : std_logic;
 signal fifoIn_empty : std_logic;
-signal fifoIn_dout : std_logic_vector(31 downto 0);
+signal fifoIn_dout_128b : std_logic_vector(127 downto 0);
+alias fifoIn_dout : std_logic_vector(31 downto 0) is fifoIn_dout_128b(127 downto 96);
 signal fifoIn_valid : std_logic;
 ----------- FIFO PipeOut signals ------------------------
 signal fifoOut_write_en : std_logic ;
@@ -751,7 +756,7 @@ port map ( rst =>  i_rst,
             wr_en => pipein_wr,
             rd_en => fifoIn_read_en,
             din => pipein_sig,
-            dout => fifoIn_dout,
+            dout => fifoIn_dout_128b,
             full => fifoIn_full,
             empty => fifoIn_empty,
             valid => fifoIn_valid
