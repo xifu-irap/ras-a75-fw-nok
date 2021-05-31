@@ -6,23 +6,66 @@ Created on Mon Feb 22 14:00:36 2021
 """
 
 def read_cmd(file):
+    
+    r"""
 
-    a=open(file, "r")
+    This function reads files.
 
-    cmd = a.readlines()
+
+    Parameters
+    ----------
+
+    file : file
+        File to read
+
+    Output
+    ------
+
+    cmd : list
+        List with the value of the file
+
+
+    """
+
+    a=open(file, "r") #opening of the file in reading mode
+
+    cmd = a.readlines() #read of the file
     
     print(cmd)
     
-    a.close()
+    a.close() #closure of the file
     
     return cmd
 
 
 def write_cmd(file, cmd, nb_bit):
-
-    a = open(file, "w")
     
-    for i in range(len(cmd)):
+    r"""
+
+    This function write the commands and the addresses in the test bench file for the vivado simulation.
+
+
+    Parameters
+    ----------
+
+    file : file
+        File to write
+        
+    cmd : list
+        List with the value of the commands
+        
+    nb_bit : int
+        Numver of bit of a command    
+
+    Output
+    ------
+
+
+    """
+
+    a = open(file, "w") #opening of the file in writing mode
+    
+    for i in range(len(cmd)): #
         
         if i==0 : 
             

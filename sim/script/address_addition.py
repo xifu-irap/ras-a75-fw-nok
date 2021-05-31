@@ -107,26 +107,26 @@ def write_cmd(file, cmd, nb_bit):
 
     a = open(file, "w")
     
-    a.write(dec2natbin((4+13*2)*4,nb_bit)+"\n")
+    a.write(dec2natbin((4+13*2)*4+1,nb_bit)+"\n")
     a.write(cmd[0])
     
     for i in range(4):
         
-        a.write(dec2natbin(i*4, nb_bit)+"\n") #écriture de l'adresse
+        a.write(dec2natbin(i*4+1, nb_bit)+"\n") #écriture de l'adresse
         a.write(cmd[i+1])#écriture de la commande
             
     for j in range(13):
                 
     #les séquences de pixels sont sur 40 bits => on met 32 bits dans une commande puis 8 bits complétés par des bits à 0 pour avoir 32 bits dans une autre commande à la suite
                 
-        a.write(dec2natbin(16 + j*8, nb_bit)+"\n") #écriture de l'adresse
+        a.write(dec2natbin(16 + j*8+1, nb_bit)+"\n") #écriture de l'adresse
         a.write(cmd[4 + j + 1][8:40]+"\n") #écriture de la commande
                 
-        a.write(dec2natbin(16 + j*8 + 4, nb_bit)+"\n")#écriture de l'adresse
+        a.write(dec2natbin(16 + j*8 + 4+1, nb_bit)+"\n")#écriture de l'adresse
         a.write('000000000000000000000000'+cmd[4 + j + 1][:8]+"\n") #écriture de la commande
                 
                 
-    a.write(dec2natbin((4+13*2)*4, nb_bit)+"\n") #écriture de l'adresse
+    a.write(dec2natbin((4+13*2)*4+1, nb_bit)+"\n") #écriture de l'adresse
     a.write(cmd[18]+"\n") #écriture de la commande      
 
     a.close()     

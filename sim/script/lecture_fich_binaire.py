@@ -89,14 +89,14 @@ def read_output_pipeout(file):
     return a
 
 
-file_bin = "file_to_FPGA_9row4cluster_bin.txt"
+file_bin = "file_to_FPGA_9row4cluster"
 lecture = read(file_bin)
 
-write("fich1.txt",lecture)
+write("file_to_FPGA_9row4cluster_dec.txt",lecture)
 
 file_pipeout = "file_pipeout"
 
 pipeout_sig = read_output_pipeout(file_pipeout)
-write("fich_pipeout_dec.txt",pipeout_sig)
+write("file_pipeout_dec.txt",pipeout_sig)
 
 

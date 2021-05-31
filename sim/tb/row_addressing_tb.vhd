@@ -84,7 +84,8 @@ architecture simulate of row_addressing_tb is
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
-           o_synchro : out STD_LOGIC);
+           o_synchro : out STD_LOGIC;
+           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0));
     end component;
 
 -- Inputs
@@ -113,6 +114,7 @@ signal o_sig_overlap10 : STD_LOGIC;
 signal o_sig_overlap11 : STD_LOGIC;
 signal o_sig_overlap12 : STD_LOGIC;
 signal o_synchro : STD_LOGIC;
+signal o_sig_state : STD_LOGIC_VECTOR(3 downto 0);
 
 
 
@@ -165,7 +167,8 @@ begin
            o_sig_overlap10 => o_sig_overlap10,
            o_sig_overlap11 => o_sig_overlap11,
            o_sig_overlap12 => o_sig_overlap12,
-           o_synchro => o_synchro
+           o_synchro => o_synchro,
+           o_sig_state => o_sig_state
            );
 
 

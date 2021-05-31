@@ -95,7 +95,8 @@ entity row_addressing is
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
-           o_synchro : out STD_LOGIC);
+           o_synchro : out STD_LOGIC;
+           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0));
 end row_addressing;
 
 architecture Behavioral of row_addressing is
@@ -269,6 +270,8 @@ signal sig_overlap9_int : std_logic;
 signal sig_overlap10_int : std_logic;
 signal sig_overlap11_int : std_logic;
 signal sig_overlap12_int : std_logic;
+
+
 ---------------------------------------------------------
 
 --------------- HK signal -------------------------------
@@ -278,11 +281,15 @@ signal HK_value : std_logic_vector(31 downto 0);
 --------------- Synchronisation signal ------------------
 signal sig_sync : std_logic_vector(12 downto 0);
 ---------------------------------------------------------
---signal test : std_logic;
+signal test : std_logic;
 
 ------ Process trig led signals 
 signal cmp_trig : unsigned(7 downto 0);
 alias trig_led : std_logic is ep40trig(0); --trigger is on bit 0
+
+------ Process sig_overlap0 on led
+signal led_int : std_logic_vector(7 downto 0);
+signal cmp : unsigned(25 downto 0);
 
 begin
 
@@ -367,14 +374,16 @@ begin
         num_row <= 0;
         rst_n <= '0'; -- active low
         state <= idle;
-        --test <= '0';
+        test <= '0';
         HK_value <= (others => '0');
+        o_sig_state <= (others => '0');
         
     elsif (rising_edge(clk100M)) then
 -- State Machine
     case state is
      
         when idle =>
+            o_sig_state <= "0001";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             fifoHK_write_en <= '0'; -- nothing is written in the HK fifo
             rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
@@ -386,6 +395,7 @@ begin
             end if;
             
         when addr_reception => 
+            o_sig_state <= "0010";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
@@ -403,6 +413,7 @@ begin
             end if;
             
          when HK => -- we read the value of the register according to the value of the address given in command
+            o_sig_state <= "0011";
             if addr="0000000000" then 
                 HK_value <= Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
             elsif addr="0000000100" then
@@ -471,19 +482,24 @@ begin
             state <= idle;
         
         when waiting =>
+            o_sig_state <= "0100";
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we read in the fifo
-                num_row <= to_integer(addr)/8 - 2;
+                addr <= addr;
+                num_row <= to_integer(addr-1)/8 - 2;
                 state <= data_reception;
             else -- if the fifo is empty we wait until it's not
                 fifoIn_read_en <= '0';
+                addr <= addr;
                 state <= waiting;
             end if;
             
         when data_reception =>
+            o_sig_state <= "0101";
             fifoIn_read_en <= '0';
+            addr <= addr;
             if (Cmd_param_3.RUN = '0') then
-            --test <= '1';
+            
                 if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                     if (addr >= "0000000000" and addr < "0000000100" ) then --address of the DEVICE CTRL 1
                         reception_param(31 downto 0) <= fifoIn_dout;
@@ -513,6 +529,7 @@ begin
                     elsif (addr >= "0001111000" and addr < "0001111100") then
                     
                         reception_param(95 downto 64) <= fifoIn_dout;
+                        test <= '1';
                         state <= idle;
                     end if;
                 else
@@ -555,23 +572,36 @@ begin
 end process; 
 
 -----------------------------------------------------
----------- Trigger display on the led ---------------
-led <= std_logic_vector(cmp_trig);
+------------ Trigger display on the led ---------------
+--led <= std_logic_vector(cmp_trig);
 
-P_trig_led : process(clk100M,i_rst)
+--P_trig_led : process(clk100M,i_rst)
+--begin
+--	  if (i_rst='1') then
+--	      cmp_trig <= (others => '0');
+--	  elsif (rising_edge(clk100M)) then
+--	      if (trig_led ='1') then
+--			    cmp_trig <= cmp_trig + 1;
+--			elsif (cmp_trig = 255) then
+--			    cmp_trig <= (others => '0');
+--		   end if;
+--     end if;
+--end process;
+
+-------------------------------------------------------			
+
+P_outputsig_led : process(clk100M,i_rst)
 begin
-	  if (i_rst='1') then
-	      cmp_trig <= (others => '0');
-	  elsif (rising_edge(clk100M)) then
-	      if (trig_led ='1') then
-			    cmp_trig <= cmp_trig + 1;
-			elsif (cmp_trig = 255) then
-			    cmp_trig <= (others => '0');
-		   end if;
-     end if;
+    if (i_rst = '1') then
+        led_int <= (others => '0');
+    elsif rising_edge(clk100M) then
+        led_int <= reception_param(71 downto 64);
+
+    end if;
+    
 end process;
 
------------------------------------------------------			
+led <= led_int;
 
 -------- Development of the output pixel signals --------
 

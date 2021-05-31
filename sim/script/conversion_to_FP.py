@@ -34,18 +34,44 @@ print(cmd)
 
 
 cmd_byte=[]
+
+
+# for i in range(64):
+#     for j in range(4):
+#         cmd_byte.append(cmd[i][32-(j+1)*8:32-j*8])
+# #print(cmd_byte)
+
+# for j in range(64):
+#     for i in range(4,16):
+#         cmd_byte.insert(16*j+i,'00000000')
+# print(cmd_byte)
+
 for i in range(64):
+    
+
+   
+    for j in range(4):
+        cmd_byte.append('00000000')  
+
+        
+    for j in range(4):
+        cmd_byte.append('00000000')
+        
+
+        
+    for j in range(4):
+        cmd_byte.append('00000000')
+        
+        
     for j in range(4):
         cmd_byte.append(cmd[i][32-(j+1)*8:32-j*8])
-#print(cmd_byte)
 
-for j in range(64):
-    for i in range(4,16):
-        cmd_byte.insert(16*j+i,'00000000')
+        
 print(cmd_byte)
+        
+        
 
-
-file_bin ="file_to_FPGA_9row4cluster.txt"
+file_bin ="file_to_FPGA_9row4cluster"
 write_bin(file_bin,cmd_byte)
 
 

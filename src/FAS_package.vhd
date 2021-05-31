@@ -33,9 +33,6 @@ use IEEE.NUMERIC_STD.ALL;
 
 package FAS_package is
 
-
-constant first_row_addr : integer := 4;
-
 signal end_storage : std_logic;
 
 type t_Array13bits is array (natural range <>) of std_logic_vector(39 downto 0);

@@ -87,23 +87,20 @@ set_output_delay -clock [get_clocks okUH0] -min -add_delay -0.500 [get_ports {ok
 ############################################################################
 ## System Clock
 ############################################################################
-set_property IOSTANDARD LVDS_25 [get_ports {sys_clkp}]
-set_property PACKAGE_PIN W11 [get_ports {sys_clkp}]
+set_property IOSTANDARD LVDS_25 [get_ports sys_clkp]
 
-set_property IOSTANDARD LVDS_25 [get_ports {sys_clkn}]
-set_property PACKAGE_PIN W12 [get_ports {sys_clkn}]
+set_property IOSTANDARD LVDS_25 [get_ports sys_clkn]
+set_property PACKAGE_PIN W11 [get_ports sys_clkp]
+set_property PACKAGE_PIN W12 [get_ports sys_clkn]
 
-set_property DIFF_TERM FALSE [get_ports {sys_clkp}]
+set_property DIFF_TERM FALSE [get_ports sys_clkp]
 
-create_clock -name sys_clk -period 5 [get_ports sys_clkp]
-set_clock_groups -asynchronous -group [get_clocks {sys_clk}] -group [get_clocks {mmcm0_clk0 okUH0}]
+create_clock -period 5.000 -name sys_clk [get_ports sys_clkp]
+set_clock_groups -asynchronous -group [get_clocks sys_clk] -group [get_clocks {mmcm0_clk0 okUH0}]
 
 ############################################################################
 ## User Reset
 ############################################################################
-set_property PACKAGE_PIN Y18 [get_ports {i_rst}]
-set_property IOSTANDARD LVCMOS18 [get_ports {i_rst}]
-set_property SLEW FAST [get_ports {i_rst}]
 
 
 # MC1-1
@@ -751,5 +748,15 @@ set_property PACKAGE_PIN T5 [get_ports o_sig_overlap11]
 set_property PACKAGE_PIN W6 [get_ports o_sig_overlap12]
 set_property PACKAGE_PIN U5 [get_ports o_synchro]
 
+
 set_property PACKAGE_PIN Y18 [get_ports i_rst]
 set_property IOSTANDARD LVCMOS18 [get_ports i_rst]
+
+set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_state[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_state[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_state[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_state[0]}]
+set_property PACKAGE_PIN W5 [get_ports {o_sig_state[3]}]
+set_property PACKAGE_PIN AA5 [get_ports {o_sig_state[2]}]
+set_property PACKAGE_PIN AB5 [get_ports {o_sig_state[0]}]
+set_property PACKAGE_PIN R4 [get_ports {o_sig_state[1]}]
