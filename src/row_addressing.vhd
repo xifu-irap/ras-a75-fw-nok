@@ -239,6 +239,7 @@ signal addr : unsigned(9 downto 0);
 --signal data : std_logic_vector(31 downto 0);
 --signal cmp_row : unsigned(5 downto 0);
 signal num_row : integer; 
+signal sig_state_int : std_logic_vector(3 downto 0);
 ---------------------------------------------------------
 
 ----------- Register signals ----------------------------
@@ -360,12 +361,12 @@ pipeout_sig(31 downto 13) <= (others => '0');
 -------- Reception and storage of the sequences --------
 P_Cmd_reception : process (clk100M, i_rst, Cmd_param_1.Resetn)
 begin
-    if (i_rst = '1' or Cmd_param_1.Resetn = '0') then --intitialisation of the different signal
+    if (i_rst = '1') then --intitialisation of the different signal
         --Cmd_param_1.Resetn <= '1';
         addr <= (others => '0'); --10 bits
-        reception_param (30 downto 0) <= (others => '0');
-        reception_param (31) <= '1';
-        reception_param (64 downto 32) <= (others => '0');
+--        reception_param (30 downto 0) <= (others => '0');
+--        reception_param (31) <= '1';
+--        reception_param (64 downto 32) <= (others => '0');
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
@@ -376,14 +377,14 @@ begin
         state <= idle;
         test <= '0';
         HK_value <= (others => '0');
-        o_sig_state <= (others => '0');
+        sig_state_int <= (others => '0');
         
     elsif (rising_edge(clk100M)) then
 -- State Machine
     case state is
      
         when idle =>
-            o_sig_state <= "0001";
+            sig_state_int <= "0001";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             fifoHK_write_en <= '0'; -- nothing is written in the HK fifo
             rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
@@ -395,7 +396,7 @@ begin
             end if;
             
         when addr_reception => 
-            o_sig_state <= "0010";
+            sig_state_int <= "0010";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
@@ -413,7 +414,7 @@ begin
             end if;
             
          when HK => -- we read the value of the register according to the value of the address given in command
-            o_sig_state <= "0011";
+            sig_state_int <= "0011";
             if addr="0000000000" then 
                 HK_value <= Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
             elsif addr="0000000100" then
@@ -482,7 +483,7 @@ begin
             state <= idle;
         
         when waiting =>
-            o_sig_state <= "0100";
+            sig_state_int <= "0100";
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we read in the fifo
                 addr <= addr;
@@ -495,40 +496,40 @@ begin
             end if;
             
         when data_reception =>
-            o_sig_state <= "0101";
+            sig_state_int <= "0101";
             fifoIn_read_en <= '0';
             addr <= addr;
             if (Cmd_param_3.RUN = '0') then
             
                 if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                     if (addr >= "0000000000" and addr < "0000000100" ) then --address of the DEVICE CTRL 1
-                        reception_param(31 downto 0) <= fifoIn_dout;
+                        reception_param(31 downto 0) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
                         
                     elsif (addr >= "0000000100" and addr < "0000001000" ) then --address of the DEVICE CTRL 2
-                        reception_param(63 downto 32) <= fifoIn_dout;
+                        reception_param(63 downto 32) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
                         
                     elsif (addr >= "0000001000" and addr < "0000001100" ) then --address of the MANUAL ROW LSB
-                        reception_manual_row(12 downto 0) <= fifoIn_dout(12 downto 0);
+                        reception_manual_row(31 downto 0) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
                         
                     elsif (addr >= "0000001100" and addr < "0000010000" ) then --address of the MANUAL ROW MSB
-                        reception_manual_row(25 downto 13) <= fifoIn_dout(12 downto 0);
+                        reception_manual_row(39 downto 32) <= fifoIn_dout_128b(103 downto 96);
                         state <= idle;
                         
                     elsif (addr >= "0000010000" and addr < "0001111000") then --address of the ROW
                         if (addr(2)='0') then --address of the row LSB
-                            reception_cmd(num_row)(31 downto 0) <= fifoIn_dout;
+                            reception_cmd(num_row)(31 downto 0) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                             state <= idle;
                         else --address of the row MSB
-                            reception_cmd(num_row)(39 downto 32) <= fifoIn_dout(7 downto 0); -- les bits de 31 à 8 sont des 0 inutiles
+                            reception_cmd(num_row)(39 downto 32) <= fifoIn_dout_128b(103 downto 96); -- les bits de 31 à 8 sont des 0 inutiles
                             state <= idle;
                         end if;
                     
                     elsif (addr >= "0001111000" and addr < "0001111100") then
                     
-                        reception_param(95 downto 64) <= fifoIn_dout;
+                        reception_param(95 downto 64) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         test <= '1';
                         state <= idle;
                     end if;
@@ -541,7 +542,7 @@ begin
                 
                 if (addr >= "0000000000" and addr < "0000000100") then
                     
-                    reception_param(31) <= fifoIn_dout(31); -- reception of Resetn
+                    reception_param(31) <= fifoIn_dout_128b(87); -- reception of Resetn
                     state <= idle;
                     
                 elsif (addr >= "0001111000" and addr < "0001111100") then
@@ -595,7 +596,7 @@ begin
     if (i_rst = '1') then
         led_int <= (others => '0');
     elsif rising_edge(clk100M) then
-        led_int <= reception_param(71 downto 64);
+        led_int <= Cmd_row.Row1(7 downto 0);
 
     end if;
     
@@ -603,6 +604,7 @@ end process;
 
 led <= led_int;
 
+o_sig_state <= sig_state_int;
 -------- Development of the output pixel signals --------
 
    uclk : div_freq2 Port map ( 
