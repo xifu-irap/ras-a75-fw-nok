@@ -225,7 +225,7 @@ nb_bit = 40
 Lecture du fichier de commande
 """
 
-cmd_file = "cmd_9row4cluster.txt"
+cmd_file = "../cmd_9row4cluster.txt"
 cmd = read_file(cmd_file)
 #print(cmd)
 

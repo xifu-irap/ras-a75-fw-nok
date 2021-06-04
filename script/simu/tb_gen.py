@@ -3,6 +3,8 @@
 Created on Mon Feb 22 14:00:36 2021
 
 @author: ATHENA_X-IFU
+
+This script writes the Test Bench file for the Vivado simulation according to the commands
 """
 
 def read_cmd(file):
@@ -55,7 +57,7 @@ def write_cmd(file, cmd, nb_bit):
         List with the value of the commands
         
     nb_bit : int
-        Numver of bit of a command    
+        Number of bit of a command    
 
     Output
     ------
@@ -65,25 +67,21 @@ def write_cmd(file, cmd, nb_bit):
 
     a = open(file, "w") #opening of the file in writing mode
     
-    for i in range(len(cmd)): #
+    for i in range(len(cmd)): #we get each line of command/address
         
-        if i==0 : 
+        if i%2==0 :
             
-            a.write("-- W : Register address : "+ str(120) +"\n") 
-        
-        if i%2==0 and i!=0 :
-            
-            a.write("-- W : Register address : "+ str((i-2)*2) +"\n")
+            a.write("-- W : Register address : "+ str((i)*2) +"\n")
         
         for j in range(4):
             
-            a.write("pipeIn("+str(j)+"):= \""+str(cmd[i][nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n")
+            a.write("pipeIn("+str(j)+"):= \""+str(cmd[i][nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n") #we split each command into 4 bytes
         
-        a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
+        a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #Write to Pipe In
         
         a.write ("wait for 10 ns;\n\n")
         
-        a.write("-- Ajout des 96 bits = '0'\n")
+        a.write("-- Ajout des 96 bits = '0'\n") #Addition of the '0' (3*32 bits)
         
         for m in range(3):
             
@@ -99,13 +97,13 @@ def write_cmd(file, cmd, nb_bit):
     
     a.write ("wait for 250 ns;\n\n")
     
-    a.write ("ReadFromPipeOut(x\"A0\", 3000\n\n")
+    a.write ("ReadFromPipeOut(x\"A0\", 3000\n\n") #☻Read from pipeout
     
     register_read = 1
 
     while register_read != "0" :    
     
-        register_read = input("Do you want to read a register ? 1:yes 0:no")
+        register_read = input("Do you want to read a register ? 1:yes 0:no") #Ask the user if he wants to read a register
         
         print(register_read)
         
@@ -117,9 +115,9 @@ def write_cmd(file, cmd, nb_bit):
             
             for j in range(4):
                 
-                a.write("pipeIn("+str(j)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n")
+                a.write("pipeIn("+str(j)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n") #write the address of the register to read in 4 bytes
             
-            a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
+            a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #write to pipe in
             
             a.write ("wait for 10 ns;\n\n")
             
@@ -138,7 +136,7 @@ def write_cmd(file, cmd, nb_bit):
             a.write("---------------------------------\n")
     
     
-    a.write ("ReadFromPipeOut(x\"A1\", 3000\n\n")
+    a.write ("ReadFromPipeOut(x\"A1\", 3000\n\n") #read from pipe out
     
     a.close()
 
@@ -199,16 +197,16 @@ def dec2natbin(dec, n):
 
 
 
-cmd_file = "cmd_addr_9row4cluster.txt"
-cmd = read_cmd(cmd_file)
+cmd_file = "../cmd_addr_9row4cluster.txt"
+cmd = read_cmd(cmd_file) # read the command/address file
 
 nb_bit = 32
 
 cmd_addr_file = "tb_cmd.txt"
-write_cmd(cmd_addr_file, cmd, nb_bit)
+write_cmd(cmd_addr_file, cmd, nb_bit) # write addresses and commands in a tb file
 
 filenames = ['tb_beginning.txt', 'tb_cmd.txt', 'tb_end.txt']
 with open('row_addressing_tb.vhd', 'w') as outfile:
-    for fname in filenames:
+    for fname in filenames: #concatenate the Test bench file
         with open(fname) as infile:
-            outfile.write(infile.read())
+            outfile.write(infile.read()) 

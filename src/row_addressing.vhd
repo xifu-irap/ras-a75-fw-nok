@@ -40,6 +40,9 @@
 -- v9 : This version uses a Independant Clock Block Ram FiFo as FiFo IN for the pipein. This fifo receives 32 bits 
 -- words in input and makes 128 bits word output; We keep only the fifoIn_dout[127:96] because the rest is only '0'
 -- to respect the FP parameters
+
+-- v10 : This version manages th reception of the pipein data on the XEM7310, it works on the card but not in 
+-- simulation
 --
 -- Revision 0.01 - File Created
 -- Additional Comments:
@@ -51,8 +54,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 Library UNISIM;
 use UNISIM.vcomponents.all;
-use work.FAS_package.ALL;
-use work.FRONTPANEL.ALL;
+use work.FAS_package.ALL; -- library with registers
+use work.FRONTPANEL.ALL; -- library to manage the simulation
 
 
 -- Uncomment the following library declaration if using
@@ -101,8 +104,6 @@ end row_addressing;
 
 architecture Behavioral of row_addressing is
 
-   
-
     component div_freq2
     Port ( sys_clk : in STD_LOGIC;
            i_rst : in STD_LOGIC;
@@ -127,7 +128,7 @@ architecture Behavioral of row_addressing is
            o_sig_sync : out std_logic);
     end component;
 
-	component okWireOR
+	component okWireOR -- Front Panel component
 	generic (N : integer := 3);
 	port (
 		okEH   : out std_logic_vector(64 downto 0);
@@ -191,25 +192,15 @@ signal okEH : std_logic_vector(64 downto 0);
 signal okEHx : std_logic_vector(3*65-1 downto 0);
 --------------------------------------------------------
 
------------ Trigger signal ----------------------------
-signal ep40trig : std_logic_vector(31 downto 0);
--------------------------------------------------------
-
------------ Wire signal ----------------------------
-signal ep00wire : std_logic_vector(31 downto 0);
--------------------------------------------------------
-
 ----------- PipeIn signals ----------------------------
 signal pipein_wr : std_logic;
 signal pipein_sig : std_logic_vector(31 downto 0);
 ----------- PipeOut signals ----------------------------
---signal pipeout_rd : std_logic; -- = fifoOut_read_en
 signal pipeout_sig : std_logic_vector(31 downto 0);
 alias pipeout_sig_13bit : std_logic_vector(12 downto 0) is pipeout_sig(12 downto 0);
 ------------ HK PipeOut signal --------------------------
 signal HK_pipeout : std_logic_vector(31 downto 0);
-
---alias i_rst : std_logic is ep00wire(0);
+--------------------------------------------------------
 
 ----------- FIFO PipeIn signals ------------------------
 signal fifoIn_write_en : std_logic;
@@ -236,10 +227,7 @@ signal fifoHK_empty : std_logic;
 type FSM_state is (idle, addr_reception, HK, waiting, data_reception);
 signal state : FSM_state;
 signal addr : unsigned(9 downto 0);
---signal data : std_logic_vector(31 downto 0);
---signal cmp_row : unsigned(5 downto 0);
 signal num_row : integer; 
-signal sig_state_int : std_logic_vector(3 downto 0);
 ---------------------------------------------------------
 
 ----------- Register signals ----------------------------
@@ -271,8 +259,6 @@ signal sig_overlap9_int : std_logic;
 signal sig_overlap10_int : std_logic;
 signal sig_overlap11_int : std_logic;
 signal sig_overlap12_int : std_logic;
-
-
 ---------------------------------------------------------
 
 --------------- HK signal -------------------------------
@@ -286,7 +272,6 @@ signal test : std_logic;
 
 ------ Process trig led signals 
 signal cmp_trig : unsigned(7 downto 0);
-alias trig_led : std_logic is ep40trig(0); --trigger is on bit 0
 
 ------ Process sig_overlap0 on led
 signal led_int : std_logic_vector(7 downto 0);
@@ -352,17 +337,12 @@ Cmd_row.Row12 <= reception_cmd(12);
    );
 
    -- End of IBUFDS_inst instantiation
-   
-
-pipeout_sig(31 downto 13) <= (others => '0');
-
-
+--===========================================================   
 
 -------- Reception and storage of the sequences --------
-P_Cmd_reception : process (clk100M, i_rst, Cmd_param_1.Resetn)
+P_Cmd_reception : process (clk100M, i_rst)
 begin
     if (i_rst = '1') then --intitialisation of the different signal
-        --Cmd_param_1.Resetn <= '1';
         addr <= (others => '0'); --10 bits
 --        reception_param (30 downto 0) <= (others => '0');
 --        reception_param (31) <= '1';
@@ -371,23 +351,20 @@ begin
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
         fifoHK_write_en <= '0';
-        --o_sync_sig <= '0';
         num_row <= 0;
-        rst_n <= '0'; -- active low
         state <= idle;
         test <= '0';
         HK_value <= (others => '0');
-        sig_state_int <= (others => '0');
+        o_sig_state <= (others => '0');
         
     elsif (rising_edge(clk100M)) then
 -- State Machine
-    case state is
+    case state is -- This state machine manages the reception of the different commands from the pipein. First it receives an address, according to the value of this address it write or read the command of the register 
      
-        when idle =>
-            sig_state_int <= "0001";
+        when idle => -- This state prepares the reception of the address
+            o_sig_state <= "0001";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             fifoHK_write_en <= '0'; -- nothing is written in the HK fifo
-            rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we can read in the fifo in
                 state <= addr_reception;
@@ -395,8 +372,8 @@ begin
                 state <= idle; -- if the fifo is empty we wait until it's not
             end if;
             
-        when addr_reception => 
-            sig_state_int <= "0010";
+        when addr_reception => -- This state manages the reception of the address
+            o_sig_state <= "0010";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
@@ -406,15 +383,13 @@ begin
                     state <= HK;
                 elsif fifoIn_dout(0) = '1' then -- if the last bit is 1 we want to write in the register
                     state <= waiting;
-                else
-                    state <= addr_reception;
                 end if;
             else
                 state <= addr_reception; -- if the output signal of the fifo is not valid we wait until it is
             end if;
             
          when HK => -- we read the value of the register according to the value of the address given in command
-            sig_state_int <= "0011";
+            o_sig_state <= "0011";
             if addr="0000000000" then 
                 HK_value <= Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
             elsif addr="0000000100" then
@@ -482,24 +457,21 @@ begin
             end if;
             state <= idle;
         
-        when waiting =>
-            sig_state_int <= "0100";
+        when waiting => -- This state prepares the reception of the command
+            o_sig_state <= "0100";
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we read in the fifo
-                addr <= addr;
-                num_row <= to_integer(addr-1)/8 - 2;
+                num_row <= to_integer(addr-1)/8 - 2; -- if the command is a row sequence, it searchs the number of the row
                 state <= data_reception;
             else -- if the fifo is empty we wait until it's not
-                fifoIn_read_en <= '0';
-                addr <= addr;
                 state <= waiting;
             end if;
             
         when data_reception =>
-            sig_state_int <= "0101";
-            fifoIn_read_en <= '0';
-            addr <= addr;
-            if (Cmd_param_3.RUN = '0') then
+            o_sig_state <= "0101";
+            fifoIn_read_en <= '0'; --nothing is read from the fifo in
+            
+            if (Cmd_param_3.RUN = '0') then -- if RUN='0' the value of each register can be changed
             
                 if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                     if (addr >= "0000000000" and addr < "0000000100" ) then --address of the DEVICE CTRL 1
@@ -538,7 +510,7 @@ begin
                     state <= data_reception;
                 end if;  
                   
-            elsif (Cmd_param_3.RUN = '1') then
+            elsif (Cmd_param_3.RUN = '1') then -- if RUN='1' only the value of Resetn and RUN can be changed
                 
                 if (addr >= "0000000000" and addr < "0000000100") then
                     
@@ -547,7 +519,7 @@ begin
                     
                 elsif (addr >= "0001111000" and addr < "0001111100") then
                     --test <= '1';
-                    reception_param(64) <= '0'; -- reception of RUN
+                    reception_param(64) <= fifoIn_dout_128b(96); -- reception of RUN
                     state <= idle;
                 end if;
                 
@@ -572,24 +544,7 @@ begin
     end if;
 end process; 
 
------------------------------------------------------
------------- Trigger display on the led ---------------
---led <= std_logic_vector(cmp_trig);
-
---P_trig_led : process(clk100M,i_rst)
---begin
---	  if (i_rst='1') then
---	      cmp_trig <= (others => '0');
---	  elsif (rising_edge(clk100M)) then
---	      if (trig_led ='1') then
---			    cmp_trig <= cmp_trig + 1;
---			elsif (cmp_trig = 255) then
---			    cmp_trig <= (others => '0');
---		   end if;
---     end if;
---end process;
-
--------------------------------------------------------			
+pipeout_sig(31 downto 13) <= (others => '0');	
 
 P_outputsig_led : process(clk100M,i_rst)
 begin
@@ -604,8 +559,9 @@ end process;
 
 led <= led_int;
 
-o_sig_state <= sig_state_int;
 -------- Development of the output pixel signals --------
+
+rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
 
    uclk : div_freq2 Port map ( 
         sys_clk => sys_clk,
@@ -779,6 +735,7 @@ o_sig_overlap12 <= sig_overlap12_int;
 fifoOut_din <= sig_overlap12_int & sig_overlap11_int & sig_overlap10_int & sig_overlap9_int & sig_overlap8_int & sig_overlap7_int & sig_overlap6_int & sig_overlap5_int & sig_overlap4_int & sig_overlap3_int & sig_overlap2_int & sig_overlap1_int & sig_overlap0_int;         
 
 o_synchro <= sig_sync(12) and sig_sync(11) and sig_sync(10) and sig_sync(9) and sig_sync(8) and sig_sync(7) and sig_sync(6) and sig_sync(5) and sig_sync(4) and sig_sync(3) and sig_sync(2) and sig_sync(1) and sig_sync(0); -- AND between each sig sync of each row (when the row isn't activated at the first time thsi signal is always '1')
+
 -----------------------------------------------------  
 -------------- FIFO PipeIn --------------------------
 PipeIn_FIFO : fifo_pipein
@@ -837,19 +794,6 @@ okWO : okWireOR     generic map (N=>3) port map (
     okEH=>okEH, 
     okEHx=>okEHx);
 
-ep00 : okWireIn  port map (
-        okHE=>okHE,                                    
-        ep_addr=>x"00", 
-        ep_dataout=>ep00wire
-        );
-
-trigIn40 : okTriggerIn port map(  -- Trigger
-	okHE       => okHE,
-	ep_addr    => x"40",
-	ep_clk     => okClk,
-	ep_trigger => ep40trig
-);
-
 ep80 : okPipeIn port map (   -- PipeIn
 		okHE       => okHE,
 		okEH       => okEHx(1*65-1 downto 0*65),
@@ -866,7 +810,7 @@ epA0 : okPipeOut port map (   -- PipeOut
 		ep_datain => pipeout_sig
 		);
 		
-epA1 : okPipeOut port map (   -- PipeOut
+epA1 : okPipeOut port map (   -- HK PipeOut
 		okHE       => okHE,
 		okEH       => okEHx(3*65-1 downto 2*65),
 		ep_addr    => x"A1",

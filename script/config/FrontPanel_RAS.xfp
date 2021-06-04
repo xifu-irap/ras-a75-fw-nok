@@ -5,7 +5,7 @@
 <resource version="2.3.0.1">
 
 <object class="okPanel" name="panel1">
-	<title>FAS Signals</title>
+	<title>RAS Signals</title>
 	<size>300,150</size>
 	
 <object class="okFilePipe"> -- PipeIn
@@ -27,7 +27,7 @@
 
 <object class="okTriggerButton">
 	<label>Trigger Pipeout</label>
-	<position>20,20</position>
+	<position>150,20</position>
 	<size>100,30</size>
 	<endpoint>0x40</endpoint>
 	<bit>0</bit>
@@ -40,6 +40,14 @@
 <endpoint>0x00</endpoint>
 <bit>0</bit>
 </object> -->
+
+<object class="okFilePipe"> -- PipeOut
+	<label>Record HK</label>
+	<position>70,120</position>
+	<size>120,30</size>
+	<endpoint>0xa1</endpoint>
+	<length>16</length>
+</object>
 
 
 

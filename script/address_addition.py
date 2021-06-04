@@ -94,6 +94,35 @@ def dec2natbin(dec, n):
 
 def read_cmd(file):
 
+    
+    r"""
+
+    This function reads the file.
+
+    
+
+    Parameters
+    
+    
+
+    ----------
+
+    file : file
+
+        File to read
+
+
+
+    Output
+
+    ------
+
+    cmd : list
+
+        List of the value from the file, command to send to FPGA
+
+    """
+
     a=open(file, "r")
 
     cmd = a.readlines()
@@ -103,31 +132,61 @@ def read_cmd(file):
     return cmd
 
 
+
 def write_cmd(file, cmd, nb_bit):
+    
+    r"""
+
+    This function writes addresses and commands in a file.
+
+    
+
+    Parameters
+    
+    
+
+    ----------
+
+    file : file
+
+        File to write
+        
+        
+    cmd : file
+
+        List with the command to send to FPGA
+        
+    
+    nb_bit : int
+        
+        Number of bit of each address and command
+
+
+    Output
+
+    ------
+    
+    """
 
     a = open(file, "w")
     
-    a.write(dec2natbin((4+13*2)*4+1,nb_bit)+"\n")
-    a.write(cmd[0])
-    
     for i in range(4):
         
-        a.write(dec2natbin(i*4+1, nb_bit)+"\n") #écriture de l'adresse
-        a.write(cmd[i+1])#écriture de la commande
+        a.write(dec2natbin(i*4+1, nb_bit)+"\n") #writing the address
+        a.write(cmd[i])#writing the command
             
     for j in range(13):
                 
-    #les séquences de pixels sont sur 40 bits => on met 32 bits dans une commande puis 8 bits complétés par des bits à 0 pour avoir 32 bits dans une autre commande à la suite
+    # The sequences of the rows are on 40 its => we split it into one command of 32 bits and one of 8 bits with (32-8=24) 24 bits of '0' to obtain a command on 32 bits
+       
+        a.write(dec2natbin(16 + j*8 + 1, nb_bit)+"\n") #writing the address
+        a.write(cmd[4 + j][8:40]+"\n") #writing the command
                 
-        a.write(dec2natbin(16 + j*8+1, nb_bit)+"\n") #écriture de l'adresse
-        a.write(cmd[4 + j + 1][8:40]+"\n") #écriture de la commande
-                
-        a.write(dec2natbin(16 + j*8 + 4+1, nb_bit)+"\n")#écriture de l'adresse
-        a.write('000000000000000000000000'+cmd[4 + j + 1][:8]+"\n") #écriture de la commande
-                
-                
-    a.write(dec2natbin((4+13*2)*4+1, nb_bit)+"\n") #écriture de l'adresse
-    a.write(cmd[18]+"\n") #écriture de la commande      
+        a.write(dec2natbin(16 + j*8 + 4 + 1, nb_bit)+"\n")#writing the address
+        a.write('000000000000000000000000'+cmd[4 + j][:8]+"\n") #writing the command
+                 
+    a.write(dec2natbin((4+13*2)*4 + 1, nb_bit)+"\n") #writing the address
+    a.write(cmd[13+4]+"\n") #writing the command   
 
     a.close()     
                 

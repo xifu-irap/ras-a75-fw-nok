@@ -105,7 +105,7 @@ begin
 
 -- instantiation of the modules
 
-uu0: read_5MHz PORT MAP (
+uu0: read_5MHz PORT MAP (  -- Read of each bit of the sequence at 5 MHz
           i_clk => i_clk,
           i_clk_en_5M => i_clk_en_5M,
           i_rst_n => i_rst_n,
@@ -113,14 +113,14 @@ uu0: read_5MHz PORT MAP (
           o_seq_5MHz => seq_5MHz
         );
 
-uu1: shift_register_15b PORT MAP ( 
+uu1: shift_register_15b PORT MAP ( -- Creation of delays
            i_clk => i_clk,
            i_rst_n => i_rst_n,
            i_seq_5MHz => seq_5MHz,
            o_sig_late => sig_late
            );
 		  
-uu2 : mux_overlap_neg PORT MAP (
+uu2 : mux_overlap_neg PORT MAP ( -- Select the early signal according to REV
            i_clk => i_clk,
            i_rst_n => i_rst_n,
            i_sig_late => sig_late,
@@ -130,7 +130,7 @@ uu2 : mux_overlap_neg PORT MAP (
 
 overlap_neg <= sig_t0 and sig_neg; -- the negativ overlap signal is the result of the t0 signal AND the choosen late signal 
         
-uu3 : mux_overlap_pos PORT MAP (
+uu3 : mux_overlap_pos PORT MAP ( -- Select the delayed signal according to REV
            i_clk => i_clk,
            i_rst_n => i_rst_n,
            i_sig_late => sig_late,
@@ -141,7 +141,7 @@ uu3 : mux_overlap_pos PORT MAP (
 overlap_pos <= sig_t0 or sig_pos; -- the positiv overlap signal is the result of the t0 signal OR the choosen late signal 
 
 
-uu4 : mux_overlap PORT MAP (
+uu4 : mux_overlap PORT MAP ( -- Select the positive or the negativ overlap according to REV
            i_clk => i_clk,
            i_rst_n => i_rst_n,
            i_REV => i_REV,
