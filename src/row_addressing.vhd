@@ -469,6 +469,8 @@ begin
                 HK_value <= Cmd_row.Row12(31 downto 0);
             elsif addr="0001110100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row12(39 downto 32);
+            elsif addr="0001111000" then
+                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN;
             else
                 HK_value <= (others => '0');
             end if;
@@ -568,7 +570,7 @@ begin
     if (i_rst = '1') then
         led_int <= (others => '0');
     elsif rising_edge(clk100M) then
-        led_int <= Cmd_row.Row1(7 downto 0);
+        led_int <= "0000000" & fifoIn_dout_128b(96);
 
     end if;
     
