@@ -521,7 +521,6 @@ begin
                     elsif (addr >= "0001111000" and addr < "0001111100") then
                     
                         reception_param(95 downto 64) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
-                        test <= '1';
                         state <= idle;
                     end if;
                 else
@@ -530,15 +529,15 @@ begin
                 end if;  
                   
             elsif (Cmd_param_3.RUN = '1') then -- if RUN='1' only the value of Resetn and RUN can be changed
-                
+                --test <= '1';
                 if (addr >= "0000000000" and addr < "0000000100") then
                     
                     reception_param(31) <= fifoIn_dout_128b(87); -- reception of Resetn
                     state <= idle;
                     
                 elsif (addr >= "0001111000" and addr < "0001111100") then
-                    --test <= '1';
-                    reception_param(64) <= fifoIn_dout_128b(96); -- reception of RUN
+                    test <= '1';
+                    reception_param(64) <= '0'; --fifoIn_dout_128b(96); -- reception of RUN
                     state <= idle;
                 end if;
                 
@@ -570,7 +569,7 @@ begin
     if (i_rst = '1') then
         led_int <= (others => '0');
     elsif rising_edge(clk100M) then
-        led_int <= "0000000" & fifoIn_dout_128b(96);
+        led_int <= "0000000" & Cmd_param_3.RUN;
 
     end if;
     
