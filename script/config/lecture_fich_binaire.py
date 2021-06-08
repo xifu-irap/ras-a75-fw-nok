@@ -190,8 +190,8 @@ pipeout_sig_dec = read_output_pipeout(file_pipeout)
 
 pipeout_sig_bin = []
 for i in range(len(pipeout_sig_dec)) :
-    # if pipeout_sig_dec[i] != 0 :
-    pipeout_sig_bin.append(dec2natbin(pipeout_sig_dec[i],13))
+    if pipeout_sig_dec[i] != 0 :
+        pipeout_sig_bin.append(dec2natbin(pipeout_sig_dec[i],13))
     
 write("file_pipeout_dec.txt",pipeout_sig_dec)
 write("file_pipeout_bin.txt",pipeout_sig_bin)
@@ -202,7 +202,7 @@ pipeout_HK_dec = read_output_pipeout(file_HK)
 
 pipeout_HK_bin = []
 for i in range(len(pipeout_HK_dec)) :
-    # if pipeout_sig_dec[i] != 0 :
+     # if pipeout_sig_dec[i] != 0 :
     pipeout_HK_bin.append(dec2natbin(pipeout_HK_dec[i],32))
     
 write("file_HK_dec.txt",pipeout_HK_dec)
