@@ -84,7 +84,7 @@ def tab_seq_xfreq(cmd, nb_ligne, nb_bit, freq_multip):
     
         for j in range(nb_bit): #on parcourt chaque caractère de la ligne
        
-            array_seq_xfreq[i][freq_multip*j:freq_multip*(j+1)]=cmd[5+i][j] #chaque bit de la séquence est répété "freq_multip" fois
+            array_seq_xfreq[i][freq_multip*j:freq_multip*(j+1)]=cmd[4+i][j] #chaque bit de la séquence est répété "freq_multip" fois
                 
    return(array_seq_xfreq)  
    
