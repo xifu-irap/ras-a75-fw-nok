@@ -208,8 +208,8 @@ for i in range(len(pipeout_HK_dec)) :
 write("file_HK_dec.txt",pipeout_HK_dec)
 write("file_HK_bin.txt",pipeout_HK_bin)
 
-file = "file_to_FPGA_9row4cluster"
-write("file_to_FPGA_9row4cluster_dec.txt",read_output_pipeout(file))
+# file = "file_to_FPGA_9row4cluster"
+# write("file_to_FPGA_9row4cluster_dec.txt",read_output_pipeout(file))
 
 
 
