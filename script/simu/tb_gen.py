@@ -84,23 +84,52 @@ def write_cmd(file, cmd, nb_bit):
 
     a = open(file, "w") #opening of the file in writing mode
     
+    for m in range(3):
+            
+            for l in range(4):
+                
+                a.write("pipeIn("+str(l)+"):= \"00000000\";\n")
+                
+            a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n")
+        
+            a.write ("wait for 10 ns;\n\n")
+            
+    a.write("---------------------------------\n\n")
+    
+    
     for i in range(len(cmd)): #we get each line of command/address
         
         if i%2==0 :
             
             a.write("-- W : Register address : "+ str((i)*2) +"\n")
-        
-        for j in range(4):
             
-            a.write("pipeIn("+str(j)+"):= \""+str(cmd[i][nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n") #we split each command into 4 bytes
+        if i%2!=0 :
+            
+            a.write("-- W : Register cmd : "+ str((i)*2-2) +"\n")
+        
+        
+            
+        a.write("pipeIn("+str(0)+"):= \""+str(cmd[i][nb_bit-8:nb_bit])+"\" ;\n") #we split each command into 4 bytes
+        a.write("pipeIn("+str(1)+"):= \"00000000\";\n")
+        a.write("pipeIn("+str(2)+"):= \""+str(cmd[i][nb_bit-16:nb_bit-8])+"\" ;\n")
+        a.write("pipeIn("+str(3)+"):= \"00000000\";\n")
         
         a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #Write to Pipe In
         
         a.write ("wait for 10 ns;\n\n")
         
-        a.write("-- Ajout des 96 bits = '0'\n") #Addition of the '0' (3*32 bits)
+        a.write("pipeIn("+str(0)+"):= \""+str(cmd[i][nb_bit-24:nb_bit-16])+"\" ;\n") #we split each command into 4 bytes
+        a.write("pipeIn("+str(1)+"):= \"00000000\";\n")
+        a.write("pipeIn("+str(2)+"):= \""+str(cmd[i][nb_bit-32:nb_bit-24])+"\" ;\n")
+        a.write("pipeIn("+str(3)+"):= \"00000000\";\n")
         
-        for m in range(3):
+        a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #Write to Pipe In
+        
+        a.write ("wait for 10 ns;\n\n")
+        
+        a.write("-- Addition of 64 bits = '0'\n") #Addition of the '0' (2*32 bits)
+        
+        for m in range(2):
             
             for l in range(4):
                 
@@ -114,7 +143,7 @@ def write_cmd(file, cmd, nb_bit):
     
     a.write ("wait for 250 ns;\n\n")
     
-    a.write ("ReadFromPipeOut(x\"A0\", 3000\n\n") #☻Read from pipeout
+    a.write ("ReadFromPipeOut(x\"A0\", 3000);\n\n") #Read from pipeout
     
     register_read = 1
 
@@ -129,18 +158,28 @@ def write_cmd(file, cmd, nb_bit):
             register = int(input("Which register do you want to read ?"))
             
             a.write("-- R : Register address : "+ str(register) +"\n")
-            
-            for j in range(4):
-                
-                a.write("pipeIn("+str(j)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-8-j*8:nb_bit-j*8])+"\" ;\n") #write the address of the register to read in 4 bytes
-            
+               
+            a.write("pipeIn("+str(0)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-8:nb_bit])+"\" ;\n") #write the address of the register to read in 4 bytes
+            a.write("pipeIn("+str(1)+"):= \"00000000\";\n")
+            a.write("pipeIn("+str(2)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-16:nb_bit-8])+"\" ;\n")
+            a.write("pipeIn("+str(3)+"):= \"00000000\";\n")
+
             a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #write to pipe in
             
             a.write ("wait for 10 ns;\n\n")
             
-            a.write("-- Ajout des 96 bits = '0'\n")
+            a.write("pipeIn("+str(0)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-24:nb_bit-16])+"\" ;\n") #write the address of the register to read in 4 bytes
+            a.write("pipeIn("+str(1)+"):= \"00000000\";\n")
+            a.write("pipeIn("+str(2)+"):= \""+str(dec2natbin(register,8*4)[nb_bit-32:nb_bit-24])+"\" ;\n")
+            a.write("pipeIn("+str(3)+"):= \"00000000\";\n")
+
+            a.write ("WriteToPipeIn(x\"80\",pipeInSize);\n") #write to pipe in
             
-            for m in range(3):
+            a.write ("wait for 10 ns;\n\n")
+            
+            a.write("-- Addition of 64 bits = '0'\n")
+            
+            for m in range(2):
             
                 for l in range(4):
                     
@@ -153,7 +192,7 @@ def write_cmd(file, cmd, nb_bit):
             a.write("---------------------------------\n")
     
     
-    a.write ("ReadFromPipeOut(x\"A1\", 3000\n\n") #read from pipe out
+    a.write ("ReadFromPipeOut(x\"A1\", 3000);\n\n") #read from pipe out
     
     a.close()
 
@@ -223,7 +262,7 @@ cmd_addr_file = "tb_cmd.txt"
 write_cmd(cmd_addr_file, cmd, nb_bit) # write addresses and commands in a tb file
 
 filenames = ['tb_beginning.txt', 'tb_cmd.txt', 'tb_end.txt']
-with open('row_addressing_tb.vhd', 'w') as outfile:
+with open('../../sim/tb/row_addressing_tb.vhd', 'w') as outfile:
     for fname in filenames: #concatenate the Test bench file
         with open(fname) as infile:
             outfile.write(infile.read()) 

@@ -1,21 +1,4 @@
 ----------------------------------------------------------------------------------
---Copyright (C) 2021-2030 Noémie ROLLAND, IRAP Toulouse.
-
---This file is part of the ATHENA X-IFU DRE RAS.
-
---ras-a75-fw is free software: you can redistribute it and/or modifyit under the terms of the GNU General Public 
---License as published bythe Free Software Foundation, either version 3 of the License, or(at your option) any 
---later version.
-
---This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the 
---implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See theGNU General Public License for 
---more details.You should have received a copy of the GNU General Public Licensealong with this program.  
-
---If not, see <https://www.gnu.org/licenses/>.
-
---noemie.rolland@irap.omp.eu
---row_addressing_tb.vhd
-
 -- Company: 
 -- Engineer: 
 -- 
@@ -76,18 +59,17 @@ architecture simulate of row_addressing_tb is
 		  okHU      : out   std_logic_vector(2 downto 0);
 		  okUHU     : inout std_logic_vector(31 downto 0);
 		  okAA      : inout std_logic;
-		  
-		  sys_clkp : in std_logic;
-		  sys_clkn : in std_logic;
-		  --sys_clk : in std_logic;
     
+          sys_clkp : in std_logic;
+          sys_clkn : in std_logic;
+          -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
           i_rst : in std_logic;
           
     ----------------------- LED ------------------------
-          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'         
+        
+          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'
     ----------------------- FAS ------------------------
-           --i_clk : in STD_LOGIC;
            o_sig_overlap0 : out STD_LOGIC;
            o_sig_overlap1 : out STD_LOGIC;
            o_sig_overlap2 : out STD_LOGIC;
@@ -185,7 +167,7 @@ begin
            o_sig_overlap11 => o_sig_overlap11,
            o_sig_overlap12 => o_sig_overlap12,
            o_synchro => o_synchro,
-           o_sig_state => o_sig_state
+	   o_sig_state => o_sig_state
            );
 
 
@@ -741,2100 +723,2088 @@ begin
     FrontPanelReset;
     wait for 1ns;
     
-	SetWireInValue(x"00", x"0000_0001", NO_MASK);
-	UpdateWireIns;
-	SetWireInValue(x"00", x"0000_0000", NO_MASK);
-	UpdateWireIns;
-    
-    ActivateTriggerIn(x"40",0);
-    
-    -- envoi des paramètres
-    
--- Device Ctrl 3 addr
-pipeIn(0):= "01111001" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+    -- envoi des paramÃ¨tres
+    pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
--- Device Ctrl 3 value
-pipeIn(0):= "00001010" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;    
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------   
-    
-    
+-- W : Register address : 0
 pipeIn(0):= "00000001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
+---------------------------------
+
+-- W : Register cmd : 0
 pipeIn(0):= "11111111" ;
-pipeIn(1):= "11111111" ;
-pipeIn(2):= "11110010" ; -- REV on the 4 last bit (0: pos  1: neg)
-pipeIn(3):= "11111111" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000101" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "11111111" ;
-pipeIn(1):= "11111111" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "11111111" ;
-pipeIn(3):= "11111111" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(0):= "11110010" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "11111111" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 4
+pipeIn(0):= "00000101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 4
+pipeIn(0):= "11111111" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "11111111" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "11111111" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "11111111" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 8
 pipeIn(0):= "00001001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 8
 pipeIn(0):= "00000001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 12
 pipeIn(0):= "00001101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 12
 pipeIn(0):= "00000010" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 16
 pipeIn(0):= "00010001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 16
 pipeIn(0):= "00000001" ;
-pipeIn(1):= "00000010" ;
-pipeIn(2):= "00000100" ;
-pipeIn(3):= "00001000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000010" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00010101" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00011001" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000010" ;
-pipeIn(1):= "00000100" ;
-pipeIn(2):= "00001000" ;
-pipeIn(3):= "00010000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00011101" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00100001" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
 
 pipeIn(0):= "00000100" ;
-pipeIn(1):= "00001000" ;
-pipeIn(2):= "00010000" ;
-pipeIn(3):= "00100000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00001000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00100101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 20
+pipeIn(0):= "00010101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 20
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00101001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 24
+pipeIn(0):= "00011001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 24
+pipeIn(0):= "00000010" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000100" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
 pipeIn(0):= "00001000" ;
-pipeIn(1):= "00010000" ;
-pipeIn(2):= "00100000" ;
-pipeIn(3):= "01000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00010000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00101101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 28
+pipeIn(0):= "00011101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 28
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00110001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 32
+pipeIn(0):= "00100001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 32
+pipeIn(0):= "00000100" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00001000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
 pipeIn(0):= "00010000" ;
-pipeIn(1):= "00100000" ;
-pipeIn(2):= "01000000" ;
-pipeIn(3):= "10000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00100000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00110101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 36
+pipeIn(0):= "00100101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 36
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00111001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 40
+pipeIn(0):= "00101001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 40
+pipeIn(0):= "00001000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00010000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
 pipeIn(0):= "00100000" ;
-pipeIn(1):= "01000000" ;
-pipeIn(2):= "10000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "01000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "00111101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 44
+pipeIn(0):= "00101101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 44
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000001" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "01000001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 48
+pipeIn(0):= "00110001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 48
+pipeIn(0):= "00010000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00100000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
 pipeIn(0):= "01000000" ;
-pipeIn(1):= "10000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000001" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "10000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "01000101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 52
+pipeIn(0):= "00110101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 52
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000010" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "01001001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 56
+pipeIn(0):= "00111001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 56
+pipeIn(0):= "00100000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "01000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
 pipeIn(0):= "10000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 60
+pipeIn(0):= "00111101" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 60
+pipeIn(0):= "00000001" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 64
+pipeIn(0):= "01000001" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 64
+pipeIn(0):= "01000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "10000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000001" ;
-pipeIn(3):= "00000010" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "01001101" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 68
+pipeIn(0):= "01000101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 68
+pipeIn(0):= "00000010" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000100" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
-pipeIn(0):= "01010001" ;
-pipeIn(1):= "00000000" ;
+-- W : Register address : 72
+pipeIn(0):= "01001001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000001" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 72
+pipeIn(0):= "10000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000001" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000010" ;
-pipeIn(3):= "00000100" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 76
+pipeIn(0):= "01001101" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 76
+pipeIn(0):= "00000100" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 80
+pipeIn(0):= "01010001" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 80
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000001" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000010" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000100" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 84
 pipeIn(0):= "01010101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 84
 pipeIn(0):= "00001000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 88
 pipeIn(0):= "01011001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 88
 pipeIn(0):= "11111111" ;
-pipeIn(1):= "00000001" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000001" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register address : 92
 pipeIn(0):= "01011101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 92
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
+-- W : Register address : 96
 pipeIn(0):= "01100001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 96
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "11111110" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000011" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "11111110" ;
-pipeIn(2):= "00000011" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
+-- W : Register address : 100
 pipeIn(0):= "01100101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 100
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
+-- W : Register address : 104
 pipeIn(0):= "01101001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 104
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "11111100" ;
-pipeIn(3):= "00000111" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "11111100" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000111" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+---------------------------------
+
+-- W : Register address : 108
 pipeIn(0):= "01101101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 108
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
+-- W : Register address : 112
 pipeIn(0):= "01110001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 112
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "11111000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "11111000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
+---------------------------------
 
+-- W : Register address : 116
 pipeIn(0):= "01110101" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 116
 pipeIn(0):= "00001111" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
 
+---------------------------------
 
--- RUN
+-- W : Register address : 120
 pipeIn(0):= "01111001" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 120
+pipeIn(0):= "00001010" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-pipeIn(0):= "00001011" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;  
-
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
-------------------------------
 
-
-
----- RUN = 0 
---pipeIn(0):= "01111001" ;
---pipeIn(1):= "00000000" ;
---pipeIn(2):= "00000000" ;
---pipeIn(3):= "00000000" ;
---WriteToPipeIn(x"80",pipeInSize);
---wait for 10 ns;
-
---pipeIn(0):= "00001010" ;
---pipeIn(1):= "00000000" ;
---pipeIn(2):= "00000000" ;
---pipeIn(3):= "00000000" ;
---WriteToPipeIn(x"80",pipeInSize);
---wait for 10 ns;  
+---------------------------------
 
 wait for 250 ns;
+
 ReadFromPipeOut(x"A0", 3000);
 
--------- test row0--------------
-pipeIn(0):= "00010000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-
--------------------------------
--- Ajout des 96 bits = '0'
+-- R : Register address : 0
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+-- R : Register address : 120
+pipeIn(0):= "01111000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
+pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
-
--------- test row1--------------
-pipeIn(0):= "00011000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
--------------------------------
--- Ajout des 96 bits = '0'
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
-pipeIn(0):= "00000000" ;
-pipeIn(1):= "00000000" ;
-pipeIn(2):= "00000000" ;
-pipeIn(3):= "00000000" ;
-WriteToPipeIn(x"80",pipeInSize);
-wait for 10 ns;
-------------------------------
-
+---------------------------------
 ReadFromPipeOut(x"A1", 3000);
-
 
 wait for 10 us;   
 
 end process;
 
 process 
-    file file_results : text open write_mode is "C:\Users\ATHENA_X-IFU\Documents\Noemie2020\solution_commande\ras-a75-fw\sim\script\sim_results.txt";
+    file file_results : text open write_mode is "C:\Users\ATHENA_X-IFU\Documents\Noemie2020\solution_commande\ras-a75-fw\script\simu\sim_results.txt";
     variable v_line : line;    
     begin
         wait for 10 ns;

@@ -364,6 +364,7 @@ begin
 --        reception_param (30 downto 0) <= (others => '0');
 --        reception_param (31) <= '1';
 --        reception_param (64 downto 32) <= (others => '0');
+        reception_param(64) <= '0';
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
@@ -394,11 +395,11 @@ begin
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                 addr <= unsigned(fifoIn_dout(9 downto 0)); -- storage of the address
-                if fifoIn_dout(0) = '0' then -- if the last bit is 0 we want to read the register
+                if fifoIn_dout_128b(96) = '0' then -- if the last bit is 0 we want to read the register
                     fifoHK_write_en <= '1'; -- we can write in the HK pipeout
                     HK_value <= "0000000000000000000000" & fifoIn_dout(9 downto 0); -- first we write the address of the register we want to read
                     state <= HK;
-                elsif fifoIn_dout(0) = '1' then -- if the last bit is 1 we want to write in the register
+                elsif fifoIn_dout_128b(96) = '1' then -- if the last bit is 1 we want to write in the register
                     state <= waiting;
                 end if;
             else

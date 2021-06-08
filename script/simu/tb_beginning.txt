@@ -59,18 +59,17 @@ architecture simulate of row_addressing_tb is
 		  okHU      : out   std_logic_vector(2 downto 0);
 		  okUHU     : inout std_logic_vector(31 downto 0);
 		  okAA      : inout std_logic;
-		  
-		  sys_clkp : in std_logic;
-		  sys_clkn : in std_logic;
-		  --sys_clk : in std_logic;
     
+          sys_clkp : in std_logic;
+          sys_clkn : in std_logic;
+          -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
           i_rst : in std_logic;
           
     ----------------------- LED ------------------------
-          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'         
+        
+          led : out std_logic_vector(7 downto 0); -- on when '0', off when '1'
     ----------------------- FAS ------------------------
-           --i_clk : in STD_LOGIC;
            o_sig_overlap0 : out STD_LOGIC;
            o_sig_overlap1 : out STD_LOGIC;
            o_sig_overlap2 : out STD_LOGIC;
@@ -84,7 +83,8 @@ architecture simulate of row_addressing_tb is
            o_sig_overlap10 : out STD_LOGIC;
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
-           o_synchro : out STD_LOGIC);
+           o_synchro : out STD_LOGIC;
+           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0));
     end component;
 
 -- Inputs
@@ -113,6 +113,7 @@ signal o_sig_overlap10 : STD_LOGIC;
 signal o_sig_overlap11 : STD_LOGIC;
 signal o_sig_overlap12 : STD_LOGIC;
 signal o_synchro : STD_LOGIC;
+signal o_sig_state : STD_LOGIC_VECTOR(3 downto 0);
 
 
 
@@ -165,7 +166,8 @@ begin
            o_sig_overlap10 => o_sig_overlap10,
            o_sig_overlap11 => o_sig_overlap11,
            o_sig_overlap12 => o_sig_overlap12,
-           o_synchro => o_synchro
+           o_synchro => o_synchro,
+	   o_sig_state => o_sig_state
            );
 
 
@@ -720,13 +722,6 @@ variable NO_MASK            : std_logic_vector(31 downto 0) := x"ffff_ffff";
 begin 
     FrontPanelReset;
     wait for 1ns;
-    
-	SetWireInValue(x"00", x"0000_0001", NO_MASK);
-	UpdateWireIns;
-	SetWireInValue(x"00", x"0000_0000", NO_MASK);
-	UpdateWireIns;
-    
-    ActivateTriggerIn(x"40",0);
     
     -- envoi des paramètres
     
