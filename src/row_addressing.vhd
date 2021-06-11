@@ -61,6 +61,11 @@
 -- v10 : This version manages th reception of the pipein data on the XEM7310, it works on the card but not in 
 -- simulation
 --
+-- v11 : This version manages th reception of the pipein data on the XEM7310, it works on the card and in 
+-- simulation
+
+-- v12 : Resetn deleted and RUN renamed to mode (mode=0 commands reception, mode=1 switch driving)
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -317,7 +322,7 @@ Cmd_param_2.NRO <= reception_param(61 downto 56);
 Cmd_param_2.LPR <= reception_param(55 downto 48);
 Cmd_param_2.DEL <= reception_param(45 downto 32);
 
-Cmd_param_3.RUN <= reception_param(64);
+Cmd_param_3.mode <= reception_param(64);
 Cmd_param_3.Freq_row <= reception_param(71 downto 65);
 
 Cmd_manual_row.row <= reception_manual_row;
@@ -413,7 +418,7 @@ begin
             elsif addr="0000000100" then
                 HK_value <= "00" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
             elsif addr="0000001100" then
-                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN; 
+                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.mode; 
             elsif addr="0000001000" then
                 HK_value <= Cmd_manual_row.Row(31 downto 0);
             elsif addr="0000001100" then
@@ -471,7 +476,7 @@ begin
             elsif addr="0001110100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row12(39 downto 32);
             elsif addr="0001111000" then
-                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.RUN;
+                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.mode;
             else
                 HK_value <= (others => '0');
             end if;
@@ -491,7 +496,7 @@ begin
             o_sig_state <= "0101";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             
-            if (Cmd_param_3.RUN = '0') then -- if RUN='0' the value of each register can be changed
+            if (Cmd_param_3.mode = '0') then -- if mode='0' the value of each register can be changed
             
                 if (fifoIn_valid = '1') then --if the output signal of the fifo is valid
                     if (addr >= "0000000000" and addr < "0000000100" ) then --address of the DEVICE CTRL 1
@@ -529,11 +534,11 @@ begin
                     state <= data_reception;
                 end if;  
                   
-            elsif (Cmd_param_3.RUN = '1') then -- if RUN='1' only the value of RUN can be changed
+            elsif (Cmd_param_3.mode = '1') then -- if mode='1' only the value of mode can be changed
                     
                 if (addr >= "0001111000" and addr < "0001111100") then
                     test <= '1';
-                    reception_param(64) <= '0'; --reception of RUN
+                    reception_param(64) <= '0'; --reception of mode
                     state <= idle;
                 else 
                     state <= data_reception;
@@ -552,7 +557,7 @@ begin
     if rst_n = '0' then
         fifoOut_write_en <= '0';
      elsif rising_edge (clk100M) then
-        if Cmd_param_3.RUN = '1' then
+        if Cmd_param_3.mode = '1' then
             fifoOut_write_en <= '1';
         else
             fifoOut_write_en <= '0';
@@ -567,7 +572,7 @@ begin
     if (i_rst = '1') then
         led_int <= (others => '0');
     elsif rising_edge(clk100M) then
-        led_int <= "0000000" & Cmd_param_3.RUN;
+        led_int <= "0000000" & Cmd_param_3.mode;
 
     end if;
     
@@ -577,7 +582,7 @@ led <= led_int;
 
 -------- Development of the output pixel signals --------
 
-rst_n <= not(i_rst) and Cmd_param_3.RUN;
+rst_n <= not(i_rst) and Cmd_param_3.mode;
 
    uclk : div_freq2 Port map ( 
         sys_clk => sys_clk,

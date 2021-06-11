@@ -64,7 +64,7 @@ type t_Device_Ctrl_1
     
  type t_Device_Ctrl_3
     is record
-        RUN : std_logic;
+        mode : std_logic;
         Freq_row : std_logic_vector(6 downto 0);
     end record; 
     
