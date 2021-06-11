@@ -529,17 +529,14 @@ begin
                     state <= data_reception;
                 end if;  
                   
-            elsif (Cmd_param_3.RUN = '1') then -- if RUN='1' only the value of Resetn and RUN can be changed
-                --test <= '1';
-                if (addr >= "0000000000" and addr < "0000000100") then
+            elsif (Cmd_param_3.RUN = '1') then -- if RUN='1' only the value of RUN can be changed
                     
-                    reception_param(31) <= fifoIn_dout_128b(87); -- reception of Resetn
-                    state <= idle;
-                    
-                elsif (addr >= "0001111000" and addr < "0001111100") then
+                if (addr >= "0001111000" and addr < "0001111100") then
                     test <= '1';
-                    reception_param(64) <= '0'; --fifoIn_dout_128b(96); -- reception of RUN
+                    reception_param(64) <= '0'; --reception of RUN
                     state <= idle;
+                else 
+                    state <= data_reception;
                 end if;
                 
             else
@@ -580,7 +577,7 @@ led <= led_int;
 
 -------- Development of the output pixel signals --------
 
-rst_n <= not(i_rst) and Cmd_param_1.Resetn and Cmd_param_3.RUN;
+rst_n <= not(i_rst) and Cmd_param_3.RUN;
 
    uclk : div_freq2 Port map ( 
         sys_clk => sys_clk,
