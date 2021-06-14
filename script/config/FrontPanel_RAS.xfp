@@ -6,32 +6,41 @@
 
 <object class="okPanel" name="panel1">
 	<title>RAS Signals</title>
-	<size>300,150</size>
+	<size>400,200</size>
 	
 <object class="okFilePipe"> -- PipeIn
 	<label>Storage Cmd</label>
-	<position>20,75</position>
+	<position>15,20</position>
 	<size>120,30</size>
 	<endpoint>0x80</endpoint>
 </object>
 	
-<object class="okFilePipe"> -- PipeOut
-	<label>Record RAS signals</label>
-	<position>150,75</position>
-	<size>120,30</size>
-	<endpoint>0xa0</endpoint>
-	<length>4096</length> --on récupère 2048 valeurs
-	<starttrigger><endpoint>0x40</endpoint><bit>0</bit></starttrigger> 
-</object>
+
 
 
 <object class="okTriggerButton">
-	<label>Trigger Pipeout</label>
-	<position>150,20</position>
-	<size>100,30</size>
+	<label>Trigger Lecture RAS signals</label>
+	<position>140,20</position>
+	<size>150,30</size>
 	<endpoint>0x40</endpoint>
 	<bit>0</bit>
 </object>
+
+
+<object class="okTriggerLog">
+	<position>20,60</position>
+	<size>350,100</size>
+	<trigger>
+		<endpoint>0x60</endpoint><bit>0</bit>
+		<message> Les signaux de pilotage sont là:)</message>
+	</trigger>
+	<trigger>
+		<endpoint>0x60</endpoint><bit>1</bit>
+		<message> Les signaux de HK sont là :)</message>
+	</trigger>
+</object>
+
+
 
 <!-- <object class="okPushbutton">
 <label>Soft Reset</label>
@@ -42,9 +51,19 @@
 </object> -->
 
 <object class="okFilePipe"> -- PipeOut
+	<label>Record RAS signals</label>
+	<position>150,170</position>
+	<size>150,30</size>
+	<endpoint>0xa0</endpoint>
+	<length>2048</length> --on récupère 1024 valeurs
+	<starttrigger><endpoint>0x40</endpoint><bit>0</bit></starttrigger> 
+</object>
+
+
+<object class="okFilePipe"> -- PipeOut
 	<label>Record HK</label>
-	<position>70,120</position>
-	<size>120,30</size>
+	<position>20,170</position>
+	<size>100,30</size>
 	<endpoint>0xa1</endpoint>
 	<length>16</length>
 </object>

@@ -151,7 +151,7 @@ architecture Behavioral of row_addressing is
     end component;
 
 	component okWireOR -- Front Panel component
-	generic (N : integer := 3);
+	generic (N : integer := 4);
 	port (
 		okEH   : out std_logic_vector(64 downto 0);
 		okEHx  : in  std_logic_vector(N*65-1 downto 0));
@@ -211,8 +211,17 @@ signal clk_en_freq : std_logic;
 signal okClk : std_logic;
 signal okHE : std_logic_vector(112 downto 0);
 signal okEH : std_logic_vector(64 downto 0);
-signal okEHx : std_logic_vector(3*65-1 downto 0);
+signal okEHx : std_logic_vector(4*65-1 downto 0);
 --------------------------------------------------------
+
+----------- TriggerIn signal ---------------------------
+signal ep40trig : std_logic_vector(31 downto 0);
+alias dump_sequence : std_logic is ep40trig(0);
+----------- TriggerOut signal -------------------------
+signal ep60trig : std_logic_vector(31 downto 0);
+alias trigPipeOut : std_logic is ep60trig(0);
+alias trigHK : std_logic is ep60trig(1);
+-------------------------------------------------------
 
 ----------- PipeIn signals ----------------------------
 signal pipein_wr : std_logic;
@@ -236,6 +245,7 @@ signal fifoIn_valid : std_logic;
 signal fifoOut_write_en : std_logic ;
 signal fifoOut_read_en : std_logic;
 signal fifoOut_full : std_logic;
+signal fifoOut_full_r : std_logic;
 signal fifoOut_empty : std_logic;
 signal fifoOut_din : std_logic_vector(12 downto 0);
 ----------- FIFO HK PipeOut signals ---------------------
@@ -254,6 +264,7 @@ signal num_row : integer;
 
 ----------- Register signals ----------------------------
 signal reception_param : std_logic_vector(95 downto 0);
+signal reception_mode : std_logic;
 signal reception_manual_row : std_logic_vector(39 downto 0);
 signal reception_cmd : t_Array13bits(12 downto 0);
 
@@ -322,8 +333,9 @@ Cmd_param_2.NRO <= reception_param(61 downto 56);
 Cmd_param_2.LPR <= reception_param(55 downto 48);
 Cmd_param_2.DEL <= reception_param(45 downto 32);
 
-Cmd_param_3.mode <= reception_param(64);
-Cmd_param_3.Freq_row <= reception_param(71 downto 65);
+Cmd_param_3.Freq_row <= reception_param(70 downto 64);
+
+Cmd_param_3.mode <= reception_mode;
 
 Cmd_manual_row.row <= reception_manual_row;
 
@@ -369,7 +381,7 @@ begin
 --        reception_param (30 downto 0) <= (others => '0');
 --        reception_param (31) <= '1';
 --        reception_param (64 downto 32) <= (others => '0');
-        reception_param(64) <= '0';
+        reception_mode <= '0';
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
         fifoIn_read_en <= '0';
@@ -388,6 +400,7 @@ begin
             o_sig_state <= "0001";
             fifoIn_read_en <= '0'; --nothing is read from the fifo in
             fifoHK_write_en <= '0'; -- nothing is written in the HK fifo
+            trigHK<= '0';
             if (fifoIn_empty = '0') then --if the fifo is not empty
                 fifoIn_read_en <= '1'; --we can read in the fifo in
                 state <= addr_reception;
@@ -415,68 +428,103 @@ begin
             o_sig_state <= "0011";
             if addr="0000000000" then 
                 HK_value <= Cmd_param_1.Resetn & Cmd_param_1.LMK & Cmd_param_1.VCO & Cmd_param_1.Ref_Clk_en & Cmd_param_1.Ref_Clk_sel & Cmd_param_1.FIS & Cmd_param_1.TrigOut_PreSel & Cmd_param_1.TrigOut_sel & Cmd_param_1.Op_Mod & Cmd_param_1.FIE & Cmd_param_1.FOE & '0' & Cmd_param_1.REV & Cmd_param_1.DAC_Offset;
+                trigHK<= '1';
             elsif addr="0000000100" then
                 HK_value <= "00" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
+                trigHK<= '1';
             elsif addr="0000001100" then
                 HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.mode; 
+                trigHK<= '1';
             elsif addr="0000001000" then
                 HK_value <= Cmd_manual_row.Row(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000001100" then
                 HK_value <= "000000000000000000000000" & Cmd_manual_row.Row(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000010000" or addr="0000010100" then
                 HK_value <= Cmd_row.Row0(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000010100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row0(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000011000" or addr="0000011100" then               
                 HK_value <= Cmd_row.Row1(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000011100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row1(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000100000" then
                 HK_value <= Cmd_row.Row2(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000100100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row2(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000101000" then
                 HK_value <= Cmd_row.Row3(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000101100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row3(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000110000" then
                 HK_value <= Cmd_row.Row4(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000110100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row4(39 downto 32);
+                trigHK<= '1';
             elsif addr="0000111000" then
                 HK_value <= Cmd_row.Row5(31 downto 0);
+                trigHK<= '1';
             elsif addr="0000111100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row5(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001000000" then
                HK_value <= Cmd_row.Row6(31 downto 0);
+               trigHK<= '1';
             elsif addr="0001000100" then
                HK_value <= "000000000000000000000000" & Cmd_row.Row6(39 downto 32);
+               trigHK<= '1';
             elsif addr="0001001000" then 
                 HK_value <= Cmd_row.Row7(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001001100" then 
                 HK_value <= "000000000000000000000000" & Cmd_row.Row7(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001010000" then
                 HK_value <= Cmd_row.Row8(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001010100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row8(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001011000" then
                 HK_value <= Cmd_row.Row9(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001011100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row9(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001100000" then
                 HK_value <= Cmd_row.Row10(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001100100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row10(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001101000" then 
                 HK_value <= Cmd_row.Row11(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001101100" then 
                 HK_value <= "000000000000000000000000" & Cmd_row.Row11(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001110000" then
                 HK_value <= Cmd_row.Row12(31 downto 0);
+                trigHK<= '1';
             elsif addr="0001110100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row12(39 downto 32);
+                trigHK<= '1';
             elsif addr="0001111000" then
-                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.mode;
+                HK_value <= "0000000000000000000000000" & Cmd_param_3.Freq_row;
+                trigHK<= '1';
+            elsif addr="0010000000" then
+                HK_value <= "0000000000000000000000000000000" & Cmd_param_3.mode;
+                trigHK<= '1';
             else
                 HK_value <= (others => '0');
             end if;
@@ -528,6 +576,11 @@ begin
                     
                         reception_param(95 downto 64) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
+                        
+                    elsif (addr >= "0010000000" and addr < "0010000100") then
+                        reception_mode <= fifoIn_dout_128b(96);
+                        state <= idle;
+                        
                     end if;
                 else
                 
@@ -536,9 +589,9 @@ begin
                   
             elsif (Cmd_param_3.mode = '1') then -- if mode='1' only the value of mode can be changed
                     
-                if (addr >= "0001111000" and addr < "0001111100") then
+                if (addr >= "0010000000" and addr < "0010000100") then
                     test <= '1';
-                    reception_param(64) <= '0'; --reception of mode
+                    reception_mode <= '0'; --reception of mode
                     state <= idle;
                 else 
                     state <= data_reception;
@@ -556,23 +609,34 @@ P_pipeout_process : process (clk100M, rst_n)
 begin
     if rst_n = '0' then
         fifoOut_write_en <= '0';
+        pipeout_sig(31 downto 13) <= (others => '0');
+        trigPipeOut <= '0';
      elsif rising_edge (clk100M) then
         if Cmd_param_3.mode = '1' then
-            fifoOut_write_en <= '1';
+            fifoOut_full_r <= fifoOut_full;
+            if fifoOut_full = '0' and dump_sequence = '1' then
+                fifoOut_write_en <= '1';
+            elsif fifoOut_full_r = '0' and fifoOut_full = '1' then
+                fifoOut_write_en <= '0';
+                trigPipeOut <= '1';   
+            else 
+                trigPipeOut <= '0'; 
+            pipeout_sig(31 downto 13) <= "0101010100000000000";
+            end if;    
         else
             fifoOut_write_en <= '0';
+            pipeout_sig(31 downto 13) <= (others => '0');
         end if;
     end if;
 end process; 
 
-pipeout_sig(31 downto 13) <= (others => '0');	
 
 P_outputsig_led : process(clk100M,i_rst)
 begin
     if (i_rst = '1') then
         led_int <= (others => '0');
     elsif rising_edge(clk100M) then
-        led_int <= "0000000" & Cmd_param_3.mode;
+        led_int <= Cmd_param_3.Freq_row & Cmd_param_3.mode;
 
     end if;
     
@@ -811,13 +875,28 @@ okHI : okHost port map (
 	okEH=>okEH
 );
 
-okWO : okWireOR     generic map (N=>3) port map (
+okWO : okWireOR     generic map (N=>4) port map (
     okEH=>okEH, 
     okEHx=>okEHx);
-
+    
+ep40 : okTriggerIn port map (
+        okHE => okHE,
+        ep_addr    => x"40",
+        ep_clk => clk100M,
+        ep_trigger => ep40trig
+        );
+        
+ep60 : okTriggerOut port map (
+        okHE => okHE,
+        okEH       => okEHx(1*65-1 downto 0*65),
+        ep_addr    => x"60",
+        ep_clk => clk100M,
+        ep_trigger => ep60trig
+        );
+       
 ep80 : okPipeIn port map (   -- PipeIn
 		okHE       => okHE,
-		okEH       => okEHx(1*65-1 downto 0*65),
+		okEH       => okEHx(2*65-1 downto 1*65),
 		ep_addr    => x"80",
 		ep_write   => pipein_wr,
 		ep_dataout => pipein_sig
@@ -825,7 +904,7 @@ ep80 : okPipeIn port map (   -- PipeIn
 		
 epA0 : okPipeOut port map (   -- PipeOut
 		okHE       => okHE,
-		okEH       => okEHx(2*65-1 downto 1*65),
+		okEH       => okEHx(3*65-1 downto 2*65),
 		ep_addr    => x"A0",
 		ep_read   => fifoOut_read_en,
 		ep_datain => pipeout_sig
@@ -833,7 +912,7 @@ epA0 : okPipeOut port map (   -- PipeOut
 		
 epA1 : okPipeOut port map (   -- HK PipeOut
 		okHE       => okHE,
-		okEH       => okEHx(3*65-1 downto 2*65),
+		okEH       => okEHx(4*65-1 downto 3*65),
 		ep_addr    => x"A1",
 		ep_read   => fifoHK_read_en,
 		ep_datain => HK_pipeout

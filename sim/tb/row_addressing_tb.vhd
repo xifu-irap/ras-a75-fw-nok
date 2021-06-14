@@ -2732,7 +2732,7 @@ wait for 10 ns;
 ---------------------------------
 
 wait for 250 ns;
-
+ActivateTriggerIn(x"40",0);
 ReadFromPipeOut(x"A0", 3000);
 
 -- R : Register address : 0
@@ -2797,6 +2797,7 @@ WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
 
 ---------------------------------
+
 ReadFromPipeOut(x"A1", 3000);
 
 wait for 10 us;   

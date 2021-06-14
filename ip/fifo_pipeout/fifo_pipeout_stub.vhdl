@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
--- Date        : Fri Apr  9 12:21:15 2021
+-- Date        : Mon Jun 14 10:53:32 2021
 -- Host        : PC-NOEMIE running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               c:/Users/ATHENA_X-IFU/Documents/Noemie2020/solution_commande/RAS_simu/ip/fifo_pipeout/fifo_pipeout_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top fifo_pipeout -prefix
+--               fifo_pipeout_ fifo_pipeout_stub.vhdl
 -- Design      : fifo_pipeout
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a75tfgg484-1
