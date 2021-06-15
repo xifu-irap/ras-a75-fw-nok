@@ -145,9 +145,10 @@ architecture Behavioral of row_addressing is
            i_rst_n : in STD_LOGIC;
            i_cmd : in STD_LOGIC_VECTOR (39 downto 0);
            i_REV : in STD_LOGIC_VECTOR (3 downto 0);
-           i_first_row : in std_logic;
+           i_first_row : in STD_LOGIC;
+           i_NRO : in STD_LOGIC_VECTOR(5 downto 0);
            o_sig_overlap : out STD_LOGIC;
-           o_sig_sync : out std_logic);
+           o_sig_sync : out STD_LOGIC);
     end component;
 
 	component okWireOR -- Front Panel component
@@ -590,15 +591,17 @@ begin
             elsif (Cmd_param_3.mode = '1') then -- if mode='1' only the value of mode can be changed
                     
                 if (addr >= "0010000000" and addr < "0010000100") then
-                    test <= '1';
-                    reception_mode <= '0'; --reception of mode
-                    state <= idle;
+                    if (fifoIn_valid = '1') then
+                        test <= '1';
+                        reception_mode <= fifoIn_dout_128b(96); --reception of mode
+                        state <= idle;
+                    else -- if not valid
+                        state <= data_reception;
+                    end if;   
                 else 
-                    state <= data_reception;
+                    state <= idle;
                 end if;
                 
-            else
-                state <= data_reception; -- if the output signal of the fifo is not valid we wait until it is
             end if;
             
     end case;
@@ -668,6 +671,7 @@ rst_n <= not(i_rst) and Cmd_param_3.mode;
           i_cmd => Cmd_row.Row0,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row0(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap0_int,
           o_sig_sync => sig_sync(0)
         );
@@ -680,6 +684,7 @@ o_sig_overlap0 <= sig_overlap0_int;
           i_cmd => Cmd_row.Row1,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row1(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap1_int,
           o_sig_sync => sig_sync(1)
         );
@@ -692,6 +697,7 @@ o_sig_overlap1 <= sig_overlap1_int;
           i_cmd => Cmd_row.Row2,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row2(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap2_int,
           o_sig_sync => sig_sync(2)
         );
@@ -704,6 +710,7 @@ o_sig_overlap2 <= sig_overlap2_int;
           i_cmd => Cmd_row.Row3,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row3(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap3_int,
           o_sig_sync => sig_sync(3)
         );
@@ -716,6 +723,7 @@ o_sig_overlap3 <= sig_overlap3_int;
           i_cmd => Cmd_row.Row4,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row4(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap4_int,
           o_sig_sync => sig_sync(4)
         );
@@ -728,6 +736,7 @@ o_sig_overlap4 <= sig_overlap4_int;
           i_cmd => Cmd_row.Row5,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row5(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap5_int,
           o_sig_sync => sig_sync(5)
         );
@@ -740,6 +749,7 @@ o_sig_overlap5 <= sig_overlap5_int;
           i_cmd => Cmd_row.Row6,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row6(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap6_int,
           o_sig_sync => sig_sync(6)
         );
@@ -752,6 +762,7 @@ o_sig_overlap6 <= sig_overlap6_int;
           i_cmd => Cmd_row.Row7,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row7(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap7_int,
           o_sig_sync => sig_sync(7)
         );
@@ -764,6 +775,7 @@ o_sig_overlap7 <= sig_overlap7_int;
           i_cmd => Cmd_row.Row8,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row8(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap8_int,
           o_sig_sync => sig_sync(8)
         );
@@ -776,6 +788,7 @@ o_sig_overlap8 <= sig_overlap8_int;
           i_cmd => Cmd_row.Row9,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row9(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap9_int,
           o_sig_sync => sig_sync(9)
         );
@@ -788,6 +801,7 @@ o_sig_overlap9 <= sig_overlap9_int;
           i_cmd => Cmd_row.Row10,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row10(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap10_int,
           o_sig_sync => sig_sync(10)
         );
@@ -800,6 +814,7 @@ o_sig_overlap10 <= sig_overlap10_int;
           i_cmd => Cmd_row.Row11,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row11(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap11_int,
           o_sig_sync => sig_sync(11)
         );
@@ -812,6 +827,7 @@ o_sig_overlap11 <= sig_overlap11_int;
           i_cmd => Cmd_row.Row12,
           i_REV => Cmd_param_1.REV,
           i_first_row => Cmd_row.Row12(0),
+          i_NRO => Cmd_param_2.NRO,
           o_sig_overlap => sig_overlap12_int,
           o_sig_sync => sig_sync(12)
         );
