@@ -433,22 +433,19 @@ begin
             elsif addr="0000000100" then
                 HK_value <= "00" & Cmd_param_2.NRO & Cmd_param_2.LPR & "00" & Cmd_param_2.DEL;
                 trigHK<= '1';
-            elsif addr="0000001100" then
-                HK_value <= "000000000000000000000000" & Cmd_param_3.Freq_row & Cmd_param_3.mode; 
-                trigHK<= '1';
             elsif addr="0000001000" then
                 HK_value <= Cmd_manual_row.Row(31 downto 0);
                 trigHK<= '1';
             elsif addr="0000001100" then
                 HK_value <= "000000000000000000000000" & Cmd_manual_row.Row(39 downto 32);
                 trigHK<= '1';
-            elsif addr="0000010000" or addr="0000010100" then
+            elsif addr="0000010000" then
                 HK_value <= Cmd_row.Row0(31 downto 0);
                 trigHK<= '1';
             elsif addr="0000010100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row0(39 downto 32);
                 trigHK<= '1';
-            elsif addr="0000011000" or addr="0000011100" then               
+            elsif addr="0000011000" then               
                 HK_value <= Cmd_row.Row1(31 downto 0);
                 trigHK<= '1';
             elsif addr="0000011100" then
