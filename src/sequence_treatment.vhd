@@ -54,9 +54,10 @@ entity sequence_treatment is
            i_rst_n : in STD_LOGIC;
            i_cmd : in STD_LOGIC_VECTOR (39 downto 0);
            i_REV : in STD_LOGIC_VECTOR(3 downto 0);
-           i_first_row : in std_logic; -- = Cmd_row.Row(0) 
+           i_first_row : in STD_LOGIC; -- = Cmd_row.Row(0) 
+           i_NRO : in STD_LOGIC_VECTOR(5 downto 0);
            o_sig_overlap : out STD_LOGIC;
-           o_sig_sync : out std_logic);
+           o_sig_sync : out STD_LOGIC);
 end sequence_treatment;
 
 architecture Behavioral of sequence_treatment is
@@ -67,6 +68,7 @@ COMPONENT read_5MHz
          i_clk_en_5M : in STD_LOGIC;
          i_rst_n : IN  std_logic;
          i_cmd : IN  std_logic_vector(39 downto 0);
+         i_NRO : IN std_logic_vector(5 downto 0);
          o_seq_5MHz : OUT  std_logic
         );
     END COMPONENT;
@@ -127,6 +129,7 @@ uu0: read_5MHz PORT MAP (  -- Read of each bit of the sequence at 5 MHz
           i_clk_en_5M => i_clk_en_5M,
           i_rst_n => i_rst_n,
           i_cmd => i_cmd,
+          i_NRO => i_NRO,
           o_seq_5MHz => seq_5MHz
         );
 

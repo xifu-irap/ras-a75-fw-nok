@@ -53,6 +53,7 @@ entity read_5MHz is
            i_clk_en_5M : in STD_LOGIC;
            i_rst_n : in STD_LOGIC;
            i_cmd : in STD_LOGIC_VECTOR (39 downto 0);
+           i_NRO : in STD_LOGIC_VECTOR(5 downto 0);
            o_seq_5MHz : out STD_LOGIC);
 end read_5MHz;
 
@@ -70,9 +71,130 @@ begin
       cmd_int <= i_cmd; --the command sequence is stored in an intern signal
    elsif (rising_edge(i_clk)) then
       if (i_clk_en_5M = '1') then 
-          cmd_int <= cmd_int(0) & cmd_int(39 downto 1); --rotation of the vector every 200 ns
-          o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns thanks to the previous rotation)
-       end if;
+         case(i_NRO) is
+         
+            when "000001" => 
+                o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns thanks to the previous rotation)
+            when "000010" =>
+                cmd_int(1 downto 0) <= cmd_int(0) & cmd_int(1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns thanks to the previous rotation)
+            when "000011" =>
+                cmd_int(2 downto 0) <= cmd_int(0) & cmd_int(2 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns thanks to the previous rotation)
+            when "000100" =>
+                cmd_int(3 downto 0) <= cmd_int(0) & cmd_int(3 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns thanks to the previous rotation)
+            when "000101" =>
+                cmd_int(4 downto 0) <= cmd_int(0) & cmd_int(4 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "000110" =>
+                cmd_int(5 downto 0) <= cmd_int(0) & cmd_int(5 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "000111" =>
+                cmd_int(6 downto 0) <= cmd_int(0) & cmd_int(6 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001000" =>
+                cmd_int(7 downto 0) <= cmd_int(0) & cmd_int(7 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001001" =>
+                cmd_int(8 downto 0) <= cmd_int(0) & cmd_int(8 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001010" =>
+                cmd_int(9 downto 0) <= cmd_int(0) & cmd_int(9 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001011" =>
+                cmd_int(10 downto 0) <= cmd_int(0) & cmd_int(10 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001100" =>
+                cmd_int(11 downto 0) <= cmd_int(0) & cmd_int(11 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001101" =>
+                cmd_int(12 downto 0) <= cmd_int(0) & cmd_int(12 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001110" =>
+                cmd_int(13 downto 0) <= cmd_int(0) & cmd_int(13 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "001111" =>
+                cmd_int(14 downto 0) <= cmd_int(0) & cmd_int(14 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010000" =>
+                cmd_int(15 downto 0) <= cmd_int(0) & cmd_int(15 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010001" =>
+                cmd_int(16 downto 0) <= cmd_int(0) & cmd_int(16 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010010" =>
+                cmd_int(17 downto 0) <= cmd_int(0) & cmd_int(17 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010011" =>
+                cmd_int(18 downto 0) <= cmd_int(0) & cmd_int(18 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010100" =>
+                cmd_int(19 downto 0) <= cmd_int(0) & cmd_int(19 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010101" =>
+                cmd_int(20 downto 0) <= cmd_int(0) & cmd_int(20 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010110" =>
+                cmd_int(21 downto 0) <= cmd_int(0) & cmd_int(21 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "010111" =>
+                cmd_int(22 downto 0) <= cmd_int(0) & cmd_int(22 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011000" =>
+                cmd_int(23 downto 0) <= cmd_int(0) & cmd_int(23 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011001" =>
+                cmd_int(24 downto 0) <= cmd_int(0) & cmd_int(24 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011010" =>
+                cmd_int(25 downto 0) <= cmd_int(0) & cmd_int(25 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011011" =>
+                cmd_int(26 downto 0) <= cmd_int(0) & cmd_int(26 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011100" =>
+                cmd_int(27 downto 0) <= cmd_int(0) & cmd_int(27 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011101" =>
+                cmd_int(28 downto 0) <= cmd_int(0) & cmd_int(28 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011110" =>
+                cmd_int(29 downto 0) <= cmd_int(0) & cmd_int(29 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "011111" =>
+                cmd_int(30 downto 0) <= cmd_int(0) & cmd_int(30 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100000" =>
+                cmd_int(31 downto 0) <= cmd_int(0) & cmd_int(31 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100001" =>
+                cmd_int(32 downto 0) <= cmd_int(0) & cmd_int(32 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100010" =>
+                cmd_int(33 downto 0) <= cmd_int(0) & cmd_int(33 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100011" =>
+                cmd_int(34 downto 0) <= cmd_int(0) & cmd_int(34 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100100" =>
+                cmd_int(35 downto 0) <= cmd_int(0) & cmd_int(35 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100101" =>
+                cmd_int(36 downto 0) <= cmd_int(0) & cmd_int(36 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100110" =>
+                cmd_int(37 downto 0) <= cmd_int(0) & cmd_int(37 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when "100111" =>
+                cmd_int(38 downto 0) <= cmd_int(0) & cmd_int(38 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+            when others =>
+                cmd_int(39 downto 0) <= cmd_int(0) & cmd_int(39 downto 1); --rotation of the vector every 200 ns
+                o_seq_5MHz <= cmd_int(0);
+
+         end case;
+      end if;
    end if;
 end process;
 
