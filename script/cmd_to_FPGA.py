@@ -28,7 +28,7 @@ def write_bin(file, cmd_byte):
         a.write(struct.pack('H',int(cmd_byte[i],2)))
         
         
-file_cmd = "config/cmd_param2.txt"#HK_addr.txt"
+file_cmd = "config/HK_addr.txt"
 cmd = read(file_cmd)
 
 
@@ -38,5 +38,5 @@ for i in range(len(cmd)):
         cmd_byte.append(cmd[i][32-(j+1)*8:32-j*8])
 print(cmd_byte)       
 
-file_bin ="config/cmd_param2_bin"
+file_bin ="config/HK_addr_bin"
 write_bin(file_bin,cmd_byte)

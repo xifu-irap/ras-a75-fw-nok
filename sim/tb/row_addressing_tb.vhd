@@ -853,7 +853,7 @@ wait for 10 ns;
 
 pipeIn(0):= "11111111" ;
 pipeIn(1):= "00000000";
-pipeIn(2):= "11111111" ;
+pipeIn(2):= "11100100" ;
 pipeIn(3):= "00000000";
 WriteToPipeIn(x"80",pipeInSize);
 wait for 10 ns;
@@ -2700,7 +2700,72 @@ wait for 10 ns;
 ---------------------------------
 
 -- W : Register cmd : 120
-pipeIn(0):= "00001011" ;
+pipeIn(0):= "00000101" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+
+-- W : Register address : 128
+pipeIn(0):= "10000001" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000" ;
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000" ;
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+-- Addition of 64 bits = '0'
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+pipeIn(0):= "00000000";
+pipeIn(1):= "00000000";
+pipeIn(2):= "00000000";
+pipeIn(3):= "00000000";
+WriteToPipeIn(x"80",pipeInSize);
+wait for 10 ns;
+
+---------------------------------
+
+-- W : Register cmd : 128
+pipeIn(0):= "00000001" ;
 pipeIn(1):= "00000000";
 pipeIn(2):= "00000000" ;
 pipeIn(3):= "00000000";

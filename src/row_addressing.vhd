@@ -66,6 +66,8 @@
 
 -- v12 : Resetn deleted and RUN renamed to mode (mode=0 commands reception, mode=1 switch driving)
 --
+-- v13: We can choose the length of the sequence we can to read with the parameter Cmd_param_2.NRO
+--
 -- Revision 0.01 - File Created
 -- Additional Comments:
 -- 
@@ -217,11 +219,11 @@ signal okEHx : std_logic_vector(4*65-1 downto 0);
 
 ----------- TriggerIn signal ---------------------------
 signal ep40trig : std_logic_vector(31 downto 0);
-alias dump_sequence : std_logic is ep40trig(0);
+alias dump_sequence : std_logic is ep40trig(0); -- driving signals reading demand from the user
 ----------- TriggerOut signal -------------------------
 signal ep60trig : std_logic_vector(31 downto 0);
-alias trigPipeOut : std_logic is ep60trig(0);
-alias trigHK : std_logic is ep60trig(1);
+alias trigPipeOut : std_logic is ep60trig(0); -- alert when there is some valid driving signals to read
+alias trigHK : std_logic is ep60trig(1); -- alert when there is some valid HK signals to read
 -------------------------------------------------------
 
 ----------- PipeIn signals ----------------------------
@@ -505,7 +507,7 @@ begin
             elsif addr="0001100100" then
                 HK_value <= "000000000000000000000000" & Cmd_row.Row10(39 downto 32);
                 trigHK<= '1';
-            elsif addr="0001101000" then 
+            elsif addr="0001101000" then  
                 HK_value <= Cmd_row.Row11(31 downto 0);
                 trigHK<= '1';
             elsif addr="0001101100" then 
@@ -566,16 +568,16 @@ begin
                             reception_cmd(num_row)(31 downto 0) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                             state <= idle;
                         else --address of the row MSB
-                            reception_cmd(num_row)(39 downto 32) <= fifoIn_dout_128b(103 downto 96); -- les bits de 31 à 8 sont des 0 inutiles
+                            reception_cmd(num_row)(39 downto 32) <= fifoIn_dout_128b(103 downto 96); 
                             state <= idle;
                         end if;
                     
-                    elsif (addr >= "0001111000" and addr < "0001111100") then
+                    elsif (addr >= "0001111000" and addr < "0001111100") then --address of Device Ctrl 3
                     
                         reception_param(95 downto 64) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
                         
-                    elsif (addr >= "0010000000" and addr < "0010000100") then
+                    elsif (addr >= "0010000000" and addr < "0010000100") then -- address of mode
                         reception_mode <= fifoIn_dout_128b(96);
                         state <= idle;
                         
@@ -587,8 +589,8 @@ begin
                   
             elsif (Cmd_param_3.mode = '1') then -- if mode='1' only the value of mode can be changed
                     
-                if (addr >= "0010000000" and addr < "0010000100") then
-                    if (fifoIn_valid = '1') then
+                if (addr >= "0010000000" and addr < "0010000100") then -- address of mode
+                    if (fifoIn_valid = '1') then -- if the data is valid
                         test <= '1';
                         reception_mode <= fifoIn_dout_128b(96); --reception of mode
                         state <= idle;
@@ -605,33 +607,33 @@ begin
     end if;
 end process;
 
-P_pipeout_process : process (clk100M, rst_n)
+P_pipeout_process : process (clk100M, rst_n) -- process to get back the driving signals in the pipeout
 begin
     if rst_n = '0' then
-        fifoOut_write_en <= '0';
+        fifoOut_write_en <= '0'; -- nothing is written
         pipeout_sig(31 downto 13) <= (others => '0');
-        trigPipeOut <= '0';
+        trigPipeOut <= '0'; -- trig = '0' when there is no valid data to read
      elsif rising_edge (clk100M) then
         if Cmd_param_3.mode = '1' then
-            fifoOut_full_r <= fifoOut_full;
-            if fifoOut_full = '0' and dump_sequence = '1' then
-                fifoOut_write_en <= '1';
-            elsif fifoOut_full_r = '0' and fifoOut_full = '1' then
-                fifoOut_write_en <= '0';
-                trigPipeOut <= '1';   
+            fifoOut_full_r <= fifoOut_full; -- we store the last state of fifoOut_full
+            if fifoOut_full = '0' and dump_sequence = '1' then -- if there is a demand of driving signals reading
+                fifoOut_write_en <= '1'; -- we write in the fifo
+            elsif fifoOut_full_r = '0' and fifoOut_full = '1' then -- if there is a rising edge of fifoOut_full
+                fifoOut_write_en <= '0'; -- we stop writing in the fifo
+                trigPipeOut <= '1'; -- trig = '1' when there is some valid data to read 
             else 
-                trigPipeOut <= '0'; 
+                trigPipeOut <= '0'; -- trig = '0' when there is no valid data to read
             pipeout_sig(31 downto 13) <= "0101010100000000000";
             end if;    
         else
-            fifoOut_write_en <= '0';
+            fifoOut_write_en <= '0'; -- nothing is written
             pipeout_sig(31 downto 13) <= (others => '0');
         end if;
     end if;
 end process; 
 
 
-P_outputsig_led : process(clk100M,i_rst)
+P_outputsig_led : process(clk100M,i_rst) -- test process
 begin
     if (i_rst = '1') then
         led_int <= (others => '0');
