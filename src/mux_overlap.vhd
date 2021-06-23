@@ -62,17 +62,20 @@ architecture Behavioral of mux_overlap is
 
 begin
 
-P_mux_overlap : process(i_REV,i_overlap_neg,i_overlap_pos)
+P_mux_overlap : process(i_clk,i_rst_n)
 begin
-
-    case i_REV(3) is
-        when '0' => -- if we want a positiv overlap
-            o_sig_overlap <= i_overlap_pos;
-        when '1' => -- if we want a negativ overlap
-            o_sig_overlap <= i_overlap_neg;
-        when others => -- if we don't specify the value of REV
-            o_sig_overlap <= '0';
-    end case;
+    if i_rst_n = '0' then
+        o_sig_overlap <= '0';
+    elsif rising_edge(i_clk) then
+        case i_REV(3) is
+            when '0' => -- if we want a positiv overlap
+                o_sig_overlap <= i_overlap_pos;
+            when '1' => -- if we want a negativ overlap
+                o_sig_overlap <= i_overlap_neg;
+            when others => -- if we don't specify the value of REV
+                o_sig_overlap <= '0';
+        end case;
+    end if;
 end process;
 
 

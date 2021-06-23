@@ -118,7 +118,7 @@ signal sig_pos : std_logic;
 signal overlap_neg : std_logic;
 signal overlap_pos : std_logic;
 
-alias sig_t0 : std_logic is sig_late(7);
+alias sig_t0 : std_logic is sig_late(8); --sig_t0 is sig_late(7) but the process with the mux delays the signal choosen for overlap of one clk period
    
 begin
 
