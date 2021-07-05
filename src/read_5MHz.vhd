@@ -70,7 +70,7 @@ begin
    -- intitialisation of the signals during the reset
       o_seq_5MHz <= '0';
       cmd_int <= i_cmd; --the command sequence is stored in an intern signal
-      counter <= "000001";
+      counter <= "000000";
    elsif (rising_edge(i_clk)) then
    
       if (i_clk_en_5M = '1') then 
@@ -78,7 +78,7 @@ begin
         if i_NRO = "000000" then -- if the user doesn't want to read the sequence
             o_seq_5MHz <= '0'; -- all the output driving signals = 0
       
-        elsif (counter < unsigned(i_NRO) and counter < 40) then -- while counter < i_NRO or < 40 we read the sequence
+        elsif (counter < unsigned(i_NRO)-1 and counter < 39) then -- while counter < i_NRO or < 40 we read the sequence
             cmd_int <= cmd_int(0) & cmd_int(39 downto 1); --rotation of the vector every 200 ns
             o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns because of the previous rotation)
             counter <= counter + 1;
@@ -86,7 +86,7 @@ begin
         else -- when counter >= i_NRO or >= 40 we start the sequence from te beginning
             cmd_int <= i_cmd;
             o_seq_5MHz <= cmd_int(0); --reading of the bit 0 (this bit change every 200 ns because of the previous rotation)
-            counter <= "000001";  
+            counter <= "000000";  
             
         end if;  
       
