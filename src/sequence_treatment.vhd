@@ -177,7 +177,7 @@ begin
         o_sig_sync <= '0';
     elsif rising_edge(i_clk) then
         if i_first_row = '1' then -- if the row is the first row activated
-            o_sig_sync <= sig_late(6); -- the sync signal takes the value of the signal delated of 6 clock periods, the last clock period of delay will be gain with this process (sig_late(7) = t0)
+            o_sig_sync <= sig_late(8); -- the sync signal takes the value of the reference signal (sig_late(7) = t0)
         else -- if the row isn't the first row activated
             o_sig_sync <= '1'; -- the sync signal is always at '1'
         end if;
