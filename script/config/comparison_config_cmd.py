@@ -65,7 +65,7 @@ def tab_seq_xfreq(cmd, nb_ligne, nb_bit, freq_multip):
     
         for j in range(nb_bit): #on parcourt chaque caractère de la ligne
        
-            array_seq_xfreq[i][freq_multip*j:freq_multip*(j+1)]=cmd[4+i][j] #chaque bit de la séquence est répété "freq_multip" fois
+            array_seq_xfreq[i][nb_bit*freq_multip-freq_multip*(j+1):nb_bit*freq_multip-freq_multip*j]=cmd[4+i][39-j] #chaque bit de la séquence est répété "freq_multip" fois
                 
    return(array_seq_xfreq)  
 
@@ -111,11 +111,26 @@ def overlap_addition(array_seq_xfreq, REV, freq_multip):
                         
                 else :
                     
-                    array_seq_xfreq[i][j:j-REV]=0 #les "REV" bits après la séquence initiale sont mis à 1
+                    array_seq_xfreq[i][j:j-REV]=0 #les "REV" bits à la fin de la séquence initiale sont mis à 0
                 
     return(array_seq_xfreq)
 
-def comparison_cmd_results(array_seq_xfreq_ov, signals, nb_ligne, nb_bit, freq_multip):
+
+def retourne_cmd(array_seq_xfreq_ov, nb_ligne, nb_bit, freq_multip):
+    
+    cmd_ret = np.empty([freq_multip*nb_bit,nb_ligne],  dtype=np.dtype('int'))
+    
+    for j in range(nb_ligne) :
+        
+        for i in range(nb_bit*freq_multip) :
+            
+            cmd_ret[nb_bit*freq_multip-1-i][12-j] = array_seq_xfreq_ov[j][i]
+    
+    return cmd_ret
+
+
+
+def comparison_cmd_results(cmd_ret, signals, nb_ligne, nb_bit, freq_multip):
     
     """
     Cette fonction permet de comparer les séquences envoyées en commande et les séquences en sortie de simulation 
@@ -147,63 +162,147 @@ def comparison_cmd_results(array_seq_xfreq_ov, signals, nb_ligne, nb_bit, freq_m
 
     compare = True
     
-    for i in range(4*9*freq_multip+REV): # on parcourt une séquence entière
+    #test_sig = True
+    
+    for l in signals :
+            
+        if l != signals[0] :
+            
+            indice_signals = signals.index(l)
+            
+            break
         
-        for j in range(nb_ligne): 
+    #print(signals)
+    
+    array_signals = np.empty([511,nb_ligne],  dtype=np.dtype('int'))   
+
+    for i in range(511):
+        
+        for j in range(13) :
             
-            compare = (signals[i][(nb_ligne-1)-j]==str(array_seq_xfreq_ov[j][(nb_bit*freq_multip-1)-i])) & compare
-            
-            if compare == False :
-                 
-                print(i,j)
-            
+            array_signals[i][j] = signals[i][j]
+    
+    print('Array signal :', array_signals)
+    
+    for i in range(len(cmd_ret)) :
                 
-    return compare 
+        if (array_signals[indice_signals]==cmd_ret[i]).all() :
+            
+            indice_cmd = i
+            
+            break
+
+                
+                
+    
+    print(indice_signals,indice_cmd)
+    
+    i = 0
+    
+    while compare == True :
+        
+        if i+indice_signals < 512 and i+indice_cmd < freq_multip * nb_bit  :
+            
+            compare = (array_signals[i+indice_signals]==cmd_ret[i+indice_cmd]).all() & compare
+            
+            i += 1
+            
+        elif i+indice_signals >= 512 and i+indice_cmd < freq_multip * nb_bit :
+            
+            for j in range(indice_signals):
+                
+                compare = (array_signals[j]==cmd_ret[i+indice_cmd]).all() & compare
+                
+                i += 1
+                
+        elif i+indice_signals < 511 and i+indice_cmd >= freq_multip * nb_bit  :
+            
+            print('je passe ici')
+            
+            for j in range(indice_cmd):
+                
+                if i+indice_signals < 511 :
+                
+                    print(i+indice_signals)
+                    
+                    compare = (array_signals[i+indice_signals]==cmd_ret[j]).all() & compare
+                    
+                    print(array_signals[i+indice_signals], cmd_ret[j], j)
+                    
+                    if compare == False :
+                        
+                        erreur = cmd_ret[j]
+                        
+                        code_erreur = j
+                        
+                        print('pas ok', i+indice_signals, array_signals[i+indice_signals], erreur, code_erreur)
+            
+                        return compare
+                        
+                    else :
+        
+                        i += 1
+                
+        else :
+            
+            print('ok ', i)
+            
+            return(compare)
+                
+            
+    print('pas ok', i+indice_signals)
+            
+    return compare
     
 """ 
-Paramètres 
+Paramètres  à saisir par l'utilisateur
 """
-freq_multip = 20 #nombre de répétition de chaque bit de la séquence de départ 
+freq_row = 5 #exprimée en MHz
+freq_multip = int(100/freq_row) #nombre de répétition de chaque bit de la séquence de départ 
 nb_ligne = 13
-nb_bit = 40 
+nb_bit = 36 #lg séquence 
+REV = 2
 
 
 """
 Lecture du fichier de commande
 """
-
 cmd_file = "../cmd_9row4cluster.txt"
 cmd = read_file(cmd_file)
 #print(cmd)
 
 
-
 """
 Multiplication de l'apparition de chaque bit de la séquence
-"""
-                
+"""                
 array_seq_xfreq = tab_seq_xfreq(cmd, nb_ligne, nb_bit, freq_multip)
 #print(array_seq_xfreq)   
-
 
 
 """
 Ajout du chevauchement
 """
-
-REV = 2
 array_seq_xfreq_ov = overlap_addition(array_seq_xfreq,REV, freq_multip)
-print('tableau commande avec overlap :',array_seq_xfreq_ov)
+#print('tableau commande avec overlap :',array_seq_xfreq_ov)
+
+
+"""
+Changement d'organisation de la matrice de commande
+"""
+cmd_ret = retourne_cmd(array_seq_xfreq_ov, nb_ligne, nb_bit, freq_multip)
+print('commande retournées :', cmd_ret)
+
 
 """
 Lecture du fichier de résultats en sortie du pipeout
 """
 sig_results = "file_pipeout_bin.txt"
 signals= read_file(sig_results)
-print(signals)
+#print(signals)
+
 
 """
 Comparaison commandes et résultats de simulation
 """
-comparison = comparison_cmd_results(array_seq_xfreq_ov, signals, nb_ligne, nb_bit, freq_multip)
+comparison = comparison_cmd_results(cmd_ret, signals, nb_ligne, nb_bit, freq_multip)
 print('resultat de comparaison :', comparison)
