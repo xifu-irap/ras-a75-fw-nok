@@ -90,5 +90,10 @@ type t_Device_Ctrl_1
         Row12 : std_logic_vector(39 downto 0);
      end record;
      
-
+ type t_Version
+    is record
+        Firmware_id : std_logic_vector(15 downto 0);
+        RAS_board_id : std_logic_vector(15 downto 0);
+    end record; 
+  
 end FAS_package;

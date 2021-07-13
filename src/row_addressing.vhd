@@ -67,6 +67,8 @@
 -- v12 : Resetn deleted and RUN renamed to mode (mode=0 commands reception, mode=1 switch driving)
 --
 -- v13: We can choose the length of the sequence we can to read with the parameter Cmd_param_2.NRO
+
+-- v14 : Addition of the Firmware version id
 --
 -- Revision 0.01 - File Created
 -- Additional Comments:
@@ -277,6 +279,7 @@ signal Cmd_param_2 : t_Device_Ctrl_2;
 signal Cmd_param_3 : t_Device_Ctrl_3;
 signal Cmd_manual_row : t_Manual_Row;
 signal Cmd_row : t_Row;
+signal Version : t_Version;
 ---------------------------------------------------------
 
 ----------- FAS intern signals --------------------------
@@ -318,6 +321,14 @@ begin
 --=========================================================
 -- Write in Registers (Storage of the parameters and the sequences) 
 --=========================================================
+
+------------- CHANGE ACCORDING TO THE VERSION ---------------
+Version.Firmware_id <= x"0130";
+-------------------------------------------------------------
+-------------------------------------------------------------
+Version.RAS_board_id <= x"0000"; -- TO BE CHANGED WHEN WE GET THE HARD HK
+-------------------------------------------------------------
+
 Cmd_param_1.Resetn <= reception_param(31); 
 Cmd_param_1.LMK <= reception_param(30);
 Cmd_param_1.VCO <= reception_param(29);
@@ -524,6 +535,9 @@ begin
                 trigHK<= '1';
             elsif addr="0010000000" then
                 HK_value <= "0000000000000000000000000000000" & Cmd_param_3.mode;
+                trigHK<= '1';
+            elsif addr="0010000100" then
+                HK_value <= Version.RAS_board_id & Version.Firmware_id;
                 trigHK<= '1';
             else
                 HK_value <= (others => '0');
