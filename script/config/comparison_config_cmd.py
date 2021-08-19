@@ -25,6 +25,93 @@ This script manages the comparison between the cmd file and the results from the
 """
 import numpy as np
 
+def dec2natbin(dec, n):
+
+    r"""
+
+    This function computes the natural binary value of a positive integer.
+
+    
+
+    Parameters
+    
+    
+
+    ----------
+
+    dec : number
+
+        The decimal input integer to be converted
+
+    n : number
+
+        The number of bits of the output string
+
+
+
+    Output
+
+    ------
+
+    bin_str : string
+
+        The binary value in a string format
+
+
+
+    Raises
+
+    ------
+
+    ValueError
+
+        When n is too small to do the conversion
+
+
+
+    See Also
+
+    --------
+
+    num : string to number conversion
+
+
+
+    """
+
+    bin_str = ''
+
+    if dec >= 0:
+
+        while n > 0:
+
+            bin_str = str(dec % 2) + bin_str
+
+            dec >>= 1
+
+            n += -1
+
+    if dec > 0:
+
+        raise ValueError('Requested size is too small for this value')
+
+    return bin_str
+
+
+def write(file, cmd):
+
+    a = open(file, "w")
+    
+    for i in range(len(cmd)):
+        
+        a.write(str(cmd[i])+"\n")
+        
+        # print(cmd[i])
+        
+    a.close()
+
+
+
 def read_file(file):
 
     a=open(file, "r")
@@ -129,6 +216,41 @@ def retourne_cmd(array_seq_xfreq_ov, nb_ligne, nb_bit, freq_multip):
     return cmd_ret
 
 
+def read_output_pipeout(file):
+    
+    r"""
+
+    This function reads the output data directly from the xem3010.
+
+    
+
+    Parameters
+
+    ----------
+
+    file : 
+
+        The file with the output values of the xem3010
+
+
+    Output
+
+    ------
+
+    a : array
+
+        Array with the decimal outputs of the xem3010
+
+
+    """
+
+    a = np.fromfile(file, dtype=np.uint16) #construct an array of data from the binary file
+
+    print("Values from FPGA: {0}".format(a))
+    
+    return a
+
+
 
 def comparison_cmd_results(cmd_ret, signals, nb_ligne, nb_bit, freq_multip):
     
@@ -171,8 +293,6 @@ def comparison_cmd_results(cmd_ret, signals, nb_ligne, nb_bit, freq_multip):
             indice_signals = signals.index(l)
             
             break
-        
-    #print(signals)
     
     array_signals = np.empty([511,nb_ligne],  dtype=np.dtype('int'))   
 
@@ -217,17 +337,11 @@ def comparison_cmd_results(cmd_ret, signals, nb_ligne, nb_bit, freq_multip):
                 
         elif i+indice_signals < 511 and i+indice_cmd >= freq_multip * nb_bit  :
             
-            print('je passe ici')
-            
             for j in range(indice_cmd):
                 
                 if i+indice_signals < 511 :
-                
-                    print(i+indice_signals)
                     
                     compare = (array_signals[i+indice_signals]==cmd_ret[j]).all() & compare
-                    
-                    print(array_signals[i+indice_signals], cmd_ret[j], j)
                     
                     if compare == False :
                         
@@ -296,6 +410,19 @@ print('commande retournées :', cmd_ret)
 """
 Lecture du fichier de résultats en sortie du pipeout
 """
+file_pipeout = "file_pipeout"
+
+pipeout_sig_dec = read_output_pipeout(file_pipeout)
+write("file_pipeout_dec.txt",pipeout_sig_dec)
+pipeout_sig_bin = []
+for i in range(len(pipeout_sig_dec)) :
+    if pipeout_sig_dec[i] != 21760 :
+        pipeout_sig_bin.append(dec2natbin(pipeout_sig_dec[i],13))
+    
+
+write("file_pipeout_bin.txt",pipeout_sig_bin)
+
+
 sig_results = "file_pipeout_bin.txt"
 signals= read_file(sig_results)
 #print(signals)
