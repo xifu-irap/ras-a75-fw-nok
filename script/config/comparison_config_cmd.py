@@ -204,6 +204,39 @@ def overlap_addition(array_seq_xfreq, REV, freq_multip):
 
 
 def retourne_cmd(array_seq_xfreq_ov, nb_ligne, nb_bit, freq_multip):
+       
+    r"""
+
+    Cette fonction permet de réarranger l'odre de la séquence pour pouvoir comparer directement les valeurs aux commandes de départ.
+
+    Parameters
+
+    ----------
+
+    array_seq_xfreq_ov : array
+
+        tableau où chaque bit de la séquence de cmd est répété
+        un éventuel chevauchement entre 2 pixels est ajouté
+
+    nb_ligne : int
+        valeur du nombre de ligne ( = nombre de pixel)
+        
+    nb_bit : int
+        valeur du nombre de bit ( = nombre de pixel)
+        
+    freq_multip : int
+        nombre répétition de chaque bit de la séquence de départ  
+
+    Output
+
+    ------
+
+    cmd_ret : array
+
+        array_seq_xfreq_ov réarrangé pour être dans le bon ordre
+
+
+    """
     
     cmd_ret = np.empty([freq_multip*nb_bit,nb_ligne],  dtype=np.dtype('int'))
     
