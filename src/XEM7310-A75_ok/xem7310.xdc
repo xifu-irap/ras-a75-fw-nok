@@ -275,38 +275,38 @@ set_property SLEW FAST [get_ports {i_rst}]
 #set_property PACKAGE_PIN  [get_ports {}]
 #set_property IOSTANDARD  [get_ports {}]
 ## MC1-57
-##set_property PACKAGE_PIN Y2 [get_ports {}]
-##set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN Y2 [get_ports {o_dac_data}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_data}]
 ## MC1-58
 ##set_property PACKAGE_PIN Y1 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ### MC1-59
-##set_property PACKAGE_PIN T1 [get_ports {}]
-##set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN T1 [get_ports {o_dac_sclk}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sclk}]
 ### MC1-60
 ##set_property PACKAGE_PIN AB3 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ### MC1-61
-##set_property PACKAGE_PIN U1 [get_ports {}]
-##set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN U1 [get_ports {o_dac_sync_row_low_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_row_low_n}]
 ## MC1-62
 ##set_property PACKAGE_PIN AB2 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-63
-#set_property PACKAGE_PIN AA1 [get_ports {}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN AA1 [get_ports {o_dac_sync_row_high_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_row_high_n}]
 ## MC1-64
 #set_property PACKAGE_PIN Y13 [get_ports {}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-65
-#set_property PACKAGE_PIN AB1 [get_ports {}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN AB1 [get_ports {o_dac_sync_cluster_low_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_cluster_low_n}]
 ## MC1-66
 #set_property PACKAGE_PIN AA14 [get_ports {}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-67
-#set_property PACKAGE_PIN AB16 [get_ports {}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN AB16 [get_ports {o_dac_sync_cluster_high_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_cluster_high_n}]
 ## MC1-68
 #set_property PACKAGE_PIN AA13 [get_ports {}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {}]
@@ -588,15 +588,15 @@ set_property SLEW FAST [get_ports {i_rst}]
 #set_property IOSTANDARD  [get_ports {}]
 
 # LEDs #####################################################################
-#set_property PACKAGE_PIN A13 [get_ports {led[0]}]
-#set_property PACKAGE_PIN B13 [get_ports {led[1]}]
-#set_property PACKAGE_PIN A14 [get_ports {led[2]}]
-#set_property PACKAGE_PIN A15 [get_ports {led[3]}]
-#set_property PACKAGE_PIN B15 [get_ports {led[4]}]
-#set_property PACKAGE_PIN A16 [get_ports {led[5]}]
-#set_property PACKAGE_PIN B16 [get_ports {led[6]}]
-#set_property PACKAGE_PIN B17 [get_ports {led[7]}]
-#set_property IOSTANDARD LVCMOS15 [get_ports {led[*]}]
+set_property PACKAGE_PIN A13 [get_ports {led[0]}]
+set_property PACKAGE_PIN B13 [get_ports {led[1]}]
+set_property PACKAGE_PIN A14 [get_ports {led[2]}]
+set_property PACKAGE_PIN A15 [get_ports {led[3]}]
+set_property PACKAGE_PIN B15 [get_ports {led[4]}]
+set_property PACKAGE_PIN A16 [get_ports {led[5]}]
+set_property PACKAGE_PIN B16 [get_ports {led[6]}]
+set_property PACKAGE_PIN B17 [get_ports {led[7]}]
+set_property IOSTANDARD LVCMOS15 [get_ports {led[*]}]
 
 # Flash ####################################################################
 #set_property PACKAGE_PIN AA9 [get_ports {spi_dq0}]

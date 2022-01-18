@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
---Copyright (C) 2021-2030 Noémie ROLLAND, IRAP Toulouse.
+--Copyright (C) 2021-2030 Noï¿½mie ROLLAND, IRAP Toulouse.
 
 --This file is part of the ATHENA X-IFU DRE RAS.
 
@@ -17,7 +17,7 @@
 --row_addressing.vhd
 
 -- Company: IRAP
--- Engineer: Noémie Rolland
+-- Engineer: Noï¿½mie Rolland
 -- 
 -- Create Date: 05.01.2021 14:23:44
 -- Design Name: 
@@ -125,7 +125,16 @@ entity row_addressing is
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
            o_synchro : out STD_LOGIC;
-           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0));
+           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
+
+    ----------------------- DAC ------------------------     
+           o_dac_data                 : out STD_LOGIC;
+           o_dac_sclk                 : out STD_LOGIC;
+           o_dac_sync_row_low_n       : out STD_LOGIC;
+           o_dac_sync_row_high_n      : out STD_LOGIC;
+           o_dac_sync_cluster_low_n   : out STD_LOGIC;
+           o_dac_sync_cluster_high_n  : out STD_LOGIC
+           );
 end row_addressing;
 
 architecture Behavioral of row_addressing is
@@ -154,6 +163,27 @@ architecture Behavioral of row_addressing is
            o_sig_overlap : out STD_LOGIC;
            o_sig_sync : out STD_LOGIC);
     end component;
+
+    component slow_dac_spi_mgt
+    Port
+    (i_rst                : in     std_logic ;                                                       
+    sys_clk               : in     std_logic ;                                                          
+    Cmd_DAC_row           : in std_logic_vector (31 downto 0) ;
+    Cmd_DAC_cluster       : in std_logic_vector (31 downto 0) ;
+    Cmd_DAC_start         : in std_logic ;   
+
+    o_adc_spi_mosi        : out    std_logic ;                                                               
+    o_adc_spi_sclk        : out    std_logic ;                                                            
+    o_adc_spi_cs_n        : out    std_logic ;                                                          
+
+    o_dac_data                   : out    std_logic  ;                                                             
+    o_dac_sclk                   : out    std_logic  ;                                                              
+    o_dac_sync_row_high_n        : out    std_logic  ;                                                             
+    o_dac_sync_row_low_n         : out    std_logic  ;                                                                
+    o_dac_sync_cluster_high_n    : out    std_logic  ;                                                                
+    o_dac_sync_cluster_low_n     : out    std_logic                                                                
+    );
+    end component ;
 
 	component okWireOR -- Front Panel component
 	generic (N : integer := 4);
@@ -272,6 +302,7 @@ signal reception_param : std_logic_vector(95 downto 0);
 signal reception_mode : std_logic;
 signal reception_manual_row : std_logic_vector(39 downto 0);
 signal reception_cmd : t_Array13bits(12 downto 0);
+signal reception_DAC : std_logic_vector(64 downto 0);
 
 
 signal Cmd_param_1 : t_Device_Ctrl_1;
@@ -280,6 +311,8 @@ signal Cmd_param_3 : t_Device_Ctrl_3;
 signal Cmd_manual_row : t_Manual_Row;
 signal Cmd_row : t_Row;
 signal Version : t_Version;
+signal Cmd_DAC : t_DAC ;
+
 ---------------------------------------------------------
 
 ----------- FAS intern signals --------------------------
@@ -367,6 +400,9 @@ Cmd_row.Row10 <= reception_cmd(10);
 Cmd_row.Row11 <= reception_cmd(11);
 Cmd_row.Row12 <= reception_cmd(12);
 
+Cmd_DAC.cluster <= reception_DAC(64 downto 33) ;
+Cmd_DAC.row <= reception_DAC(32 downto 1) ;
+Cmd_DAC.start <= reception_DAC(0) ;
 --===========================================================
 
 -- IBUFDS: Differential Input Buffer
@@ -398,6 +434,7 @@ begin
         reception_mode <= '0';
         reception_cmd <= (others =>(others => '0'));
         reception_manual_row <= (others => '0');
+        reception_DAC <= (others => '0');
         fifoIn_read_en <= '0';
         fifoHK_write_en <= '0';
         num_row <= 0;
@@ -407,6 +444,10 @@ begin
         o_sig_state <= (others => '0');
         
     elsif (rising_edge(clk100M)) then
+        if (reception_DAC(0) = '1' ) -- rising edge detection for start command
+        then
+            reception_DAC(0) <= '0' ;
+        end if;
 -- State Machine
     case state is -- This state machine manages the reception of the different commands from the pipein. First it receives an address, according to the value of this address it write or read the command of the register 
      
@@ -539,6 +580,21 @@ begin
             elsif addr="0010000100" then
                 HK_value <= Version.RAS_board_id & Version.Firmware_id;
                 trigHK<= '1';
+            elsif addr="0010001000" then
+                HK_value <= x"0000" & Cmd_DAC.row(15 downto 0);
+                trigHK<= '1';
+            elsif addr="0010001100" then
+                HK_value <= x"0000" & Cmd_DAC.row(31 downto 16);
+                trigHK<= '1';
+            elsif addr="0010010000" then
+                HK_value <= x"0000" & Cmd_DAC.cluster(15 downto 0);
+                trigHK<= '1';
+            elsif addr="0010010100" then
+                HK_value <= x"0000" & Cmd_DAC.cluster(31 downto 16);
+                trigHK<= '1';
+            elsif addr="0010011000" then
+                HK_value <= (0 => Cmd_DAC.start, others => '0');
+                trigHK<= '1';
             else
                 HK_value <= (others => '0');
             end if;
@@ -590,14 +646,36 @@ begin
                     
                         reception_param(95 downto 64) <= fifoIn_dout_128b(87 downto 80) & fifoIn_dout_128b(71 downto 64) & fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
                         state <= idle;
-                        
-                    elsif (addr >= "0010000000" and addr < "0010000100") then -- address of mode
+
+                    elsif (addr >= "0010001000" and addr < "0010001100") then -- dac_row_low
+                    
+                        reception_DAC(16 downto 1) <=  fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
+                        state <= idle;
+
+                    elsif (addr >= "0010001100" and addr < "0010010000") then -- dac_row_high
+                    
+                        reception_DAC(32 downto 17) <=  fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
+                        state <= idle;
+
+                    elsif (addr >= "0010010000" and addr < "0010010100") then -- dac_cluster_low
+                    
+                        reception_DAC(48 downto 33) <= fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
+                        state <= idle;
+
+                    elsif (addr >= "0010010100" and addr < "0010011000") then --  dac_cluster_high
+                    
+                        reception_DAC(64 downto 49) <= fifoIn_dout_128b(119 downto 112) & fifoIn_dout_128b(103 downto 96);
+                        state <= idle;
+
+                    elsif (addr >= "0010011000" and addr < "0010100000" ) then --  dac_start
+                        reception_DAC(0) <= fifoIn_dout_128b(96);
+                        state <= idle;
+                       
+                    elsif (addr >= "0010000000"  and addr < "0010000100") then -- address of mode
                         reception_mode <= fifoIn_dout_128b(96);
                         state <= idle;
-                        
                     end if;
                 else
-                
                     state <= data_reception;
                 end if;  
                   
@@ -947,6 +1025,23 @@ epA1 : okPipeOut port map (   -- HK PipeOut
 		ep_datain => HK_pipeout
 		);
 
+Spi : slow_dac_spi_mgt port map (
+         i_rst                       =>  i_rst,       
+         sys_clk                     =>  clk100M,   
+         Cmd_DAC_row                 =>  Cmd_DAC.row,
+         Cmd_DAC_cluster             =>  Cmd_DAC.cluster,
+         Cmd_DAC_start               =>  Cmd_DAC.start,
 
+         o_adc_spi_mosi              =>   open,                                                
+         o_adc_spi_sclk              =>   open,                                         
+         o_adc_spi_cs_n              =>   open,  
+
+         o_dac_data                  =>   o_dac_data,                                                             
+         o_dac_sclk                  =>   o_dac_sclk,                                                           
+         o_dac_sync_row_high_n       =>   o_dac_sync_row_high_n,                                                            
+         o_dac_sync_row_low_n        =>   o_dac_sync_row_low_n,                                                               
+         o_dac_sync_cluster_high_n   =>   o_dac_sync_cluster_high_n,                                                              
+         o_dac_sync_cluster_low_n    =>   o_dac_sync_cluster_low_n
+);
 -----------------------------------------------------   
 end Behavioral;
