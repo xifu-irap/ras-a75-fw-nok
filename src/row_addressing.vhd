@@ -103,9 +103,11 @@ entity row_addressing is
     
           sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-		  -- sys_clk : in std_logic;
+          clk_0    : out std_logic;
+          clk_1    : out std_logic;
+          clk_2    : out std_logic;
     ---------------------- RST -------------------------
-          i_rst : in std_logic;
+          -- i_rst : in std_logic;
           
     ----------------------- LED ------------------------
         
@@ -139,10 +141,11 @@ end row_addressing;
 
 architecture Behavioral of row_addressing is
 
-    component div_freq2
-    Port ( sys_clk : in STD_LOGIC;
-           i_rst : in STD_LOGIC;
-           clk100M : out STD_LOGIC);
+    component clock_gen 
+    Port ( i_clk : in STD_LOGIC;
+           clk_62MHz : out STD_LOGIC;
+           o_rst : out std_logic
+           );
     end component;
 
     component div_freq is
@@ -237,8 +240,6 @@ COMPONENT fifoHK_pipeout
 END COMPONENT;
 
 ----------- Clk signal -------------------------------
-signal sys_clk : std_logic;
-signal clk100M : std_logic;
 signal clk_en_freq : std_logic;
 -------------------------------------------------------
 
@@ -349,6 +350,22 @@ signal cmp_trig : unsigned(7 downto 0);
 signal led_int : std_logic_vector(7 downto 0);
 signal cmp : unsigned(25 downto 0);
 
+---------------- PLL + Temporary clocks ---------------
+signal i_clk : std_logic ;
+signal clk_200M : std_logic ; 
+signal clk_62MHz : std_logic ; 
+signal sys_clk : std_logic ; 
+signal CLKFBOUT : std_logic ; 
+signal LOCKED : std_logic;
+signal o_rst : std_logic ;
+signal s_rst : std_logic ;
+signal sync : std_logic ; 
+signal rst_gen : std_logic_vector (7 downto 0) ;
+--------------- Tests signals ----------------------
+-- signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
+-- signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
+-- signal clk_2 : std_logic ; -- PLL Output 125 MHz
+
 begin
 
 --=========================================================
@@ -403,6 +420,93 @@ Cmd_row.Row12 <= reception_cmd(12);
 Cmd_DAC.cluster <= reception_DAC(64 downto 33) ;
 Cmd_DAC.row <= reception_DAC(32 downto 1) ;
 Cmd_DAC.start <= reception_DAC(0) ;
+
+--===========================================================
+
+clk_0 <= clk_200M ;
+clk_1 <= i_clk ;
+clk_2 <= sys_clk ;
+
+reset_generator: process(LOCKED, clk_200M)
+begin
+  if (LOCKED = '0') then
+    rst_gen <= (others => '1');
+  elsif rising_edge(clk_200M) then
+    -- keep internal reset active for at least <rstn_gen'size> clock cycles --
+    rst_gen <= rst_gen(rst_gen'left-1 downto 0) & '0';
+  end if;
+end process reset_generator;
+
+s_rst <= rst_gen(rst_gen'left);
+
+clk_gen : clock_gen Port map (
+    i_clk => clk_200M,
+    clk_62MHz => i_clk ,
+    o_rst => o_rst 
+    );
+
+MMCME2_BASE_inst : MMCME2_BASE
+generic map (
+   BANDWIDTH => "OPTIMIZED",  -- Jitter programming (OPTIMIZED, HIGH, LOW)
+   CLKFBOUT_MULT_F => 16.0,    -- Multiply value for all CLKOUT (2.000-64.000).
+   CLKFBOUT_PHASE => 0.0,     -- Phase offset in degrees of CLKFB (-360.000-360.000).
+   CLKIN1_PERIOD => 16.0,      -- Input clock period in ns to ps resolution (i.e. 33.333 is 30 MHz).
+   -- CLKOUT0_DIVIDE - CLKOUT6_DIVIDE: Divide amount for each CLKOUT (1-128)
+   CLKOUT1_DIVIDE => 8,
+   CLKOUT2_DIVIDE => 1,
+   CLKOUT3_DIVIDE => 1,
+   CLKOUT4_DIVIDE => 1,
+   CLKOUT5_DIVIDE => 1,
+   CLKOUT6_DIVIDE => 1,
+   CLKOUT0_DIVIDE_F => 4.0,   -- Divide amount for CLKOUT0 (1.000-128.000).
+   -- CLKOUT0_DUTY_CYCLE - CLKOUT6_DUTY_CYCLE: Duty cycle for each CLKOUT (0.01-0.99).
+   CLKOUT0_DUTY_CYCLE => 0.5,
+   CLKOUT1_DUTY_CYCLE => 0.5,
+   CLKOUT2_DUTY_CYCLE => 0.5,
+   CLKOUT3_DUTY_CYCLE => 0.5,
+   CLKOUT4_DUTY_CYCLE => 0.5,
+   CLKOUT5_DUTY_CYCLE => 0.5,
+   CLKOUT6_DUTY_CYCLE => 0.5,
+   -- CLKOUT0_PHASE - CLKOUT6_PHASE: Phase offset for each CLKOUT (-360.000-360.000).
+   CLKOUT0_PHASE => 0.0,
+   CLKOUT1_PHASE => 0.0,
+   CLKOUT2_PHASE => 0.0,
+   CLKOUT3_PHASE => 0.0,
+   CLKOUT4_PHASE => 0.0,
+   CLKOUT5_PHASE => 0.0,
+   CLKOUT6_PHASE => 0.0,
+   CLKOUT4_CASCADE => FALSE,  -- Cascade CLKOUT4 counter with CLKOUT6 (FALSE, TRUE)
+   DIVCLK_DIVIDE => 1,        -- Master division value (1-106)
+   REF_JITTER1 => 0.0,        -- Reference input jitter in UI (0.000-0.999).
+   STARTUP_WAIT => FALSE      -- Delays DONE until MMCM is locked (FALSE, TRUE)
+)
+port map (
+   -- Clock Outputs: 1-bit (each) output: User configurable clock outputs
+   CLKOUT0 => open,     -- 1-bit output: CLKOUT0
+   CLKOUT0B => open,   -- 1-bit output: Inverted CLKOUT0
+   CLKOUT1 => sys_clk,     -- 1-bit output: CLKOUT1
+   CLKOUT1B => open,   -- 1-bit output: Inverted CLKOUT1
+   CLKOUT2 => open,     -- 1-bit output: CLKOUT2
+   CLKOUT2B => open,   -- 1-bit output: Inverted CLKOUT2
+   CLKOUT3 => open,     -- 1-bit output: CLKOUT3
+   CLKOUT3B => open,   -- 1-bit output: Inverted CLKOUT3
+   CLKOUT4 => open,     -- 1-bit output: CLKOUT4
+   CLKOUT5 => open,     -- 1-bit output: CLKOUT5
+   CLKOUT6 => open,     -- 1-bit output: CLKOUT6
+   -- Feedback Clocks: 1-bit (each) output: Clock feedback ports
+   CLKFBOUT => CLKFBOUT,   -- 1-bit output: Feedback clock
+   CLKFBOUTB => open, -- 1-bit output: Inverted CLKFBOUT
+   -- Status Ports: 1-bit (each) output: MMCM status ports
+   LOCKED => LOCKED,       -- 1-bit output: LOCK
+   -- Clock Inputs: 1-bit (each) input: Clock input
+   CLKIN1 => i_clk,       -- 1-bit input: Clock
+   -- Control Ports: 1-bit (each) input: MMCM control ports
+   PWRDWN => '0',       -- 1-bit input: Power-down
+   RST => '0',             -- 1-bit input: Reset
+   -- Feedback Clocks: 1-bit (each) input: Clock feedback ports
+   CLKFBIN => CLKFBOUT     -- 1-bit input: Feedback clock
+);
+
 --===========================================================
 
 -- IBUFDS: Differential Input Buffer
@@ -415,7 +519,7 @@ Cmd_DAC.start <= reception_DAC(0) ;
       IBUF_LOW_PWR => TRUE, -- Low power (TRUE) vs. performance (FALSE) setting for referenced I/O standards
       IOSTANDARD => "DEFAULT")
    port map (
-      O => sys_clk,  -- Buffer output
+      O => clk_200M,  -- Buffer output
       I => sys_clkp,  -- Diff_p buffer input (connect directly to top-level port)
       IB => sys_clkn -- Diff_n buffer input (connect directly to top-level port)
    );
@@ -424,9 +528,9 @@ Cmd_DAC.start <= reception_DAC(0) ;
 --===========================================================   
 
 -------- Reception and storage of the sequences --------
-P_Cmd_reception : process (clk100M, i_rst)
+P_Cmd_reception : process (sys_clk, s_rst)
 begin
-    if (i_rst = '1') then --intitialisation of the different signal
+    if (s_rst = '1') then --intitialisation of the different signal
         addr <= (others => '0'); --10 bits
 --        reception_param (30 downto 0) <= (others => '0');
 --        reception_param (31) <= '1';
@@ -443,7 +547,7 @@ begin
         HK_value <= (others => '0');
         o_sig_state <= (others => '0');
         
-    elsif (rising_edge(clk100M)) then
+    elsif (rising_edge(sys_clk)) then
         if (reception_DAC(0) = '1' ) -- rising edge detection for start command
         then
             reception_DAC(0) <= '0' ;
@@ -699,13 +803,13 @@ begin
     end if;
 end process;
 
-P_pipeout_process : process (clk100M, rst_n) -- process to get back the driving signals in the pipeout
+P_pipeout_process : process (sys_clk, rst_n) -- process to get back the driving signals in the pipeout
 begin
     if rst_n = '0' then
         fifoOut_write_en <= '0'; -- nothing is written
         pipeout_sig(31 downto 13) <= (others => '0');
         trigPipeOut <= '0'; -- trig = '0' when there is no valid data to read
-     elsif rising_edge (clk100M) then
+     elsif rising_edge (sys_clk) then
         if Cmd_param_3.mode = '1' then
             fifoOut_full_r <= fifoOut_full; -- we store the last state of fifoOut_full
             if fifoOut_full = '0' and dump_sequence = '1' then -- if there is a demand of driving signals reading
@@ -725,11 +829,11 @@ begin
 end process; 
 
 
-P_outputsig_led : process(clk100M,i_rst) -- test process
+P_outputsig_led : process(sys_clk,s_rst) -- test process
 begin
-    if (i_rst = '1') then
+    if (s_rst = '1') then
         led_int <= (others => '0');
-    elsif rising_edge(clk100M) then
+    elsif rising_edge(sys_clk) then
         led_int <= Cmd_param_3.Freq_row & Cmd_param_3.mode;
 
     end if;
@@ -740,23 +844,17 @@ led <= led_int;
 
 -------- Development of the output pixel signals --------
 
-rst_n <= not(i_rst) and Cmd_param_3.mode;
-
-   uclk : div_freq2 Port map ( 
-        sys_clk => sys_clk,
-        i_rst => i_rst,
-        clk100M => clk100M 
-        );
-        
+rst_n <= not(s_rst) and Cmd_param_3.mode;
+           
    uclk_en : div_freq PORT MAP (
-        i_clk => clk100M,
+        i_clk => sys_clk,
         i_rst_n => rst_n,
         i_freq_row => Cmd_param_3.Freq_row,
         o_clk_en_freq => clk_en_freq
         );
 
    uu0: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row0,
@@ -769,7 +867,7 @@ rst_n <= not(i_rst) and Cmd_param_3.mode;
 o_sig_overlap0 <= sig_overlap0_int;
       
    uu1: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row1,
@@ -782,7 +880,7 @@ o_sig_overlap0 <= sig_overlap0_int;
 o_sig_overlap1 <= sig_overlap1_int;
         
    uu2: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row2,
@@ -795,7 +893,7 @@ o_sig_overlap1 <= sig_overlap1_int;
 o_sig_overlap2 <= sig_overlap2_int;
        
    uu3: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row3,
@@ -808,7 +906,7 @@ o_sig_overlap2 <= sig_overlap2_int;
 o_sig_overlap3 <= sig_overlap3_int;
         
    uu4: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row4,
@@ -821,7 +919,7 @@ o_sig_overlap3 <= sig_overlap3_int;
 o_sig_overlap4 <= sig_overlap4_int;
         
    uu5: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row5,
@@ -834,7 +932,7 @@ o_sig_overlap4 <= sig_overlap4_int;
 o_sig_overlap5 <= sig_overlap5_int;
        
    uu6: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row6,
@@ -847,7 +945,7 @@ o_sig_overlap5 <= sig_overlap5_int;
 o_sig_overlap6 <= sig_overlap6_int;
         
    uu7: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row7,
@@ -860,7 +958,7 @@ o_sig_overlap6 <= sig_overlap6_int;
 o_sig_overlap7 <= sig_overlap7_int;
         
    uu8: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row8,
@@ -873,7 +971,7 @@ o_sig_overlap7 <= sig_overlap7_int;
 o_sig_overlap8 <= sig_overlap8_int;
         
    uu9: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row9,
@@ -886,7 +984,7 @@ o_sig_overlap8 <= sig_overlap8_int;
 o_sig_overlap9 <= sig_overlap9_int;
         
    uu10: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row10,
@@ -899,7 +997,7 @@ o_sig_overlap9 <= sig_overlap9_int;
 o_sig_overlap10 <= sig_overlap10_int;
         
    uu11: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row11,
@@ -912,7 +1010,7 @@ o_sig_overlap10 <= sig_overlap10_int;
 o_sig_overlap11 <= sig_overlap11_int;
         
    uu12: sequence_treatment PORT MAP (
-          i_clk => clk100M,
+          i_clk => sys_clk,
           i_clk_en_5M => clk_en_freq,
           i_rst_n => rst_n,
           i_cmd => Cmd_row.Row12,
@@ -931,9 +1029,9 @@ o_synchro <= sig_sync(12) and sig_sync(11) and sig_sync(10) and sig_sync(9) and 
 -----------------------------------------------------  
 -------------- FIFO PipeIn --------------------------
 PipeIn_FIFO : fifo_pipein
-port map ( rst =>  i_rst,
+port map ( rst =>  s_rst,
             wr_clk => okClk,
-            rd_clk => clk100M,
+            rd_clk => sys_clk,
             wr_en => pipein_wr,
             rd_en => fifoIn_read_en,
             din => pipein_sig,
@@ -946,8 +1044,8 @@ port map ( rst =>  i_rst,
 -------------- FIFO PipeOut -------------------------       
 PipeOut_FIFO : fifo_pipeout
   PORT MAP (
-    rst => i_rst,
-    wr_clk => clk100M,
+    rst => s_rst,
+    wr_clk => sys_clk,
     rd_clk => okClk,
     din => fifoOut_din,
     wr_en => fifoOut_write_en,
@@ -960,8 +1058,8 @@ PipeOut_FIFO : fifo_pipeout
 -------------- FIFO HK PipeOut -------------------------       
 HK_PipeOut_fifo : fifoHK_pipeout
   PORT MAP (
-    rst => i_rst,
-    wr_clk => clk100M,
+    rst => s_rst,
+    wr_clk => sys_clk,
     rd_clk => okClk,
     din => HK_value,
     wr_en => fifoHK_write_en,
@@ -989,7 +1087,7 @@ okWO : okWireOR     generic map (N=>4) port map (
 ep40 : okTriggerIn port map (
         okHE => okHE,
         ep_addr    => x"40",
-        ep_clk => clk100M,
+        ep_clk => sys_clk,
         ep_trigger => ep40trig
         );
         
@@ -997,7 +1095,7 @@ ep60 : okTriggerOut port map (
         okHE => okHE,
         okEH       => okEHx(1*65-1 downto 0*65),
         ep_addr    => x"60",
-        ep_clk => clk100M,
+        ep_clk => sys_clk,
         ep_trigger => ep60trig
         );
        
@@ -1026,8 +1124,8 @@ epA1 : okPipeOut port map (   -- HK PipeOut
 		);
 
 Spi : slow_dac_spi_mgt port map (
-         i_rst                       =>  i_rst,       
-         sys_clk                     =>  clk100M,   
+         i_rst                       =>  s_rst,       
+         sys_clk                     =>  sys_clk,   
          Cmd_DAC_row                 =>  Cmd_DAC.row,
          Cmd_DAC_cluster             =>  Cmd_DAC.cluster,
          Cmd_DAC_start               =>  Cmd_DAC.start,

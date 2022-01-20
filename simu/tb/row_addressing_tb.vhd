@@ -64,7 +64,7 @@ architecture simulate of row_addressing_tb is
           sys_clkn : in std_logic;
           -- sys_clk : in std_logic;
     ---------------------- RST -------------------------
-          i_rst : in std_logic;
+         -- i_rst : in std_logic;
           
     ----------------------- LED ------------------------
         
@@ -98,7 +98,7 @@ architecture simulate of row_addressing_tb is
 -- Inputs
 signal okUH : std_logic_vector(4 downto 0) := (others => '0');
 signal i_clk : STD_LOGIC := '0';
-signal i_rst : STD_LOGIC := '0';
+-- signal i_rst : STD_LOGIC := '0';
 
 -- BiDirs
 signal okUHU : std_logic_vector(31 downto 0);
@@ -144,7 +144,7 @@ signal o_dac_sync_cluster_high_n  : STD_LOGIC;
 
 	signal sys_clkp   : std_logic;
 	signal sys_clkn   : std_logic;
-	signal sys_clk : STD_LOGIC := '0';
+	signal sys_clk : STD_LOGIC ;
 
 
 
@@ -162,7 +162,7 @@ begin
 		  --sys_clk => sys_clk,
     
     ---------------------- RST -------------------------
-          i_rst => i_rst,
+         -- i_rst => i_rst,
     ----------------------- LED ------------------------
           led => led,     
     ----------------------- FAS ------------------------
@@ -205,11 +205,11 @@ begin
    -- Clock process definitions
 	sys_clk_gen : process is
 	begin
-		sys_clk <= '0';
+		--sys_clk <= '0';
 		sys_clkp <= '0';
 		sys_clkn <= '1';
 		wait for Tsys_clk;
-		sys_clk <= '1';
+		--sys_clk <= '1';
 		sys_clkp <= '1';
 		sys_clkn <= '0'; 
 		wait for Tsys_clk; 
@@ -224,18 +224,18 @@ begin
 		wait for tCk; 
 	end process hi_clk_gen;
 
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-      i_rst <= '1';
-      wait for 100 ns;
-      i_rst <= '0';
-      -- insert stimulus here 
+--    -- Stimulus process
+--    stim_proc: process
+--    begin		
+--       -- hold reset state for 100 ns.
+--       wait for 100 ns;	
+--       i_rst <= '1';
+--       wait for 100 ns;
+--       i_rst <= '0';
+--       -- insert stimulus here 
 
-      wait;
-   end process;
+--       wait;
+--    end process;
 
 -- Simulation Process
 sim_process : process
@@ -743,10 +743,9 @@ variable NO_MASK            : std_logic_vector(31 downto 0) := x"ffff_ffff";
 
 begin 
     FrontPanelReset;
-    wait for 1ns;
-    
+    wait for 1 ns;
     -- envoi des paramètres
-    pipeIn(0):= "00000000";
+pipeIn(0):= "00000000";
 pipeIn(1):= "00000000";
 pipeIn(2):= "00000000";
 pipeIn(3):= "00000000";
