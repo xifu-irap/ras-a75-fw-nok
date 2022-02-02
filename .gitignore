@@ -5,27 +5,29 @@ RAS_project_simu/
 *.lpr
 *.xpr
 
-fifo_pipein/hdl/
-fifo_pipein/synth/
-fifo_pipein/*.dcp
-fifo_pipein/*.xdc
-fifo_pipein/*.xml
-fifo_pipein/*.v
-fifo_pipein/*.vhdl
+ip/fifo_pipein/hdl/
+ip/fifo_pipein/synth/
+ip/fifo_pipein/*.dcp
+ip/fifo_pipein/*.xdc
+ip/fifo_pipein/*.xml
+ip/fifo_pipein/*.v
+ip/fifo_pipein/*.vhdl
 
-fifo_pipeout/hdl/
-fifo_pipeout/synth/
-fifo_pipeout/*.dcp
-fifo_pipeout/*.xdc
-fifo_pipeout/*.xml
-fifo_pipeout/*.v
-fifo_pipeout/*.vhdl
+ip/fifo_pipeout/hdl/
+ip/fifo_pipeout/synth/
+ip/fifo_pipeout/*.dcp
+ip/fifo_pipeout/*.xdc
+ip/fifo_pipeout/*.xml
+ip/fifo_pipeout/*.v
+ip/fifo_pipeout/*.vhdl
 
-fifoHK_pipeout/hdl/
-fifoHK_pipeout/synth/
-fifoHK_pipeout/*.dcp
-fifoHK_pipeout/*.xdc
-fifoHK_pipeout/*.xml
-fifoHK_pipeout/*.v
-fifoHK_pipeout/*.vhdl
+ip/fifoHK_pipeout/hdl/
+ip/fifoHK_pipeout/synth/
+ip/fifoHK_pipeout/*.dcp
+ip/fifoHK_pipeout/*.xdc
+ip/fifoHK_pipeout/*.xml
+ip/fifoHK_pipeout/*.v
+ip/fifoHK_pipeout/*.vhdl
+
+bitfile/*
 
