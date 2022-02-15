@@ -28,7 +28,6 @@
 library ieee;
 use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
-use     ieee.std_logic_unsigned.all;
 
 library work;
 use     work.pkg_func_math.all;
@@ -63,11 +62,11 @@ signal   o_dac_sync_n         : std_logic                                       
 signal   dac_spi_start        : std_logic                                                                   ; --! DAC SPI: Start transmit ('0' = Inactive, '1' = Active)
 signal   dac_spi_data_tx      : std_logic_vector(c_DAC_SPI_SER_WD_S-1 downto 0)                             ; --! DAC SPI: Data to transmit (stall on MSB)
 signal   dac_spi_tx_busy_n    : std_logic                                                                   ; --! DAC SPI: Transmit link busy ('0' = Busy, '1' = Not Busy)
-signal   cnt_dac              : std_logic_vector(1 downto 0 ) := "11"                                       ; --|
-signal   cnt_en               : std_logic := '0'                                                            ; -- |
-signal   spi_free             : std_logic := '1'                                                            ; --  } Management signals
-signal   start                : std_logic := '0'                                                            ; -- |
-signal   flag                 : std_logic := '1'                                                            ; --|
+signal   cnt_dac              : std_logic_vector(1 downto 0 )                                               ; --|
+signal   cnt_en               : std_logic                                                                   ; -- |
+signal   spi_free             : std_logic                                                                   ; --  } Management signals
+signal   start                : std_logic                                                                   ; -- |
+signal   flag                 : std_logic                                                                   ; --|
 signal   o_dac_data_r         : std_logic                                                                   ; --! Registered signals for delay purposes                                                                
 signal   o_dac_sclk_r         : std_logic                                                                   ; --! Registered signals for delay purposes
 
@@ -93,7 +92,7 @@ begin
          g_DATA_S             => c_DAC_SPI_SER_WD_S     -- integer                                            --! Data bus size
    ) port map
    (     i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
-         i_clk                => sys_clk                , -- in     std_logic                                 ; --! Clock
+         i_clk                => sys_clk              , -- in     std_logic                                 ; --! Clock
 
          i_start              => dac_spi_start        , -- in     std_logic                                 ; --! Start transmit ('0' = Inactive, '1' = Active)
          i_ser_wd_s           => c_DAC_SPI_SER_WD_S_V , -- in     slv(log2_ceil(g_DATA_S+1)-1 downto 0)     ; --! Serial word size
@@ -104,13 +103,13 @@ begin
          o_data_rx_rdy        => open                 , -- out    std_logic                                 ; --! Receipted data ready ('0' = Not ready, '1' = Ready)
 
          i_miso               => '0'                  , -- in     std_logic                                 ; --! SPI Master Input Slave Output
-         o_mosi               => o_dac_data_r       , -- out    std_logic                                 ; --! SPI Master Output Slave Input
-         o_sclk               => o_dac_sclk_r       , -- out    std_logic                                 ; --! SPI Serial Clock
+         o_mosi               => o_dac_data_r         , -- out    std_logic                                 ; --! SPI Master Output Slave Input
+         o_sclk               => o_dac_sclk_r         , -- out    std_logic                                 ; --! SPI Serial Clock
          o_cs_n               => o_dac_sync_n       -- out    std_logic                                   --! SPI Chip Select ('0' = Active, '1' = Inactive)
    );
 
 
-  process (Cmd_DAC_start, sys_clk, i_rst)
+  process (sys_clk, i_rst)
   begin
       if i_rst = '1'                   -- Initialisation 
       then 
@@ -145,7 +144,7 @@ begin
                   end if;
                   if flag ='0'
                   then 
-                        cnt_dac <= cnt_dac +"01" ;
+                        cnt_dac <= std_logic_vector(unsigned(cnt_dac) + 1);
                   end if ;
             end if;
             flag <= dac_spi_tx_busy_n ;     --|

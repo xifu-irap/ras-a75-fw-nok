@@ -277,8 +277,8 @@ set_clock_groups -asynchronous -group [get_clocks sys_clk] -group [get_clocks {m
 ##set_property PACKAGE_PIN V3 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-53
-set_property PACKAGE_PIN W2 [get_ports {clk_2}]
-set_property IOSTANDARD LVCMOS33 [get_ports {clk_2}]
+##set_property PACKAGE_PIN W2 [get_ports {clk_2}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {clk_2}]
 ## MC1-54
 #set_property PACKAGE_PIN W1 [get_ports {}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {}]
@@ -292,62 +292,62 @@ set_property IOSTANDARD LVCMOS33 [get_ports {clk_2}]
 set_property PACKAGE_PIN Y2 [get_ports {o_dac_data}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_data}]
 ## MC1-58
-set_property PACKAGE_PIN Y1 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN Y1 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ### MC1-59
 set_property PACKAGE_PIN T1 [get_ports {o_dac_sclk}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sclk}]
 ### MC1-60
-set_property PACKAGE_PIN AB3 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AB3 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ### MC1-61
 #set_property PACKAGE_PIN U1 [get_ports {o_dac_sync_row_low_n}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_row_low_n}]
 ## MC1-62
-set_property PACKAGE_PIN AB2 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AB2 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-63
 set_property PACKAGE_PIN AA1 [get_ports {o_dac_sync_row_low_n}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_row_low_n}]
 ## MC1-64
-set_property PACKAGE_PIN Y13 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN Y13 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-65
 set_property PACKAGE_PIN AB1 [get_ports {o_dac_sync_row_high_n}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_row_high_n}]
 ## MC1-66
-set_property PACKAGE_PIN AA14 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AA14 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-67
 #set_property PACKAGE_PIN AB16 [get_ports {o_dac_sync_cluster_high_n}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_cluster_high_n}]
 ## MC1-68
-set_property PACKAGE_PIN AA13 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AA13 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-69
 set_property PACKAGE_PIN AB17 [get_ports {o_dac_sync_cluster_low_n}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_cluster_low_n}]
 ## MC1-70
-set_property PACKAGE_PIN AB13 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AB13 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-71
 set_property PACKAGE_PIN AA15 [get_ports {o_dac_sync_cluster_high_n}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_dac_sync_cluster_high_n}]
 ## MC1-72
-set_property PACKAGE_PIN W15 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN W15 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-73
-set_property PACKAGE_PIN AB15 [get_ports {clk_1}]
-set_property IOSTANDARD LVCMOS33 [get_ports {clk_1}]
+##set_property PACKAGE_PIN AB15 [get_ports {clk_1}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {clk_1}]
 ## MC1-74
 #set_property PACKAGE_PIN W16 [get_ports {}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-75
-set_property PACKAGE_PIN Y16 [get_ports {clk_0}]
-set_property IOSTANDARD LVCMOS33 [get_ports {clk_0}]
+##set_property PACKAGE_PIN Y16 [get_ports {clk_0}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {clk_0}]
 ## MC1-76
-set_property PACKAGE_PIN AA16 [get_ports {'0'}]
-set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
+##set_property PACKAGE_PIN AA16 [get_ports {'0'}]
+##set_property IOSTANDARD LVCMOS33 [get_ports {'0'}]
 ## MC1-77
 #set_property PACKAGE_PIN V4 [get_ports {clk_62MHz}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {clk_62MHz}]

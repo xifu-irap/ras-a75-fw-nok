@@ -103,9 +103,6 @@ entity row_addressing is
     
           sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-          clk_0    : out std_logic;
-          clk_1    : out std_logic;
-          clk_2    : out std_logic;
     ---------------------- RST -------------------------
           -- i_rst : in std_logic;
           
@@ -362,9 +359,9 @@ signal s_rst : std_logic ;
 signal sync : std_logic ; 
 signal rst_gen : std_logic_vector (7 downto 0) ;
 --------------- Tests signals ----------------------
--- signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
--- signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
--- signal clk_2 : std_logic ; -- PLL Output 125 MHz
+signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
+signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
+signal clk_2 : std_logic ; -- PLL Output 125 MHz
 
 begin
 
