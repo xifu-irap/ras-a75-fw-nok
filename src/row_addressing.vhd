@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
---Copyright (C) 2021-2030 No�mie ROLLAND, IRAP Toulouse.
+--Copyright (C) 2021-2030 Noï¿½mie ROLLAND, IRAP Toulouse.
 
 --This file is part of the ATHENA X-IFU DRE RAS.
 
@@ -17,7 +17,7 @@
 --row_addressing.vhd
 
 -- Company: IRAP
--- Engineer: No�mie Rolland
+-- Engineer: Noï¿½mie Rolland
 -- 
 -- Create Date: 05.01.2021 14:23:44
 -- Design Name: 
@@ -124,7 +124,7 @@ entity row_addressing is
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
            o_synchro : out STD_LOGIC;
-           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
+        --    o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
 
     ----------------------- DAC ------------------------     
            o_dac_data                 : out STD_LOGIC;
@@ -362,6 +362,7 @@ signal rst_gen : std_logic_vector (7 downto 0) ;
 signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
 signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
 signal clk_2 : std_logic ; -- PLL Output 125 MHz
+signal o_sig_state : STD_LOGIC_VECTOR(3 downto 0);
 
 begin
 
