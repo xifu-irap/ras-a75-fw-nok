@@ -125,9 +125,12 @@ entity row_addressing is
            o_sig_overlap12 : out STD_LOGIC;
            o_synchro : out STD_LOGIC;
         --    o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
+<<<<<<< HEAD
             
             o_cluster_spare_1 : out std_logic; --  Spare ( '1' = Mux off )
             o_cluster_spare_2 : out std_logic; --  Spare ( '1' = Mux off )
+=======
+>>>>>>> b62ed1fb11c521ee5ca863a9fdbd591307a27ed5
 
     ----------------------- DAC ------------------------     
            o_dac_data                 : out STD_LOGIC;
