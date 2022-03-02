@@ -103,9 +103,6 @@ entity row_addressing is
     
           sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
-          clk_0    : out std_logic;
-          clk_1    : out std_logic;
-          clk_2    : out std_logic;
     ---------------------- RST -------------------------
           -- i_rst : in std_logic;
           
@@ -127,7 +124,10 @@ entity row_addressing is
            o_sig_overlap11 : out STD_LOGIC;
            o_sig_overlap12 : out STD_LOGIC;
            o_synchro : out STD_LOGIC;
-           o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
+        --    o_sig_state : out STD_LOGIC_VECTOR(3 downto 0);
+            
+            o_cluster_spare_1 : out std_logic; --  Spare ( '1' = Mux off )
+            o_cluster_spare_2 : out std_logic; --  Spare ( '1' = Mux off )
 
     ----------------------- DAC ------------------------     
            o_dac_data                 : out STD_LOGIC;
@@ -362,9 +362,10 @@ signal s_rst : std_logic ;
 signal sync : std_logic ; 
 signal rst_gen : std_logic_vector (7 downto 0) ;
 --------------- Tests signals ----------------------
--- signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
--- signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
--- signal clk_2 : std_logic ; -- PLL Output 125 MHz
+signal clk_0 : std_logic ; -- clk_gen Input 200 MHz
+signal clk_1 : std_logic ; -- clk_gen Output 62,5 MHz
+signal clk_2 : std_logic ; -- PLL Output 125 MHz
+signal o_sig_state : STD_LOGIC_VECTOR(3 downto 0);
 
 begin
 
@@ -426,6 +427,9 @@ Cmd_DAC.start <= reception_DAC(0) ;
 clk_0 <= clk_200M ;
 clk_1 <= i_clk ;
 clk_2 <= sys_clk ;
+
+o_cluster_spare_1 <= '1' ;
+o_cluster_spare_2 <= '1' ;
 
 reset_generator: process(LOCKED, clk_200M)
 begin
