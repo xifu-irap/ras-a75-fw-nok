@@ -218,8 +218,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap7}]
 ##set_property PACKAGE_PIN R4 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
 ## MC1-33
-#set_property PACKAGE_PIN AB5 [get_ports {o_sig_overlap11}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap11}]
+set_property PACKAGE_PIN AB5 [get_ports {o_cluster_spare_1}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_cluster_spare_1}]
 ## MC1-34
 ##set_property PACKAGE_PIN T4 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]
@@ -233,8 +233,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap7}]
 set_property PACKAGE_PIN AB7 [get_ports {o_sig_overlap10}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap10}]
 ## MC1-38
-##set_property PACKAGE_PIN Y4 [get_ports {}]
-##set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN Y4 [get_ports {i_clk}]
+set_property IOSTANDARD LVCMOS33 [get_ports {i_clk}]
 ## MC1-39
 set_property PACKAGE_PIN AB6 [get_ports {o_sig_overlap9}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap9}]
@@ -242,8 +242,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {o_sig_overlap9}]
 set_property PACKAGE_PIN AA4 [get_ports {o_synchro}]
 set_property IOSTANDARD LVCMOS33 [get_ports {o_synchro}]
 ## MC1-41
-##set_property PACKAGE_PIN R3 [get_ports {}]
-##set_property IOSTANDARD LVCMOS33 [get_ports {}]
+set_property PACKAGE_PIN R3 [get_ports {o_cluster_spare_2}]
+set_property IOSTANDARD LVCMOS33 [get_ports {o_cluster_spare_2}]
 ## MC1-42
 ##set_property PACKAGE_PIN Y6 [get_ports {}]
 ##set_property IOSTANDARD LVCMOS33 [get_ports {}]

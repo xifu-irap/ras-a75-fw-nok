@@ -103,6 +103,8 @@ entity row_addressing is
     
           sys_clkp : in std_logic;
 		  sys_clkn : in std_logic;
+
+          i_clk    : in std_logic;
     ---------------------- RST -------------------------
           -- i_rst : in std_logic;
           
@@ -141,12 +143,12 @@ end row_addressing;
 
 architecture Behavioral of row_addressing is
 
-    component clock_gen 
-    Port ( i_clk : in STD_LOGIC;
-           clk_62MHz : out STD_LOGIC;
-           o_rst : out std_logic
-           );
-    end component;
+    -- component clock_gen 
+    -- Port ( i_clk : in STD_LOGIC;
+    --        clk_62MHz : out STD_LOGIC;
+    --        o_rst : out std_logic
+    --        );
+    -- end component;
 
     component div_freq is
         Port ( i_clk : in STD_LOGIC;
@@ -351,7 +353,7 @@ signal led_int : std_logic_vector(7 downto 0);
 signal cmp : unsigned(25 downto 0);
 
 ---------------- PLL + Temporary clocks ---------------
-signal i_clk : std_logic ;
+--signal i_clk : std_logic ;
 signal clk_200M : std_logic ; 
 signal clk_62MHz : std_logic ; 
 signal sys_clk : std_logic ; 
@@ -443,11 +445,11 @@ end process reset_generator;
 
 s_rst <= rst_gen(rst_gen'left);
 
-clk_gen : clock_gen Port map (
-    i_clk => clk_200M,
-    clk_62MHz => i_clk ,
-    o_rst => o_rst 
-    );
+-- clk_gen : clock_gen Port map (
+--     i_clk => clk_200M,
+--     clk_62MHz => i_clk ,
+--     o_rst => o_rst 
+--     );
 
 MMCME2_BASE_inst : MMCME2_BASE
 generic map (
